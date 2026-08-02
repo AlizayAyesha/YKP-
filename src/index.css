@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --ykp-green: #05472A;
+    --ykp-green-deep: #032816;
+    --ykp-green-soft: #0A5C38;
+    --ykp-gold: #C9A227;
+    --ykp-gold-bright: #E8C547;
+    --ykp-ink: #0B1F14;
+    --ykp-muted: #5A6B61;
+    --ykp-canvas: #F3F6F3;
+    --ykp-surface: #FFFFFF;
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-sans: 'Sora', system-ui, sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--ykp-canvas);
+    color: var(--ykp-ink);
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-serif {
+  font-family: var(--font-display);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+/* Atmosphere */
+.bg-canvas-glow {
+  background:
+    radial-gradient(ellipse 80% 50% at 10% 0%, rgba(5, 71, 42, 0.08), transparent 55%),
+    radial-gradient(ellipse 60% 40% at 90% 20%, rgba(201, 162, 39, 0.07), transparent 50%),
+    var(--ykp-canvas);
+}
+
+.bg-hero-veil {
+  background:
+    linear-gradient(105deg, rgba(3, 40, 22, 0.92) 0%, rgba(5, 71, 42, 0.72) 45%, rgba(3, 40, 22, 0.55) 100%);
+}
+
+.bg-section-green {
+  background:
+    radial-gradient(ellipse 70% 80% at 100% 0%, rgba(201, 162, 39, 0.12), transparent 50%),
+    linear-gradient(160deg, #05472A 0%, #032816 100%);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Refined link underline */
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1.5px;
+  transition: background-size 0.3s ease;
+}
+
+.link-underline:hover {
+  background-size: 100% 1.5px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #e8eee9;
+}
+::-webkit-scrollbar-thumb {
+  background: #9aaf9f;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #05472A;
+}
