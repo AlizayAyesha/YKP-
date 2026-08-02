@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ActiveTab, ModalType } from '../types';
+import { ActiveTab, ModalType, YkpEvent } from '../types';
 import {
   HERO_DATA,
   HERO_IMAGE,
@@ -20,6 +20,7 @@ import { ArrowRight } from 'lucide-react';
 interface HomeViewProps {
   setActiveTab: (tab: ActiveTab) => void;
   openModal: (type: ModalType) => void;
+  onRsvp: (event: YkpEvent) => void;
 }
 
 const fadeUp = {
@@ -29,7 +30,7 @@ const fadeUp = {
 
 const valueAccents = ['#C9A227', '#05472A', '#8B3A3A'];
 
-export const HomeView: React.FC<HomeViewProps> = ({ openModal }) => {
+export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onRsvp }) => {
   const titleParts = HERO_DATA.title.split('. ');
   const lastPart = titleParts.length > 1 ? titleParts[titleParts.length - 1] : '';
   const firstParts = titleParts.length > 1 ? titleParts.slice(0, -1).join('. ') + '.' : HERO_DATA.title;
@@ -89,7 +90,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ openModal }) => {
                 <ArrowRight className="w-4 h-4" />
               </button>
               <button
-                onClick={() => document.getElementById('events')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => document.getElementById('featured-event')?.scrollIntoView({ behavior: 'smooth' })}
                 className="inline-flex items-center gap-2 border border-white/30 hover:border-[var(--ykp-gold)] text-white hover:text-[var(--ykp-gold)] font-semibold text-sm px-6 py-3.5 rounded-md transition-colors cursor-pointer"
               >
                 Learn More
@@ -99,8 +100,12 @@ export const HomeView: React.FC<HomeViewProps> = ({ openModal }) => {
         </div>
       </section>
 
-      {/* Featured event + student registration card */}
-      <EventRegistrationSection openModal={openModal} />
+      {/* Featured event + RSVP / student registration card */}
+      <EventRegistrationSection
+        openModal={openModal}
+        setActiveTab={setActiveTab}
+        onRsvp={onRsvp}
+      />
 
       {/* YKP in Action — 3-column YouTube */}
       <div className="bg-[var(--ykp-canvas)]">

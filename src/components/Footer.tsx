@@ -55,6 +55,8 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, openModal }) => {
             <ul className="space-y-3 text-sm">
               {[
                 { label: 'Home', action: () => { setActiveTab('home'); scrollToTop(); } },
+                { label: 'Events', action: () => { setActiveTab('events'); scrollToTop(); } },
+                { label: 'Gallery', action: () => { setActiveTab('gallery'); scrollToTop(); } },
                 { label: 'Blog', action: () => { setActiveTab('blog'); scrollToTop(); } },
                 { label: 'Contact', action: () => { setActiveTab('contact'); scrollToTop(); } }
               ].map((item) => (

@@ -98,7 +98,14 @@ export interface ImpactProject {
   reportCycle: string;
 }
 
-export type ActiveTab = 'home' | 'about' | 'offerings' | 'blog' | 'contact';
+export type ActiveTab =
+  | 'home'
+  | 'about'
+  | 'offerings'
+  | 'blog'
+  | 'contact'
+  | 'events'
+  | 'gallery';
 
 export type ModalType =
   | 'contact'
@@ -106,6 +113,7 @@ export type ModalType =
   | 'learn-more'
   | 'resource-download'
   | 'student-register'
+  | 'event-rsvp'
   | null;
 
 export interface YkpEvent {
@@ -115,9 +123,28 @@ export interface YkpEvent {
   venue: string;
   city: string;
   dates: string;
+  time?: string;
   fees: string;
-  status: string;
+  status: 'Upcoming' | 'Open' | 'Completed';
+  category: string;
+  image: string;
   highlights: string[];
+  capacity?: string;
+}
+
+export interface GalleryImage {
+  id: string;
+  url: string;
+  caption?: string;
+}
+
+export interface GalleryAlbum {
+  id: string;
+  eventId: string;
+  name: string;
+  year: string;
+  coverImage: string;
+  images: GalleryImage[];
 }
 
 export interface PastEventStat {

@@ -13,6 +13,8 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, openMod
 
   const navItems: { id: ActiveTab; label: string }[] = [
     { id: 'home', label: 'Home' },
+    { id: 'events', label: 'Events' },
+    { id: 'gallery', label: 'Gallery' },
     { id: 'blog', label: 'Blog' },
     { id: 'contact', label: 'Contact' }
   ];

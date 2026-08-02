@@ -2,18 +2,23 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { MapPin, Calendar, BadgeCheck, ArrowRight } from 'lucide-react';
 import { FEATURED_EVENT } from '../data/youthData';
-import { ModalType } from '../types';
+import { ActiveTab, ModalType, YkpEvent } from '../types';
 
 interface EventRegistrationSectionProps {
   openModal: (type: ModalType) => void;
+  setActiveTab: (tab: ActiveTab) => void;
+  onRsvp: (event: YkpEvent) => void;
 }
 
-export const EventRegistrationSection: React.FC<EventRegistrationSectionProps> = ({ openModal }) => {
+export const EventRegistrationSection: React.FC<EventRegistrationSectionProps> = ({
+  openModal,
+  setActiveTab,
+  onRsvp
+}) => {
   return (
-    <section id="events" className="py-20 sm:py-24 bg-white scroll-mt-24">
+    <section id="featured-event" className="py-20 sm:py-24 bg-white scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-          {/* Left — event story */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -21,6 +26,9 @@ export const EventRegistrationSection: React.FC<EventRegistrationSectionProps> =
             transition={{ duration: 0.6 }}
             className="lg:col-span-6 space-y-6"
           >
+            <p className="text-[11px] font-semibold tracking-[0.28em] uppercase text-[var(--ykp-gold)]">
+              Featured event
+            </p>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-[2.75rem] font-semibold text-[var(--ykp-ink)] tracking-tight leading-tight">
               {FEATURED_EVENT.title}
             </h2>
@@ -47,9 +55,19 @@ export const EventRegistrationSection: React.FC<EventRegistrationSectionProps> =
                 {FEATURED_EVENT.dates}
               </span>
             </div>
+            <button
+              type="button"
+              onClick={() => {
+                setActiveTab('events');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--ykp-green)] cursor-pointer"
+            >
+              View all events
+              <ArrowRight className="w-4 h-4" />
+            </button>
           </motion.div>
 
-          {/* Right — registration card (IYCO-style) */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -60,11 +78,11 @@ export const EventRegistrationSection: React.FC<EventRegistrationSectionProps> =
             <div className="bg-[var(--ykp-green-deep)] text-white rounded-2xl border border-white/10 overflow-hidden shadow-[0_20px_50px_rgba(3,40,22,0.25)]">
               <div className="px-6 sm:px-8 pt-7 pb-5 border-b border-white/10">
                 <p className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[var(--ykp-gold)] mb-2">
-                  {FEATURED_EVENT.status}
+                  {FEATURED_EVENT.status === 'Open' ? 'RSVP Open' : FEATURED_EVENT.status}
                 </p>
-                <h3 className="font-display text-2xl font-semibold">Student Registration</h3>
+                <h3 className="font-display text-2xl font-semibold">Event Registration</h3>
                 <p className="text-white/55 text-sm mt-2">
-                  Become a student of Youth ka Pakistan — free programs & summit access.
+                  RSVP for this event or become a YKP student for ongoing programs.
                 </p>
               </div>
 
@@ -84,25 +102,28 @@ export const EventRegistrationSection: React.FC<EventRegistrationSectionProps> =
               <div className="px-6 sm:px-8 py-6 space-y-3">
                 <button
                   type="button"
-                  onClick={() => openModal('student-register')}
+                  onClick={() => onRsvp(FEATURED_EVENT)}
                   className="w-full inline-flex items-center justify-center gap-2 bg-[var(--ykp-gold)] hover:bg-[var(--ykp-gold-bright)] text-[var(--ykp-ink)] font-semibold text-sm py-3.5 rounded-lg transition-colors cursor-pointer"
                 >
-                  Become a Student
+                  RSVP for this Event
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <button
                   type="button"
-                  onClick={() => openModal('program-enroll')}
+                  onClick={() => openModal('student-register')}
                   className="w-full bg-[var(--ykp-green)] hover:bg-[var(--ykp-green-soft)] text-white font-semibold text-sm py-3.5 rounded-lg transition-colors cursor-pointer"
                 >
-                  Program Enrollment
+                  Become a Student
                 </button>
                 <button
                   type="button"
-                  onClick={() => openModal('learn-more')}
+                  onClick={() => {
+                    setActiveTab('events');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
                   className="w-full bg-white/10 hover:bg-white/15 text-white font-semibold text-sm py-3.5 rounded-lg border border-white/15 transition-colors cursor-pointer"
                 >
-                  Learn More
+                  Browse All Events
                 </button>
                 <button
                   type="button"

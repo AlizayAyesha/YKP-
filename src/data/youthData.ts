@@ -4,7 +4,8 @@ import {
   Testimonial,
   YkpVideo,
   YkpEvent,
-  PastEventStat
+  PastEventStat,
+  GalleryAlbum
 } from '../types';
 
 export const SITE_INFO = {
@@ -241,22 +242,171 @@ export const YKP_IN_ACTION = {
   ] as YkpVideo[]
 };
 
-export const FEATURED_EVENT: YkpEvent = {
-  id: "ykp-summit-2026",
-  title: "Youth ka Pakistan Summit 2026",
-  summary:
-    "A nationwide gathering for young learners to build skills, meet mentors, and showcase talent through workshops, stages, and networking.",
-  venue: "Expo Center",
-  city: "Karachi, Pakistan",
-  dates: "15–17 August 2026",
-  fees: "Free for students",
-  status: "Registration Open",
-  highlights: [
-    "Skills workshops in arts, tech, and leadership",
-    "Live talent showcases and mentorship circles",
-    "Open to youth from every city across Pakistan"
-  ]
-};
+export const EVENTS_DATA: YkpEvent[] = [
+  {
+    id: "ykp-summit-2026",
+    title: "Youth ka Pakistan Summit 2026",
+    summary:
+      "A nationwide gathering for young learners to build skills, meet mentors, and showcase talent through workshops, stages, and networking.",
+    venue: "Expo Center",
+    city: "Karachi, Pakistan",
+    dates: "15–17 August 2026",
+    time: "9:00 AM – 6:00 PM",
+    fees: "Free for students",
+    status: "Open",
+    category: "Summit",
+    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80",
+    capacity: "2,000 seats",
+    highlights: [
+      "Skills workshops in arts, tech, and leadership",
+      "Live talent showcases and mentorship circles",
+      "Open to youth from every city across Pakistan"
+    ]
+  },
+  {
+    id: "skills-bootcamp-lahore",
+    title: "Skills Bootcamp — Lahore",
+    summary:
+      "A hands-on weekend of digital skills, creative media, and career mentorship for youth ready to build real portfolios.",
+    venue: "Alhamra Arts Council",
+    city: "Lahore, Pakistan",
+    dates: "5–6 September 2026",
+    time: "10:00 AM – 5:00 PM",
+    fees: "Free",
+    status: "Open",
+    category: "Workshop",
+    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80",
+    capacity: "300 seats",
+    highlights: [
+      "Portfolio-building workshops",
+      "Mentor office hours",
+      "Certificate of participation"
+    ]
+  },
+  {
+    id: "talent-showcase-islamabad",
+    title: "National Talent Showcase — Islamabad",
+    summary:
+      "Young performers, creators, and innovators take the stage before mentors, media, and community leaders.",
+    venue: "Pakistan National Council of the Arts",
+    city: "Islamabad, Pakistan",
+    dates: "20 September 2026",
+    time: "3:00 PM – 9:00 PM",
+    fees: "Free entry with RSVP",
+    status: "Upcoming",
+    category: "Showcase",
+    image: "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80",
+    capacity: "800 seats",
+    highlights: [
+      "Live performances & exhibitions",
+      "Industry networking lounge",
+      "Youth awards spotlight"
+    ]
+  },
+  {
+    id: "mentorship-forum-karachi",
+    title: "Mentorship Forum — Karachi",
+    summary:
+      "Small-group mentorship circles connecting youth with professionals across tech, arts, sports, and entrepreneurship.",
+    venue: "Youth Hub Karachi",
+    city: "Karachi, Pakistan",
+    dates: "12 October 2026",
+    time: "11:00 AM – 4:00 PM",
+    fees: "Free",
+    status: "Upcoming",
+    category: "Mentorship",
+    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80",
+    capacity: "150 seats",
+    highlights: [
+      "1:1 mentor matching",
+      "Career path panels",
+      "Peer collaboration labs"
+    ]
+  },
+  {
+    id: "national-talent-2025",
+    title: "National Talent Showcase 2025",
+    summary:
+      "A landmark year of talent, workshops, and community — now in our gallery archives.",
+    venue: "Multiple venues",
+    city: "Nationwide",
+    dates: "November 2025",
+    fees: "—",
+    status: "Completed",
+    category: "Showcase",
+    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80",
+    highlights: [
+      "1,200+ youth participants",
+      "18 cities represented",
+      "24 workshops delivered"
+    ]
+  }
+];
+
+export const FEATURED_EVENT: YkpEvent = EVENTS_DATA[0];
+
+export const GALLERY_ALBUMS: GalleryAlbum[] = [
+  {
+    id: "album-summit-prep",
+    eventId: "ykp-summit-2026",
+    name: "Youth ka Pakistan Summit 2026",
+    year: "2026",
+    coverImage: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1000&q=80",
+    images: [
+      { id: "1", url: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80", caption: "Opening hall" },
+      { id: "2", url: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1200&q=80", caption: "Keynote stage" },
+      { id: "3", url: "https://images.unsplash.com/photo-1591115765373-5207764f72bc?auto=format&fit=crop&w=1200&q=80", caption: "Youth delegates" },
+      { id: "4", url: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1200&q=80", caption: "Workshop corner" },
+      { id: "5", url: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=1200&q=80", caption: "Networking lounge" },
+      { id: "6", url: "https://images.unsplash.com/photo-1559223607-a43c990c692c?auto=format&fit=crop&w=1200&q=80", caption: "Closing moments" }
+    ]
+  },
+  {
+    id: "album-talent-2025",
+    eventId: "national-talent-2025",
+    name: "National Talent Showcase 2025",
+    year: "2025",
+    coverImage: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1000&q=80",
+    images: [
+      { id: "1", url: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80", caption: "Group celebration" },
+      { id: "2", url: "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80", caption: "Stage lights" },
+      { id: "3", url: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80", caption: "Performance night" },
+      { id: "4", url: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=1200&q=80", caption: "Audience energy" },
+      { id: "5", url: "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?auto=format&fit=crop&w=1200&q=80", caption: "Crowd cheer" },
+      { id: "6", url: "https://images.unsplash.com/photo-1464375117522-1311d6a5b81f?auto=format&fit=crop&w=1200&q=80", caption: "Award moment" }
+    ]
+  },
+  {
+    id: "album-bootcamp-lahore",
+    eventId: "skills-bootcamp-lahore",
+    name: "Skills Bootcamp — Lahore",
+    year: "2026",
+    coverImage: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1000&q=80",
+    images: [
+      { id: "1", url: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80", caption: "Team learning" },
+      { id: "2", url: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80", caption: "Classroom session" },
+      { id: "3", url: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80", caption: "Hands-on practice" },
+      { id: "4", url: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80", caption: "Peer collaboration" },
+      { id: "5", url: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80", caption: "Mentor circle" },
+      { id: "6", url: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80", caption: "Project demos" }
+    ]
+  },
+  {
+    id: "album-forums-2023",
+    eventId: "community-forums-2023",
+    name: "Community Youth Forums 2023",
+    year: "2023",
+    coverImage: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1000&q=80",
+    images: [
+      { id: "1", url: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1200&q=80", caption: "Forum circle" },
+      { id: "2", url: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80", caption: "Community leaders" },
+      { id: "3", url: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=80", caption: "Discussion panel" },
+      { id: "4", url: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?auto=format&fit=crop&w=1200&q=80", caption: "Youth speakers" },
+      { id: "5", url: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200&q=80", caption: "Partner meetup" },
+      { id: "6", url: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80", caption: "Team planning" }
+    ]
+  }
+];
 
 export const PAST_EVENTS: PastEventStat[] = [
   {
