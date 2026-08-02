@@ -143,12 +143,12 @@ export const GalleryView: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-3 sm:p-6"
           >
             <button
               type="button"
               onClick={closeLightbox}
-              className="absolute top-4 right-4 text-white/80 hover:text-white p-2 cursor-pointer z-10"
+              className="absolute top-3 right-3 sm:top-4 sm:right-4 text-white/80 hover:text-white p-2 cursor-pointer z-10 bg-black/40 rounded-full"
               aria-label="Close"
             >
               <X className="w-6 h-6" />
@@ -156,26 +156,26 @@ export const GalleryView: React.FC = () => {
             <button
               type="button"
               onClick={prevImage}
-              className="absolute left-3 sm:left-6 text-white/80 hover:text-white p-2 cursor-pointer z-10"
+              className="absolute left-1 sm:left-6 text-white/80 hover:text-white p-2 cursor-pointer z-10 bg-black/40 rounded-full"
               aria-label="Previous"
             >
-              <ChevronLeft className="w-8 h-8" />
+              <ChevronLeft className="w-7 h-7 sm:w-8 sm:h-8" />
             </button>
             <button
               type="button"
               onClick={nextImage}
-              className="absolute right-3 sm:right-6 text-white/80 hover:text-white p-2 cursor-pointer z-10"
+              className="absolute right-1 sm:right-6 text-white/80 hover:text-white p-2 cursor-pointer z-10 bg-black/40 rounded-full"
               aria-label="Next"
             >
-              <ChevronRight className="w-8 h-8" />
+              <ChevronRight className="w-7 h-7 sm:w-8 sm:h-8" />
             </button>
-            <div className="max-w-5xl w-full text-center">
+            <div className="max-w-5xl w-full text-center px-8 sm:px-12">
               <img
                 src={activeAlbum.images[lightboxIndex].url}
                 alt={activeAlbum.images[lightboxIndex].caption || activeAlbum.name}
-                className="max-h-[78vh] w-auto mx-auto object-contain rounded-md"
+                className="max-h-[70vh] sm:max-h-[78vh] w-auto max-w-full mx-auto object-contain rounded-md"
               />
-              <p className="mt-4 text-white/80 text-sm">
+              <p className="mt-3 sm:mt-4 text-white/80 text-xs sm:text-sm px-2">
                 {activeAlbum.images[lightboxIndex].caption || activeAlbum.name}
                 <span className="text-white/40"> · {lightboxIndex + 1}/{activeAlbum.images.length}</span>
               </p>

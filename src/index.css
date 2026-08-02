@@ -17,12 +17,20 @@
 
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
     font-family: var(--font-sans);
     background-color: var(--ykp-canvas);
     color: var(--ykp-ink);
+    overflow-x: hidden;
+  }
+
+  img,
+  video,
+  iframe {
+    max-width: 100%;
   }
 }
 

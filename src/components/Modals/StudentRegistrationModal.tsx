@@ -36,14 +36,14 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[var(--ykp-green-deep)]/75 backdrop-blur-sm">
-      <div className="bg-white max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-[var(--ykp-green)]/10">
-        <div className="sticky top-0 bg-white z-10 flex items-center justify-between px-6 py-5 border-b border-[var(--ykp-green)]/10">
-          <div>
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-[var(--ykp-green-deep)]/75 backdrop-blur-sm">
+      <div className="bg-white max-w-xl w-full max-h-[92vh] sm:max-h-[90vh] overflow-y-auto shadow-2xl border border-[var(--ykp-green)]/10 rounded-t-2xl sm:rounded-none">
+        <div className="sticky top-0 bg-white z-10 flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5 border-b border-[var(--ykp-green)]/10">
+          <div className="min-w-0 pr-2">
             <p className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[var(--ykp-gold)] mb-1">
               Become a student
             </p>
-            <h3 className="font-display text-2xl font-semibold text-[var(--ykp-ink)]">
+            <h3 className="font-display text-xl sm:text-2xl font-semibold text-[var(--ykp-ink)]">
               Join Youth ka Pakistan
             </h3>
           </div>
@@ -57,7 +57,7 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
           </button>
         </div>
 
-        <div className="px-6 py-5">
+        <div className="px-4 sm:px-6 py-5">
           {!submitted ? (
             <form onSubmit={handleSubmit} className="space-y-4">
               <p className="text-sm text-[var(--ykp-muted)] leading-relaxed border-l-2 border-[var(--ykp-gold)] pl-3">

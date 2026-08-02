@@ -47,7 +47,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
         />
         <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(3,40,22,0.92)_0%,rgba(5,71,42,0.75)_50%,rgba(3,40,22,0.55)_100%)]" />
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-28 sm:py-32">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-32">
           <motion.div
             initial="hidden"
             animate="show"
@@ -143,7 +143,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="lg:col-span-6 relative h-[380px] sm:h-[440px]"
+              className="lg:col-span-6 relative h-[280px] sm:h-[400px] lg:h-[440px]"
             >
               <div className="absolute top-0 right-0 w-[68%] aspect-[4/5] overflow-hidden rounded-xl shadow-lg z-10">
                 <img

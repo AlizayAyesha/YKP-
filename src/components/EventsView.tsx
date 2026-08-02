@@ -107,7 +107,7 @@ export const EventsView: React.FC<EventsViewProps> = ({ onRsvp }) => {
                       <button
                         type="button"
                         onClick={() => onRsvp(event)}
-                        className="inline-flex items-center gap-2 bg-[var(--ykp-gold)] hover:bg-[var(--ykp-gold-bright)] text-[var(--ykp-ink)] font-semibold text-sm px-6 py-3 rounded-md transition-colors cursor-pointer"
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[var(--ykp-gold)] hover:bg-[var(--ykp-gold-bright)] text-[var(--ykp-ink)] font-semibold text-sm px-6 py-3.5 rounded-md transition-colors cursor-pointer"
                       >
                         RSVP for this event
                         <ArrowRight className="w-4 h-4" />

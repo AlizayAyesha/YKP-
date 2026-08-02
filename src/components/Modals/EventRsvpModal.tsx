@@ -45,9 +45,9 @@ export const EventRsvpModal: React.FC<EventRsvpModalProps> = ({ event, onClose }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[var(--ykp-green-deep)]/75 backdrop-blur-sm">
-      <div className="bg-white max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-[var(--ykp-green)]/10">
-        <div className="sticky top-0 bg-white z-10 flex items-start justify-between px-6 py-5 border-b border-[var(--ykp-green)]/10">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-[var(--ykp-green-deep)]/75 backdrop-blur-sm">
+      <div className="bg-white max-w-lg w-full max-h-[92vh] sm:max-h-[90vh] overflow-y-auto shadow-2xl border border-[var(--ykp-green)]/10 rounded-t-2xl sm:rounded-none">
+        <div className="sticky top-0 bg-white z-10 flex items-start justify-between px-4 sm:px-6 py-4 sm:py-5 border-b border-[var(--ykp-green)]/10">
           <div className="pr-4">
             <p className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[var(--ykp-gold)] mb-1">
               Event RSVP
@@ -66,7 +66,7 @@ export const EventRsvpModal: React.FC<EventRsvpModalProps> = ({ event, onClose }
           </button>
         </div>
 
-        <div className="px-6 py-5">
+        <div className="px-4 sm:px-6 py-5">
           {!submitted ? (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="flex flex-wrap gap-4 text-xs text-[var(--ykp-muted)] pb-1">

@@ -46,8 +46,10 @@ export const TestimonialsCarousel: React.FC = () => {
           className="relative"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
+          onTouchStart={() => setPaused(true)}
+          onTouchEnd={() => setPaused(false)}
         >
-          <div className="relative min-h-[320px] sm:min-h-[300px]">
+          <div className="relative min-h-[280px] sm:min-h-[300px]">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={current.id}
@@ -92,8 +94,8 @@ export const TestimonialsCarousel: React.FC = () => {
           </div>
 
           {/* Controls */}
-          <div className="mt-10 flex items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
+          <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center sm:justify-between gap-4">
+            <div className="flex items-center gap-2 order-2 sm:order-1">
               <button
                 type="button"
                 onClick={prev}
@@ -112,7 +114,7 @@ export const TestimonialsCarousel: React.FC = () => {
               </button>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 order-1 sm:order-2 w-full sm:w-auto justify-center">
               {TESTIMONIALS.map((item, i) => (
                 <button
                   key={item.id}
@@ -129,7 +131,7 @@ export const TestimonialsCarousel: React.FC = () => {
             </div>
 
             {/* Auto progress bar */}
-            <div className="hidden sm:block w-24 h-1 rounded-full bg-white/15 overflow-hidden">
+            <div className="hidden sm:block w-24 h-1 rounded-full bg-white/15 overflow-hidden order-3">
               <motion.div
                 key={`${index}-${paused}`}
                 className="h-full bg-[var(--ykp-gold)]"
