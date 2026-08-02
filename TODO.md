@@ -6,5 +6,6 @@
 - [x] Step 4: Rename branch to `main` (`git branch -M main`)
 - [x] Step 5: Add remote origin (`git remote add origin https://github.com/AlizayAyesha/YKP-.git`)
 - [x] Step 6: Push to GitHub (`git push -u origin main`)
+- [x] Step 7: Push remaining uncommitted changes (Events/Gallery views, RSVP modal)
 - [x] Verify the repository is live on GitHub
 
