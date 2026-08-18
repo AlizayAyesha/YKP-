@@ -30,11 +30,6 @@
     "nodemailer": "^7.0.11",
     "sharp": "^0.34.4"
   },
-  "optionalDependencies": {
-    "@img/sharp-linux-x64": "0.34.5",
-    "@img/sharp-linuxmusl-x64": "0.34.5",
-    "@img/sharp-wasm32": "0.34.5"
-  },
   "devDependencies": {
     "@types/node": "^22.14.0",
     "autoprefixer": "^10.4.21",
