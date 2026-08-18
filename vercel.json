@@ -6,6 +6,10 @@
     "api/health.ts": {
       "maxDuration": 10
     },
+    "api/registrations.ts": {
+      "maxDuration": 60,
+      "includeFiles": "{public/posters/**,src/data/events.json}"
+    },
     "api/[[...path]].ts": {
       "maxDuration": 60,
       "includeFiles": "{public/posters/**,src/data/events.json}"
