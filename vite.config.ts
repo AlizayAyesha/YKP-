@@ -15,7 +15,10 @@ export default defineConfig(() => {
       hmr: process.env.DISABLE_HMR !== 'true',
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
       proxy: {
-        '/api': 'http://127.0.0.1:8788',
+        '/api': {
+          target: 'http://127.0.0.1:8788',
+          timeout: 120000
+        },
         '/uploads': 'http://127.0.0.1:8788'
       }
     },

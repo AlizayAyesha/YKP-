@@ -30,12 +30,28 @@ export async function registerAttendee(input: {
   body.append('publicConsent', String(input.publicConsent));
   body.append('photo', input.photo);
 
-  const response = await fetch('/api/registrations', {
-    method: 'POST',
-    body
-  });
+  let response: Response;
+  try {
+    response = await fetch('/api/registrations', {
+      method: 'POST',
+      body
+    });
+  } catch {
+    throw new Error('Could not reach the registration server. Make sure the YKP site is open at localhost:3000 with the API running.');
+  }
 
-  const data = await response.json().catch(() => ({}));
+  const text = await response.text();
+  let data: { error?: string } = {};
+  try {
+    data = text ? (JSON.parse(text) as { error?: string }) : {};
+  } catch {
+    throw new Error(
+      response.status === 404 || response.status === 502
+        ? 'The registration API is not running. Start it with npm run dev, then try again.'
+        : 'Registration failed. Please try again.'
+    );
+  }
+
   if (!response.ok) {
     throw new Error(data.error || 'Registration failed. Please try again.');
   }

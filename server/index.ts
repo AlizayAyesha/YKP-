@@ -16,17 +16,26 @@ import { composeAttendeePoster, ensurePosterTemplate } from './poster';
 import { sendRegistrationEmail } from './email';
 import { appendFounderCeoToSheet, isFounderOrCeo } from './sheets';
 import { addInquiry, addStudent, listInquiries, listStudents } from './inquiries';
+import { isServerless, uploadsDir } from './paths';
 import type { EventProfileRole, InquiryRole, ProfileApprovalStatus, YkpEvent } from '../src/types';
 
 dotenv.config({ path: '.env.local' });
 dotenv.config();
 
 const PORT = Number(process.env.API_PORT || 8788);
-const UPLOADS_DIR = path.join(process.cwd(), 'uploads');
+const UPLOADS_DIR = uploadsDir();
 const PHOTOS_DIR = path.join(UPLOADS_DIR, 'photos');
 const POSTERS_OUT_DIR = path.join(UPLOADS_DIR, 'posters');
 const PROFILES_DIR = path.join(UPLOADS_DIR, 'profiles');
-const ALLOWED_TYPES = new Set(['image/jpeg', 'image/jpg', 'image/png', 'image/webp']);
+const ALLOWED_TYPES = new Set([
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/webp',
+  'image/heic',
+  'image/heif',
+  'application/octet-stream'
+]);
 const MAX_BYTES = 8 * 1024 * 1024;
 const INQUIRY_ROLES: InquiryRole[] = ['Mentor', 'Educator', 'Partner / Sponsor', 'Other'];
 const EDUCATION_LEVELS = ['School', 'College', 'University', 'Graduate', 'Other'];
@@ -43,7 +52,7 @@ const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: MAX_BYTES },
   fileFilter: (_req, file, cb) => {
-    if (ALLOWED_TYPES.has(file.mimetype)) cb(null, true);
+    if (!file.mimetype || ALLOWED_TYPES.has(file.mimetype) || file.mimetype.startsWith('image/')) cb(null, true);
     else cb(new Error('Please upload a JPG, PNG, or WebP portrait.'));
   }
 });
@@ -100,6 +109,15 @@ async function ensureDirs() {
 
 const app = express();
 app.use(express.json({ limit: '1mb' }));
+app.use((req, _res, next) => {
+  if (process.env.VERCEL && req.url && !req.url.startsWith('/api')) {
+    req.url = `/api${req.url.startsWith('/') ? req.url : `/${req.url}`}`;
+  }
+  if (req.path.startsWith('/api')) {
+    console.log(`${req.method} ${req.path}`);
+  }
+  next();
+});
 app.use('/uploads', express.static(UPLOADS_DIR));
 app.use('/posters', express.static(path.join(process.cwd(), 'public', 'posters')));
 
@@ -201,6 +219,7 @@ app.post('/api/registrations', (req, res) => {
           outputPath: posterPath
         });
       } catch (error) {
+        console.error('Poster generation failed:', error);
         const message = error instanceof Error ? error.message : 'Poster generation failed.';
         await fs.unlink(photoPath).catch(() => undefined);
         const rows = await listRegistrations();
@@ -213,12 +232,16 @@ app.post('/api/registrations', (req, res) => {
       const idx = rows.findIndex((row) => row.registrationId === registration.registrationId);
       if (idx >= 0) rows[idx].posterStatus = 'ready';
 
-      const origin = process.env.APP_URL || 'http://localhost:3000';
-      const posterUrl = `/uploads/posters/${registration.id}.png`;
+      const origin = process.env.APP_URL || (isServerless ? publicBase(req) : 'http://localhost:3000');
+      const posterFileUrl = `/uploads/posters/${registration.id}.png`;
+      const posterBuffer = await fs.readFile(posterPath);
+      const posterUrl = isServerless
+        ? `data:image/png;base64,${posterBuffer.toString('base64')}`
+        : posterFileUrl;
       const emailResult = await sendRegistrationEmail({
         registration: { ...registration, posterStatus: 'ready' },
         event,
-        posterUrl: `${origin}${posterUrl}`,
+        posterUrl: isServerless ? posterFileUrl : `${origin}${posterFileUrl}`,
         logoUrl: `${origin}/ykp-logo.png`,
         siteUrl: origin
       });
@@ -252,9 +275,10 @@ app.post('/api/registrations', (req, res) => {
         posterUrl,
         emailSent: Boolean(emailResult.sent),
         emailNote: emailResult.sent ? undefined : emailResult.reason,
-        absolutePosterUrl: `${publicBase(req)}${posterUrl}`
+        absolutePosterUrl: isServerless ? posterUrl : `${publicBase(req)}${posterFileUrl}`
       });
     } catch (error) {
+      console.error('Registration failed:', error);
       const message = error instanceof Error ? error.message : 'Registration failed.';
       res.status(500).json({ error: message });
     }
@@ -573,13 +597,17 @@ app.patch('/api/admin/events/:id', async (req, res) => {
   res.json({ ok: true, event: updated });
 });
 
-ensureDirs()
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`YKP API listening on ${PORT}`);
+export default app;
+
+if (!process.env.VERCEL) {
+  ensureDirs()
+    .then(() => {
+      app.listen(PORT, () => {
+        console.log(`YKP API listening on ${PORT}`);
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+      process.exit(1);
     });
-  })
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
+}

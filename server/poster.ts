@@ -196,7 +196,7 @@ async function holeMask(config: TemplateConfig, width: number, height: number) {
 }
 
 async function preparePortrait(photoPath: string, box: ReturnType<typeof innerPhotoBox>) {
-  const meta = await sharp(photoPath).rotate().metadata();
+  const meta = await sharp(photoPath, { failOn: 'none' }).rotate().metadata();
   if (!meta.width || !meta.height) {
     throw new Error('Could not read the uploaded photograph. Please upload a clearer portrait.');
   }
@@ -204,7 +204,7 @@ async function preparePortrait(photoPath: string, box: ReturnType<typeof innerPh
     throw new Error('Please upload a clearer portrait at least 300×300 pixels.');
   }
 
-  const cropped = await sharp(photoPath)
+  const cropped = await sharp(photoPath, { failOn: 'none' })
     .rotate()
     .resize(box.width, box.height, {
       fit: 'cover',

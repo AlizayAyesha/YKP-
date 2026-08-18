@@ -1,8 +1,9 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import type { PartnerInquiry, StudentInterest } from '../src/types';
+import { dataDir } from './paths';
 
-const DATA_DIR = path.join(process.cwd(), 'data');
+const DATA_DIR = dataDir();
 const STUDENTS_PATH = path.join(DATA_DIR, 'students.json');
 const INQUIRIES_PATH = path.join(DATA_DIR, 'inquiries.json');
 

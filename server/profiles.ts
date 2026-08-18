@@ -1,8 +1,9 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import type { EventProfile, PublicEventProfile } from '../src/types';
+import { dataDir } from './paths';
 
-const DATA_DIR = path.join(process.cwd(), 'data');
+const DATA_DIR = dataDir();
 const STORE_PATH = path.join(DATA_DIR, 'profiles.json');
 
 let writeQueue: Promise<unknown> = Promise.resolve();

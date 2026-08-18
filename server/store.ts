@@ -1,8 +1,9 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import type { AttendeeRegistration } from '../src/types';
+import { dataDir, isServerless } from './paths';
 
-const DATA_DIR = path.join(process.cwd(), 'data');
+const DATA_DIR = dataDir();
 const STORE_PATH = path.join(DATA_DIR, 'registrations.json');
 
 let writeQueue: Promise<unknown> = Promise.resolve();
@@ -57,7 +58,9 @@ export async function createRegistration(
       const n = Number(row.registrationId.slice(prefix.length));
       if (Number.isFinite(n) && n > max) max = n;
     }
-    const registrationId = `${prefix}${String(max + 1).padStart(4, '0')}`;
+    const registrationId = isServerless
+      ? `${prefix}${Date.now().toString(36).toUpperCase()}`
+      : `${prefix}${String(max + 1).padStart(4, '0')}`;
     if (rows.some((row) => row.registrationId === registrationId)) {
       throw new Error('Could not allocate a unique registration ID. Please try again.');
     }

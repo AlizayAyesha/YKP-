@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { YkpEvent } from '../../types';
 import { registerAttendee, RegistrationSuccess } from '../../lib/registerAttendee';
+import { normalizePortrait } from '../../lib/normalizePortrait';
 
 interface EventRsvpModalProps {
   event: YkpEvent | null;
@@ -18,7 +19,7 @@ interface EventRsvpModalProps {
   onBackToEvents?: () => void;
 }
 
-const ALLOWED = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+const ALLOWED = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/heic', 'image/heif', ''];
 
 export const EventRsvpModal: React.FC<EventRsvpModalProps> = ({ event, onClose, onBackToEvents }) => {
   const [submitted, setSubmitted] = useState(false);
@@ -67,10 +68,10 @@ export const EventRsvpModal: React.FC<EventRsvpModalProps> = ({ event, onClose, 
     'block text-[11px] font-semibold text-[var(--ykp-muted)] uppercase tracking-[0.18em] mb-1.5';
   const eventName = [event.title, event.subtitle].filter(Boolean).join(' — ') || event.dates;
 
-  const handlePhoto = (file?: File) => {
+  const handlePhoto = async (file?: File) => {
     setError('');
     if (!file) return;
-    if (!ALLOWED.includes(file.type)) {
+    if (file.type && !ALLOWED.includes(file.type) && !file.type.startsWith('image/')) {
       setError('Please upload a JPG, JPEG, PNG, or WebP portrait.');
       return;
     }
@@ -78,26 +79,17 @@ export const EventRsvpModal: React.FC<EventRsvpModalProps> = ({ event, onClose, 
       setError('Photograph must be 8MB or smaller.');
       return;
     }
-    const previewUrl = URL.createObjectURL(file);
-    const probe = new Image();
-    probe.onload = () => {
-      if (probe.width < 300 || probe.height < 300) {
-        URL.revokeObjectURL(previewUrl);
-        setPhoto(null);
-        setPhotoPreview('');
-        setError('Please upload a clearer portrait at least 300×300 pixels.');
-        return;
-      }
-      setPhoto(file);
+    try {
+      const normalized = await normalizePortrait(file);
+      const previewUrl = URL.createObjectURL(normalized);
+      if (photoPreview) URL.revokeObjectURL(photoPreview);
+      setPhoto(normalized);
       setPhotoPreview(previewUrl);
-    };
-    probe.onerror = () => {
-      URL.revokeObjectURL(previewUrl);
+    } catch (err) {
       setPhoto(null);
       setPhotoPreview('');
-      setError('That file could not be read as an image. Please upload a JPG, PNG, or WebP portrait.');
-    };
-    probe.src = previewUrl;
+      setError(err instanceof Error ? err.message : 'Please upload a JPG, PNG, or WebP portrait.');
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -158,9 +150,9 @@ export const EventRsvpModal: React.FC<EventRsvpModalProps> = ({ event, onClose, 
           </button>
         </div>
 
-        <div className="px-4 sm:px-6 py-5">
+        <div className="px-4 sm:px-6 py-5 relative">
           {generating && (
-            <div className="py-16 text-center space-y-4">
+            <div className="absolute inset-0 z-20 bg-white/95 flex flex-col items-center justify-center text-center space-y-4 px-6">
               <LoaderCircle className="w-10 h-10 mx-auto text-[var(--ykp-gold)] animate-spin" />
               <p className="font-display text-xl font-semibold text-[var(--ykp-ink)]">
                 Your personalized attendee poster is being prepared...
@@ -171,7 +163,7 @@ export const EventRsvpModal: React.FC<EventRsvpModalProps> = ({ event, onClose, 
             </div>
           )}
 
-          {!generating && !submitted && (
+          {!submitted && (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="flex flex-wrap gap-4 text-xs text-[var(--ykp-muted)] pb-1">
                 <span className="inline-flex items-center gap-1.5">
@@ -278,9 +270,9 @@ export const EventRsvpModal: React.FC<EventRsvpModalProps> = ({ event, onClose, 
                     <p className="mt-2 text-[11px] text-[var(--ykp-muted)]">JPG, JPEG, PNG, or WebP · 300×300px or larger · up to 8MB</p>
                     <input
                       type="file"
-                      accept="image/jpeg,image/png,image/webp,.jpg,.jpeg"
+                      accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp"
                       onChange={(e) => handlePhoto(e.target.files?.[0])}
-                      className="sr-only"
+                      className="mt-3 block w-full text-xs text-[var(--ykp-muted)] file:mr-3 file:rounded-md file:border-0 file:bg-[var(--ykp-green)] file:px-3 file:py-1.5 file:text-white file:text-xs"
                     />
                   </label>
                   {photoPreview && (
@@ -291,7 +283,7 @@ export const EventRsvpModal: React.FC<EventRsvpModalProps> = ({ event, onClose, 
                         className="w-20 h-20 object-cover rounded-full border border-[var(--ykp-green)]/15"
                       />
                       <p className="text-xs text-[var(--ykp-muted)]">
-                        Preview only. The final poster uses the official circular frame.
+                        {photo ? `${photo.name} selected.` : ''} Preview only. The final poster uses the official circular frame.
                       </p>
                     </div>
                   )}
@@ -317,7 +309,8 @@ export const EventRsvpModal: React.FC<EventRsvpModalProps> = ({ event, onClose, 
 
               <button
                 type="submit"
-                className="group w-full inline-flex items-center justify-center gap-2 bg-[var(--ykp-gold)] hover:bg-[var(--ykp-gold-bright)] text-[var(--ykp-ink)] font-semibold text-sm py-3.5 transition-colors cursor-pointer"
+                disabled={generating}
+                className="group w-full inline-flex items-center justify-center gap-2 bg-[var(--ykp-gold)] hover:bg-[var(--ykp-gold-bright)] text-[var(--ykp-ink)] font-semibold text-sm py-3.5 transition-colors cursor-pointer disabled:opacity-70"
               >
                 Confirm RSVP
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
