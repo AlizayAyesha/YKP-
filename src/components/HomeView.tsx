@@ -125,18 +125,14 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
               <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-[var(--ykp-ink)] tracking-tight leading-tight text-balance">
                 {VISION_DATA.title}
               </h2>
+              <p className="font-display text-xl sm:text-2xl text-[var(--ykp-green)] font-semibold">
+                {VISION_DATA.motto}
+              </p>
               <div className="space-y-4 text-[var(--ykp-muted)] text-base leading-relaxed">
                 {ABOUT_DATA.paragraphs.map((paragraph, index) => (
                   <p key={index}>{paragraph}</p>
                 ))}
               </div>
-              <button
-                onClick={() => openModal('learn-more')}
-                className="inline-flex items-center gap-2 bg-[var(--ykp-green)] hover:bg-[var(--ykp-green-deep)] text-white font-semibold text-sm px-6 py-3 rounded-md transition-colors cursor-pointer"
-              >
-                {VISION_DATA.ctaText}
-                <ArrowRight className="w-4 h-4" />
-              </button>
             </motion.div>
 
             <motion.div
@@ -159,48 +155,46 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="absolute top-[35%] left-[8%] w-[38%] aspect-square overflow-hidden rounded-xl shadow-md border-4 border-white z-30">
-                <img
-                  src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80"
-                  alt=""
-                  className="w-full h-full object-cover"
-                />
-              </div>
             </motion.div>
           </div>
-        </div>
-      </section>
 
-      {/* Core values — accent-top cards */}
-      <section className="py-20 sm:py-24 bg-[var(--ykp-canvas)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
-            <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[var(--ykp-ink)]">
-              {ABOUT_DATA.coreValuesTitle}
-            </h2>
-            <p className="text-[var(--ykp-muted)] text-base">
-              {ABOUT_DATA.coreValuesSub}
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {ABOUT_DATA.values.map((item, i) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.06 }}
-                className="bg-white border border-gray-200 rounded-xl p-6 sm:p-7 shadow-sm"
-                style={{ borderTopWidth: 3, borderTopColor: valueAccents[i % valueAccents.length] }}
-              >
-                <h3 className="font-display text-xl font-semibold text-[var(--ykp-ink)] mb-3">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-[var(--ykp-muted)] leading-relaxed">
-                  {item.description}
-                </p>
-              </motion.div>
-            ))}
+          <div className="mt-14 sm:mt-16 space-y-8">
+            <p className="text-[var(--ykp-ink)] font-medium">{ABOUT_DATA.pillarsIntro}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {ABOUT_DATA.values.map((item, i) => (
+                <motion.div
+                  key={item.id}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.06 }}
+                  className="bg-[var(--ykp-canvas)] border border-gray-200 rounded-xl p-5 sm:p-6"
+                  style={{ borderTopWidth: 3, borderTopColor: valueAccents[i % valueAccents.length] }}
+                >
+                  <h3 className="font-display text-xl font-semibold text-[var(--ykp-ink)] mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-[var(--ykp-muted)] leading-relaxed">
+                    {item.description}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+            <div className="max-w-3xl space-y-4 text-[var(--ykp-muted)] text-base leading-relaxed">
+              {ABOUT_DATA.closing.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+              <p className="text-[var(--ykp-ink)] font-semibold">
+                {ABOUT_DATA.closer}
+              </p>
+            </div>
+            <button
+              onClick={() => openModal('learn-more')}
+              className="inline-flex items-center gap-2 bg-[var(--ykp-green)] hover:bg-[var(--ykp-green-deep)] text-white font-semibold text-sm px-6 py-3 rounded-md transition-colors cursor-pointer"
+            >
+              {VISION_DATA.ctaText}
+              <ArrowRight className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </section>
@@ -341,6 +335,14 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
               </React.Fragment>
             ))}
           </div>
+          <button
+            type="button"
+            onClick={() => openModal('partner-inquiry')}
+            className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-[var(--ykp-green)] cursor-pointer"
+          >
+            Become a mentor, educator, or partner
+            <ArrowRight className="w-4 h-4" />
+          </button>
         </div>
       </section>
 

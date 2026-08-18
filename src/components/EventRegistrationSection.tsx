@@ -32,40 +32,62 @@ export const EventRegistrationSection: React.FC<EventRegistrationSectionProps> =
             <h2 className="font-display text-3xl sm:text-4xl lg:text-[2.75rem] font-semibold text-[var(--ykp-ink)] tracking-tight leading-tight">
               {FEATURED_EVENT.title}
             </h2>
-            <p className="text-[var(--ykp-muted)] text-base leading-relaxed max-w-xl">
-              {FEATURED_EVENT.summary}
-            </p>
-            <ul className="space-y-4 pt-2">
-              {FEATURED_EVENT.highlights.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-sm text-[var(--ykp-ink)]">
-                  <span className="mt-0.5 w-6 h-6 shrink-0 rounded-full bg-[var(--ykp-green)]/10 text-[var(--ykp-green)] flex items-center justify-center">
-                    <BadgeCheck className="w-3.5 h-3.5" />
-                  </span>
-                  <span className="leading-relaxed">{item}</span>
-                </li>
-              ))}
-            </ul>
+            {FEATURED_EVENT.subtitle && (
+              <p className="text-lg text-[var(--ykp-green)] font-display">{FEATURED_EVENT.subtitle}</p>
+            )}
+            {FEATURED_EVENT.tagline && (
+              <p className="text-sm uppercase tracking-[0.12em] text-[var(--ykp-muted)]">{FEATURED_EVENT.tagline}</p>
+            )}
+            {FEATURED_EVENT.summary && (
+              <p className="text-[var(--ykp-muted)] text-base leading-relaxed max-w-xl">
+                {FEATURED_EVENT.summary}
+              </p>
+            )}
+            {FEATURED_EVENT.highlights.length > 0 && (
+              <ul className="space-y-4 pt-2">
+                {FEATURED_EVENT.highlights.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-sm text-[var(--ykp-ink)]">
+                    <span className="mt-0.5 w-6 h-6 shrink-0 rounded-full bg-[var(--ykp-green)]/10 text-[var(--ykp-green)] flex items-center justify-center">
+                      <BadgeCheck className="w-3.5 h-3.5" />
+                    </span>
+                    <span className="leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
             <div className="flex flex-wrap gap-5 pt-2 text-sm text-[var(--ykp-muted)]">
-              <span className="inline-flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-[var(--ykp-green)]" />
-                {FEATURED_EVENT.city}
-              </span>
               <span className="inline-flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-[var(--ykp-green)]" />
                 {FEATURED_EVENT.dates}
               </span>
+              {FEATURED_EVENT.city && (
+                <span className="inline-flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-[var(--ykp-green)]" />
+                  {[FEATURED_EVENT.venue, FEATURED_EVENT.city].filter(Boolean).join(', ')}
+                </span>
+              )}
             </div>
-            <button
-              type="button"
-              onClick={() => {
-                setActiveTab('events');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--ykp-green)] cursor-pointer"
-            >
-              View all events
-              <ArrowRight className="w-4 h-4" />
-            </button>
+            <div className="flex flex-wrap gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => onRsvp(FEATURED_EVENT)}
+                className="inline-flex items-center gap-2 bg-[var(--ykp-gold)] hover:bg-[var(--ykp-gold-bright)] text-[var(--ykp-ink)] font-semibold text-sm px-5 py-3 rounded-md cursor-pointer"
+              >
+                RSVP for URAAN-E-AI 2026
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab('events');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--ykp-green)] cursor-pointer"
+              >
+                Explore Event
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </motion.div>
 
           <motion.div
@@ -82,16 +104,22 @@ export const EventRegistrationSection: React.FC<EventRegistrationSectionProps> =
                 </p>
                 <h3 className="font-display text-2xl font-semibold">Event Registration</h3>
                 <p className="text-white/55 text-sm mt-2">
-                  RSVP for this event or become a YKP student for ongoing programs.
+                  RSVP for this event, join the virtual-class waitlist, or inquire as a mentor, educator, or partner.
                 </p>
               </div>
 
               <div className="px-6 sm:px-8 py-5 space-y-3 text-sm border-b border-white/10">
                 {[
-                  { label: 'Venue', value: `${FEATURED_EVENT.venue}, ${FEATURED_EVENT.city}` },
+                  {
+                    label: 'Venue',
+                    value: [FEATURED_EVENT.venue, FEATURED_EVENT.city].filter(Boolean).join(', ')
+                  },
                   { label: 'Date', value: FEATURED_EVENT.dates },
+                  { label: 'Time', value: FEATURED_EVENT.time || '' },
                   { label: 'Fees', value: FEATURED_EVENT.fees }
-                ].map((row) => (
+                ]
+                  .filter((row) => row.value)
+                  .map((row) => (
                   <div key={row.label} className="flex items-start justify-between gap-4">
                     <span className="text-[var(--ykp-gold)]/90 font-medium shrink-0">{row.label}</span>
                     <span className="text-white/85 text-right">{row.value}</span>
@@ -105,7 +133,7 @@ export const EventRegistrationSection: React.FC<EventRegistrationSectionProps> =
                   onClick={() => onRsvp(FEATURED_EVENT)}
                   className="w-full inline-flex items-center justify-center gap-2 bg-[var(--ykp-gold)] hover:bg-[var(--ykp-gold-bright)] text-[var(--ykp-ink)] font-semibold text-sm py-3.5 rounded-lg transition-colors cursor-pointer"
                 >
-                  RSVP for this Event
+                  RSVP for URAAN-E-AI 2026
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <button
@@ -127,7 +155,7 @@ export const EventRegistrationSection: React.FC<EventRegistrationSectionProps> =
                 </button>
                 <button
                   type="button"
-                  onClick={() => openModal('contact')}
+                  onClick={() => openModal('partner-inquiry')}
                   className="w-full bg-transparent hover:bg-white/5 text-white/80 font-semibold text-sm py-3.5 rounded-lg border border-white/15 transition-colors cursor-pointer"
                 >
                   Partner / Mentor Inquiry

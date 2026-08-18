@@ -7,6 +7,7 @@ import {
   PastEventStat,
   GalleryAlbum
 } from '../types';
+import eventsJson from './events.json';
 
 export const SITE_INFO = {
   name: "Youth ka Pakistan",
@@ -34,35 +35,45 @@ export const HERO_IMAGE =
 
 export const VISION_DATA = {
   title: "The Vision Behind Youth ka Pakistan",
-  content: "Youth ka Pakistan is a nationwide non-profit organization focused on promoting the skills and talents of Pakistani youth. Founded with a vision to uplift the youth of Pakistan, the initiative began as a grassroots movement. Over the years, we have proudly served thousands of youth from diverse backgrounds, connecting them with opportunities to showcase their talents through events and workshops.",
+  motto: "Educate. Empower. Skill. Connect.",
+  content: "Youth ka Pakistan is a nationwide non-profit organization dedicated to unlocking the potential of Pakistan's youth by creating meaningful opportunities to learn, grow, develop skills, and build connections.",
   ctaText: "Learn More"
 };
 
 export const ABOUT_DATA = {
-  eyebrow: "Empowering Youth",
+  eyebrow: "Youth ka Pakistan",
   title: "The Vision Behind Youth ka Pakistan",
   paragraphs: [
-    "Youth ka Pakistan is a nationwide non-profit organization focused on promoting the skills and talents of Pakistani youth. We believe in the potential of every young individual and strive to provide the necessary resources and opportunities for their development.",
-    "Founded with a vision to uplift the youth of Pakistan, the initiative began as a grassroots movement. With a small group of passionate individuals, we aimed to make a significant impact in the lives of young boys and girls across the nation.",
-    "Over the years, we have proudly served thousands of youth from diverse backgrounds, connecting them with opportunities to showcase their talents through events and workshops, enhancing their skills and confidence."
+    "Youth ka Pakistan is a nationwide non-profit organization dedicated to unlocking the potential of Pakistan's youth by creating meaningful opportunities to learn, grow, develop skills, and build connections.",
+    "We believe that an empowered generation begins with access to the right knowledge, practical skills, supportive networks, and opportunities to lead."
   ],
-  coreValuesTitle: "Our Core Values",
-  coreValuesSub: "We are guided by principles that reflect our commitment to youth development and community empowerment.",
+  pillarsIntro: "Our mission is built around four core pillars:",
+  closing: [
+    "From our grassroots beginnings to our growing national presence, Youth ka Pakistan continues to create platforms where young Pakistanis can discover their potential, develop their abilities, and connect with a community that believes in their future."
+  ],
+  closer: "We don't just believe in the potential of Pakistan's youth — we believe in creating the opportunities that help them realize it.",
+  coreValuesTitle: "Four Core Pillars",
+  coreValuesSub: "Our mission is built around four core pillars:",
   values: [
     {
-      id: "inclusivity",
-      title: "Inclusivity",
-      description: "We believe in equal opportunities for all, regardless of background, ensuring every young person has a voice and a chance to shine."
+      id: "educate",
+      title: "Educate",
+      description: "Creating access to knowledge, learning experiences, workshops, and educational opportunities that broaden perspectives and inspire growth."
     },
     {
-      id: "empowerment",
-      title: "Empowerment",
-      description: "Our mission is to empower the youth by providing the tools, resources, and platforms needed to cultivate their skills and passions."
+      id: "empower",
+      title: "Empower",
+      description: "Building confidence, leadership, and a sense of purpose so young people can take initiative and create meaningful change."
     },
     {
-      id: "community-engagement",
-      title: "Community Engagement",
-      description: "We prioritize community involvement, fostering collaborations that amplify the impact of our initiatives and strengthen our collective mission."
+      id: "skill",
+      title: "Skill",
+      description: "Promoting practical, future-ready skills that help youth prepare for careers, entrepreneurship, innovation, and an evolving world."
+    },
+    {
+      id: "connect",
+      title: "Connect",
+      description: "Bringing young people together with peers, mentors, professionals, organizations, and opportunities to build meaningful networks and collaborations."
     }
   ]
 };
@@ -116,6 +127,17 @@ export const TALENTS_SECTION = {
     }
   ] as ProgramOffering[]
 };
+
+export const VIRTUAL_CLASS_COURSES = [
+  'AI for Everyone',
+  'Cybersecurity',
+  'Digital Literacy',
+  'Data Fundamentals',
+  'Web Development',
+  'Entrepreneurship Foundations',
+  'Creative Media',
+  'Leadership & Communication'
+];
 
 export const TESTIMONIALS: Testimonial[] = [
   {
@@ -200,8 +222,8 @@ export const BLOG_POSTS: BlogPost[] = [
 
 export const MOVEMENT_BANNER = {
   title: "Your future starts with one step",
-  description: "Register to learn with us, meet mentors, and join thousands of young Pakistanis building skills that open real doors.",
-  ctaText: "Register Now"
+  description: "Join the waitlist for forthcoming virtual classes, meet mentors, and join thousands of young Pakistanis building skills that open real doors.",
+  ctaText: "Become a Student"
 };
 
 export const YKP_IN_ACTION = {
@@ -242,106 +264,7 @@ export const YKP_IN_ACTION = {
   ] as YkpVideo[]
 };
 
-export const EVENTS_DATA: YkpEvent[] = [
-  {
-    id: "ykp-summit-2026",
-    title: "Youth ka Pakistan Summit 2026",
-    summary:
-      "A nationwide gathering for young learners to build skills, meet mentors, and showcase talent through workshops, stages, and networking.",
-    venue: "Expo Center",
-    city: "Karachi, Pakistan",
-    dates: "15–17 August 2026",
-    time: "9:00 AM – 6:00 PM",
-    fees: "Free for students",
-    status: "Open",
-    category: "Summit",
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80",
-    capacity: "2,000 seats",
-    highlights: [
-      "Skills workshops in arts, tech, and leadership",
-      "Live talent showcases and mentorship circles",
-      "Open to youth from every city across Pakistan"
-    ]
-  },
-  {
-    id: "skills-bootcamp-lahore",
-    title: "Skills Bootcamp — Lahore",
-    summary:
-      "A hands-on weekend of digital skills, creative media, and career mentorship for youth ready to build real portfolios.",
-    venue: "Alhamra Arts Council",
-    city: "Lahore, Pakistan",
-    dates: "5–6 September 2026",
-    time: "10:00 AM – 5:00 PM",
-    fees: "Free",
-    status: "Open",
-    category: "Workshop",
-    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80",
-    capacity: "300 seats",
-    highlights: [
-      "Portfolio-building workshops",
-      "Mentor office hours",
-      "Certificate of participation"
-    ]
-  },
-  {
-    id: "talent-showcase-islamabad",
-    title: "National Talent Showcase — Islamabad",
-    summary:
-      "Young performers, creators, and innovators take the stage before mentors, media, and community leaders.",
-    venue: "Pakistan National Council of the Arts",
-    city: "Islamabad, Pakistan",
-    dates: "20 September 2026",
-    time: "3:00 PM – 9:00 PM",
-    fees: "Free entry with RSVP",
-    status: "Upcoming",
-    category: "Showcase",
-    image: "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80",
-    capacity: "800 seats",
-    highlights: [
-      "Live performances & exhibitions",
-      "Industry networking lounge",
-      "Youth awards spotlight"
-    ]
-  },
-  {
-    id: "mentorship-forum-karachi",
-    title: "Mentorship Forum — Karachi",
-    summary:
-      "Small-group mentorship circles connecting youth with professionals across tech, arts, sports, and entrepreneurship.",
-    venue: "Youth Hub Karachi",
-    city: "Karachi, Pakistan",
-    dates: "12 October 2026",
-    time: "11:00 AM – 4:00 PM",
-    fees: "Free",
-    status: "Upcoming",
-    category: "Mentorship",
-    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80",
-    capacity: "150 seats",
-    highlights: [
-      "1:1 mentor matching",
-      "Career path panels",
-      "Peer collaboration labs"
-    ]
-  },
-  {
-    id: "national-talent-2025",
-    title: "National Talent Showcase 2025",
-    summary:
-      "A landmark year of talent, workshops, and community — now in our gallery archives.",
-    venue: "Multiple venues",
-    city: "Nationwide",
-    dates: "November 2025",
-    fees: "—",
-    status: "Completed",
-    category: "Showcase",
-    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80",
-    highlights: [
-      "1,200+ youth participants",
-      "18 cities represented",
-      "24 workshops delivered"
-    ]
-  }
-];
+export const EVENTS_DATA: YkpEvent[] = eventsJson as YkpEvent[];
 
 export const FEATURED_EVENT: YkpEvent = EVENTS_DATA[0];
 

@@ -16,7 +16,7 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, openModal }) => {
   return (
     <footer className="bg-[var(--ykp-green-deep)] text-white/70 font-sans text-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           <div className="space-y-5 lg:col-span-1">
             <div className="inline-block bg-white rounded-md px-3 py-2">
               <img
@@ -45,6 +45,37 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, openModal }) => {
                   <Icon className="w-4 h-4" />
                 </a>
               ))}
+            </div>
+
+            <div className="pt-6">
+              <h4 className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[var(--ykp-gold)] mb-5">
+                Get in touch
+              </h4>
+              <ul className="space-y-4 text-sm">
+                <li className="flex items-center gap-2.5">
+                  <Mail className="w-4 h-4 text-[var(--ykp-gold)] shrink-0" />
+                  <a
+                    href={`mailto:${SITE_INFO.contactEmail}`}
+                    className="hover:text-white transition-colors"
+                  >
+                    {SITE_INFO.contactEmail}
+                  </a>
+                </li>
+                <li className="flex flex-col items-start gap-2 pt-1">
+                  <button
+                    onClick={() => openModal('student-register')}
+                    className="inline-flex items-center gap-2 bg-[var(--ykp-gold)] hover:bg-[var(--ykp-gold-bright)] text-[var(--ykp-ink)] font-semibold text-xs tracking-wide px-5 py-2.5 transition-colors cursor-pointer"
+                  >
+                    Become a Student
+                  </button>
+                  <button
+                    onClick={() => openModal('partner-inquiry')}
+                    className="inline-flex items-center gap-2 border border-white/20 hover:border-[var(--ykp-gold)] hover:text-[var(--ykp-gold)] font-semibold text-xs tracking-wide px-5 py-2.5 transition-colors cursor-pointer"
+                  >
+                    Partner / Mentor Inquiry
+                  </button>
+                </li>
+              </ul>
             </div>
           </div>
 
@@ -84,31 +115,6 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, openModal }) => {
                   </button>
                 </li>
               ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[var(--ykp-gold)] mb-5">
-              Get in touch
-            </h4>
-            <ul className="space-y-4 text-sm">
-              <li className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-[var(--ykp-gold)] shrink-0" />
-                <a
-                  href={`mailto:${SITE_INFO.contactEmail}`}
-                  className="hover:text-white transition-colors"
-                >
-                  {SITE_INFO.contactEmail}
-                </a>
-              </li>
-              <li>
-                <button
-                  onClick={() => openModal('student-register')}
-                  className="mt-2 inline-flex items-center gap-2 bg-[var(--ykp-gold)] hover:bg-[var(--ykp-gold-bright)] text-[var(--ykp-ink)] font-semibold text-xs tracking-wide px-5 py-2.5 transition-colors cursor-pointer"
-                >
-                  Become a Student
-                </button>
-              </li>
             </ul>
           </div>
         </div>

@@ -1,0 +1,107 @@
+[
+  {
+    "id": "uraan-e-ai-2026",
+    "title": "URAAN-E-AI 2026",
+    "subtitle": "Pakistan's Digital Flight",
+    "tagline": "National IT & Artificial Intelligence Seminar 2026",
+    "summary": "Pakistan's Digital Flight – National IT & Artificial Intelligence Seminar 2026. A national gathering of students, educators, technology professionals, corporate representatives, entrepreneurs, and emerging innovators.",
+    "description": "URAAN-E-AI 2026 is a national IT and Artificial Intelligence seminar bringing together students, educators, technology professionals, corporate representatives, entrepreneurs, and emerging innovators to explore how AI is reshaping Pakistan's economy, workforce, education, and future.\n\nThe event will feature expert discussions and a forward-looking panel exploring what an AI-first economy means for businesses and people, whether Pakistani organizations are ready for AI adoption, the skills required for the next generation, and how Pakistan can use AI to accelerate innovation and development.",
+    "about": [
+      "URAAN-E-AI 2026 brings together Pakistan's emerging technology community, educators, industry professionals, entrepreneurs and young innovators for a national conversation on Artificial Intelligence and the future of Pakistan's digital economy.",
+      "The event explores how AI can transform businesses, careers, education and innovation while examining the opportunities and challenges Pakistan faces as the global economy moves toward an AI-first future."
+    ],
+    "venue": "DHA Suffa University",
+    "city": "Karachi",
+    "dates": "Tuesday, 1 September 2026",
+    "date": "Tuesday, 1 September 2026",
+    "time": "2:00 PM Onwards",
+    "startTime": "2:00 PM",
+    "endTime": "",
+    "fees": "",
+    "status": "Open",
+    "registrationStatus": "RSVP Open",
+    "category": "National IT & AI Seminar",
+    "image": "/images/pdf-digital-flight-logo.png",
+    "highlights": [
+      "Expert discussions on Pakistan's AI-first economy",
+      "Forward-looking panel on business, skills, education and national development",
+      "A national gathering of students, educators, professionals and innovators"
+    ],
+    "posterTemplate": "/posters/ykp-attendee-template.png",
+    "organizer": "YKP Foundation",
+    "registrationEnabled": true,
+    "registrationPrefix": "YKP-URAAN-2026-",
+    "contactPhone": "0315-8248704",
+    "themeUrdu": "نئی سوچ، بہتر تخلیق، اے آئی کے ساتھ کامیابی کی اُڑان",
+    "themeEnglish": "Think New, Build Better, Fly with AI.",
+    "instagramUrl": "https://www.instagram.com/pakistandigitalflight/",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61591768861787",
+    "panelTitle": "The AI-First Economy",
+    "panelSubtitle": "Pakistan's Next Leap",
+    "panelIntro": "What happens when Artificial Intelligence becomes embedded in everyday business, education and decision-making?\n\nThe panel explores how Pakistan can prepare for an AI-first economy — from business adoption and future skills to startups, education, ethics and national development.",
+    "panelSummary": "A forward-looking conversation exploring how Artificial Intelligence is reshaping businesses, careers, education and Pakistan's digital future.",
+    "panelQuestion": "What happens when Artificial Intelligence becomes embedded in everyday business, education and decision-making?",
+    "panelTopics": [
+      {
+        "title": "Business Adoption",
+        "detail": "Whether Pakistani organizations are ready for AI adoption, and what an AI-first economy means for businesses."
+      },
+      {
+        "title": "Future Skills",
+        "detail": "The skills students and professionals will need for the next generation."
+      },
+      {
+        "title": "Startups",
+        "detail": "How emerging innovators can use AI to accelerate innovation."
+      },
+      {
+        "title": "Education",
+        "detail": "How Artificial Intelligence is reshaping learning, teaching and future-ready institutions."
+      },
+      {
+        "title": "Ethics",
+        "detail": "The responsibilities that come with embedding AI in everyday decision-making."
+      },
+      {
+        "title": "National Development",
+        "detail": "How Pakistan can use AI to accelerate innovation, economic growth and development."
+      }
+    ],
+    "expect": [
+      {
+        "title": "Expert Conversations",
+        "detail": "Hear from technology, education and industry leaders."
+      },
+      {
+        "title": "AI & Innovation",
+        "detail": "Explore how Artificial Intelligence is transforming businesses, careers and society."
+      },
+      {
+        "title": "Education & Future Skills",
+        "detail": "Understand the skills students and professionals will need for the next decade."
+      },
+      {
+        "title": "Networking",
+        "detail": "Connect with entrepreneurs, educators, professionals and emerging innovators."
+      },
+      {
+        "title": "Pakistan's Digital Future",
+        "detail": "Explore how Pakistan can leverage AI for economic growth, innovation and development."
+      }
+    ],
+    "whoShouldAttend": [
+      "Students",
+      "Young professionals",
+      "AI & IT professionals",
+      "Entrepreneurs",
+      "Startup founders",
+      "Corporate leaders",
+      "Educators",
+      "University representatives",
+      "Researchers",
+      "Freelancers",
+      "Technology enthusiasts",
+      "Young innovators"
+    ]
+  }
+]

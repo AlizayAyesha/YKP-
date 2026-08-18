@@ -1,0 +1,61 @@
+{
+  "template": "uraan-e-ai-attendee",
+  "image": "ykp-attendee-template.png",
+  "canvas": {
+    "width": 1024,
+    "height": 1024
+  },
+  "photo": {
+    "x": 338,
+    "y": 408,
+    "width": 332,
+    "height": 332,
+    "shape": "circle",
+    "frameInset": 3
+  },
+  "preserveRegions": [
+    {
+      "x": 132,
+      "y": 598,
+      "width": 210,
+      "height": 86
+    }
+  ],
+  "name": {
+    "x": 288,
+    "y": 784,
+    "width": 448,
+    "font": "Times New Roman",
+    "fontSize": 26,
+    "minFontSize": 16,
+    "alignment": "center",
+    "color": "#FFFFFF",
+    "fontWeight": "700",
+    "fontFamily": "AttendeeSerif, Times New Roman, Times, Georgia, serif",
+    "fontStyle": "italic",
+    "coverX": 318,
+    "coverY": 756,
+    "coverWidth": 388,
+    "coverHeight": 36,
+    "coverColor": "#073265"
+  },
+  "designation": {
+    "x": 288,
+    "y": 834,
+    "width": 448,
+    "font": "Times New Roman",
+    "fontSize": 16,
+    "minFontSize": 11,
+    "alignment": "center",
+    "color": "#24693A",
+    "fontWeight": "700",
+    "fontFamily": "AttendeeSerif, Times New Roman, Times, Georgia, serif",
+    "fontStyle": "italic",
+    "letterSpacing": 0.6,
+    "coverX": 318,
+    "coverY": 816,
+    "coverWidth": 388,
+    "coverHeight": 26,
+    "coverColor": "#F7F9FC"
+  }
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActiveTab, ModalType, YkpEvent } from './types';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
@@ -7,16 +7,25 @@ import { BlogView } from './components/BlogView';
 import { ContactView } from './components/ContactView';
 import { EventsView } from './components/EventsView';
 import { GalleryView } from './components/GalleryView';
+import { AdminAttendeesView } from './components/AdminAttendeesView';
 import { YouthContactModal } from './components/Modals/YouthContactModal';
 import { ProgramEnrollModal } from './components/Modals/ProgramEnrollModal';
 import { LearnMoreModal } from './components/Modals/LearnMoreModal';
 import { StudentRegistrationModal } from './components/Modals/StudentRegistrationModal';
 import { EventRsvpModal } from './components/Modals/EventRsvpModal';
+import { InvitationProfileModal } from './components/Modals/InvitationProfileModal';
+import { PartnerInquiryModal } from './components/Modals/PartnerInquiryModal';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('home');
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const [rsvpEvent, setRsvpEvent] = useState<YkpEvent | null>(null);
+
+  useEffect(() => {
+    if (window.location.hash === '#admin') {
+      setActiveTab('admin');
+    }
+  }, []);
 
   const openModal = (type: ModalType) => {
     setActiveModal(type);
@@ -50,7 +59,7 @@ export default function App() {
         )}
 
         {activeTab === 'events' && (
-          <EventsView onRsvp={openRsvp} />
+          <EventsView onRsvp={openRsvp} openModal={openModal} />
         )}
 
         {activeTab === 'gallery' && (
@@ -62,7 +71,11 @@ export default function App() {
         )}
 
         {activeTab === 'contact' && (
-          <ContactView />
+          <ContactView openModal={openModal} />
+        )}
+
+        {activeTab === 'admin' && (
+          <AdminAttendeesView />
         )}
       </main>
 
@@ -93,6 +106,17 @@ export default function App() {
 
       <EventRsvpModal
         event={activeModal === 'event-rsvp' ? rsvpEvent : null}
+        onClose={closeModal}
+        onBackToEvents={() => setActiveTab('events')}
+      />
+
+      <InvitationProfileModal
+        isOpen={activeModal === 'invitation-profile'}
+        onClose={closeModal}
+      />
+
+      <PartnerInquiryModal
+        isOpen={activeModal === 'partner-inquiry'}
         onClose={closeModal}
       />
     </div>

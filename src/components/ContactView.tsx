@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import { SITE_INFO } from '../data/youthData';
 import { JoinMovementBanner } from './JoinMovementBanner';
 import { Mail, PhoneCall, MapPin, CheckCircle2, ArrowRight } from 'lucide-react';
+import { ModalType } from '../types';
 
-export const ContactView: React.FC = () => {
+interface ContactViewProps {
+  openModal: (type: ModalType) => void;
+}
+
+export const ContactView: React.FC<ContactViewProps> = ({ openModal }) => {
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -29,7 +34,7 @@ export const ContactView: React.FC = () => {
             We&apos;d love to hear from you
           </h1>
           <p className="text-white/65 text-base max-w-xl mx-auto">
-            Questions, partnerships, or joining a program — reach out and we&apos;ll guide you in.
+            Questions, virtual classes, or mentoring and partnership — we&apos;ll guide you in.
           </p>
         </div>
       </section>
@@ -81,6 +86,23 @@ export const ContactView: React.FC = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+
+              <div className="flex flex-wrap gap-3">
+                <button
+                  type="button"
+                  onClick={() => openModal('student-register')}
+                  className="inline-flex items-center gap-2 bg-[var(--ykp-gold)] hover:bg-[var(--ykp-gold-bright)] text-[var(--ykp-ink)] font-semibold text-sm px-5 py-3 cursor-pointer"
+                >
+                  Become a Student
+                </button>
+                <button
+                  type="button"
+                  onClick={() => openModal('partner-inquiry')}
+                  className="inline-flex items-center gap-2 border border-[var(--ykp-green)]/20 hover:border-[var(--ykp-green)] text-[var(--ykp-green)] font-semibold text-sm px-5 py-3 cursor-pointer"
+                >
+                  Partner / Mentor Inquiry
+                </button>
               </div>
             </div>
 
@@ -156,7 +178,7 @@ export const ContactView: React.FC = () => {
         </div>
       </section>
 
-      <JoinMovementBanner />
+      <JoinMovementBanner openModal={openModal} />
     </div>
   );
 };

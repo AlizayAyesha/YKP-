@@ -6,3 +6,8 @@ coverage/
 *.log
 .env*
 !.env.example
+uploads/
+data/registrations.json
+data/profiles.json
+data/students.json
+data/inquiries.json

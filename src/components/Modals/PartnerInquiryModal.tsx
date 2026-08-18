@@ -1,35 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import { X, CheckCircle2, ArrowRight, LoaderCircle } from 'lucide-react';
-import { VIRTUAL_CLASS_COURSES } from '../../data/youthData';
-import { submitStudentInterest } from '../../lib/submitInquiry';
+import { InquiryRole } from '../../types';
+import { submitPartnerInquiry } from '../../lib/submitInquiry';
 
-interface StudentRegistrationModalProps {
+interface PartnerInquiryModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const EDUCATION_LEVELS = ['School', 'College', 'University', 'Graduate', 'Other'];
+const ROLES: InquiryRole[] = ['Mentor', 'Educator', 'Partner / Sponsor', 'Other'];
+
+const SUPPORT_OPTIONS = [
+  'Mentorship / coaching',
+  'Teaching virtual classes',
+  'Financial sponsorship',
+  'Venue / event support',
+  'In-kind support (equipment, software, materials)',
+  'Media / outreach',
+  'Other'
+];
 
 const emptyForm = {
   fullName: '',
   email: '',
   phone: '',
   city: '',
-  age: '',
-  school: '',
-  educationLevel: '',
-  motivation: ''
+  organization: '',
+  role: '' as InquiryRole | '',
+  otherRole: '',
+  expertise: '',
+  supportDetails: '',
+  availability: '',
+  website: ''
 };
 
-export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> = ({
-  isOpen,
-  onClose
-}) => {
+export const PartnerInquiryModal: React.FC<PartnerInquiryModalProps> = ({ isOpen, onClose }) => {
   const [submitted, setSubmitted] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
-  const [studentId, setStudentId] = useState('');
-  const [interests, setInterests] = useState<string[]>([]);
+  const [inquiryId, setInquiryId] = useState('');
+  const [supportTypes, setSupportTypes] = useState<string[]>([]);
   const [formData, setFormData] = useState(emptyForm);
 
   useEffect(() => {
@@ -37,8 +47,8 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
       setSubmitted(false);
       setSaving(false);
       setError('');
-      setStudentId('');
-      setInterests([]);
+      setInquiryId('');
+      setSupportTypes([]);
       setFormData(emptyForm);
     }
   }, [isOpen]);
@@ -50,8 +60,8 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
   const labelClass =
     'block text-[11px] font-semibold text-[var(--ykp-muted)] uppercase tracking-[0.18em] mb-1.5';
 
-  const toggleInterest = (value: string) => {
-    setInterests((current) =>
+  const toggleSupport = (value: string) => {
+    setSupportTypes((current) =>
       current.includes(value) ? current.filter((item) => item !== value) : [...current, value]
     );
   };
@@ -59,20 +69,29 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    if (interests.length === 0) {
-      setError('Please select at least one area you want to learn.');
+    if (!formData.role) {
+      setError('Please choose how you want to work with YKP.');
+      return;
+    }
+    if (formData.role === 'Other' && !formData.otherRole.trim()) {
+      setError('Please describe your role.');
+      return;
+    }
+    if (supportTypes.length === 0) {
+      setError('Please select at least one way you can support YKP.');
       return;
     }
     setSaving(true);
     try {
-      const result = await submitStudentInterest({
+      const result = await submitPartnerInquiry({
         ...formData,
-        interests
+        role: formData.role,
+        supportTypes
       });
-      setStudentId(result.id);
+      setInquiryId(result.id);
       setSubmitted(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not save your interest. Please try again.');
+      setError(err instanceof Error ? err.message : 'Could not send your inquiry. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -84,10 +103,10 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
         <div className="sticky top-0 bg-white z-10 flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5 border-b border-[var(--ykp-green)]/10">
           <div className="min-w-0 pr-2">
             <p className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[var(--ykp-gold)] mb-1">
-              Become a student
+              Partner / mentor
             </p>
             <h3 className="font-display text-xl sm:text-2xl font-semibold text-[var(--ykp-ink)]">
-              Join YKP virtual classes
+              Work with Youth ka Pakistan
             </h3>
           </div>
           <button
@@ -104,8 +123,7 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
           {!submitted ? (
             <form onSubmit={handleSubmit} className="space-y-4">
               <p className="text-sm text-[var(--ykp-muted)] leading-relaxed border-l-2 border-[var(--ykp-gold)] pl-3">
-                This is a waitlist for forthcoming virtual classes — not event RSVP.
-                Tell us who you are and what you want to learn. We will contact you when classes open.
+                Tell us whether you want to mentor, teach, or partner with YKP — and exactly how you will support the movement.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -149,65 +167,65 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
                     required
                     value={formData.city}
                     onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                    placeholder="e.g. Lahore"
+                    placeholder="e.g. Karachi"
                     className={fieldClass}
                   />
                 </div>
                 <div>
-                  <label className={labelClass}>Age *</label>
+                  <label className={labelClass}>Organization / Institution *</label>
                   <input
-                    type="number"
+                    type="text"
                     required
-                    min={12}
-                    max={40}
-                    value={formData.age}
-                    onChange={(e) => setFormData({ ...formData, age: e.target.value })}
-                    placeholder="18"
+                    value={formData.organization}
+                    onChange={(e) => setFormData({ ...formData, organization: e.target.value })}
+                    placeholder="Company, university, or independent"
                     className={fieldClass}
                   />
                 </div>
-                <div>
-                  <label className={labelClass}>Education level *</label>
+                <div className="sm:col-span-2">
+                  <label className={labelClass}>I want to be a *</label>
                   <select
                     required
-                    value={formData.educationLevel}
-                    onChange={(e) => setFormData({ ...formData, educationLevel: e.target.value })}
+                    value={formData.role}
+                    onChange={(e) =>
+                      setFormData({ ...formData, role: e.target.value as InquiryRole, otherRole: '' })
+                    }
                     className={fieldClass}
                   >
-                    <option value="">Select</option>
-                    {EDUCATION_LEVELS.map((level) => (
-                      <option key={level} value={level}>
-                        {level}
+                    <option value="">Select a role</option>
+                    {ROLES.map((role) => (
+                      <option key={role} value={role}>
+                        {role}
                       </option>
                     ))}
                   </select>
                 </div>
+                {formData.role === 'Other' && (
+                  <div className="sm:col-span-2">
+                    <label className={labelClass}>Describe your role *</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.otherRole}
+                      onChange={(e) => setFormData({ ...formData, otherRole: e.target.value })}
+                      placeholder="e.g. Advisor, volunteer coordinator"
+                      className={fieldClass}
+                    />
+                  </div>
+                )}
                 <div className="sm:col-span-2">
-                  <label className={labelClass}>School / College / University *</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.school}
-                    onChange={(e) => setFormData({ ...formData, school: e.target.value })}
-                    placeholder="Institution name"
-                    className={fieldClass}
-                  />
-                </div>
-                <div className="sm:col-span-2">
-                  <p className={labelClass}>Which virtual classes interest you? *</p>
-                  <p className="text-xs text-[var(--ykp-muted)] mb-2">
-                    Select every forthcoming class you want to join. More topics may be added later.
-                  </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {VIRTUAL_CLASS_COURSES.map((option) => (
+                  <p className={labelClass}>How can you support YKP? *</p>
+                  <div className="grid grid-cols-1 gap-2">
+                    {SUPPORT_OPTIONS.map((option) => (
                       <label
                         key={option}
-                        className="flex items-center gap-2 text-sm text-[var(--ykp-ink)] cursor-pointer"
+                        className="flex items-start gap-2 text-sm text-[var(--ykp-ink)] cursor-pointer"
                       >
                         <input
                           type="checkbox"
-                          checked={interests.includes(option)}
-                          onChange={() => toggleInterest(option)}
+                          className="mt-0.5"
+                          checked={supportTypes.includes(option)}
+                          onChange={() => toggleSupport(option)}
                         />
                         {option}
                       </label>
@@ -215,15 +233,46 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
                   </div>
                 </div>
                 <div className="sm:col-span-2">
-                  <label className={labelClass}>Why do you want to join virtual classes? *</label>
+                  <label className={labelClass}>Expertise / what you bring *</label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.expertise}
+                    onChange={(e) => setFormData({ ...formData, expertise: e.target.value })}
+                    placeholder="e.g. AI education, youth mentorship, brand sponsorship"
+                    className={fieldClass}
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className={labelClass}>How will you support us? *</label>
                   <textarea
                     required
-                    rows={3}
-                    minLength={20}
-                    value={formData.motivation}
-                    onChange={(e) => setFormData({ ...formData, motivation: e.target.value })}
-                    placeholder="Tell us what you hope to learn and how it would help you."
+                    rows={4}
+                    minLength={30}
+                    value={formData.supportDetails}
+                    onChange={(e) => setFormData({ ...formData, supportDetails: e.target.value })}
+                    placeholder="Share the details: hours you can mentor, subjects you can teach, sponsorship type and amount, in-kind gifts, venues, or other support."
                     className={`${fieldClass} resize-none`}
+                  />
+                </div>
+                <div>
+                  <label className={labelClass}>Availability</label>
+                  <input
+                    type="text"
+                    value={formData.availability}
+                    onChange={(e) => setFormData({ ...formData, availability: e.target.value })}
+                    placeholder="e.g. evenings, 2 hours / week"
+                    className={fieldClass}
+                  />
+                </div>
+                <div>
+                  <label className={labelClass}>LinkedIn / Website</label>
+                  <input
+                    type="text"
+                    value={formData.website}
+                    onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                    placeholder="https://"
+                    className={fieldClass}
                   />
                 </div>
               </div>
@@ -238,11 +287,11 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
                 {saving ? (
                   <>
                     <LoaderCircle className="w-4 h-4 animate-spin" />
-                    Saving…
+                    Sending…
                   </>
                 ) : (
                   <>
-                    Join the student waitlist
+                    Submit inquiry
                     <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
                   </>
                 )}
@@ -252,17 +301,12 @@ export const StudentRegistrationModal: React.FC<StudentRegistrationModalProps> =
             <div className="text-center py-10 space-y-4">
               <CheckCircle2 className="w-12 h-12 text-[var(--ykp-gold)] mx-auto" />
               <h4 className="font-display text-2xl font-semibold text-[var(--ykp-ink)]">
-                You&apos;re on the waitlist, {formData.fullName}
+                Thank you, {formData.fullName}
               </h4>
               <p className="text-sm text-[var(--ykp-muted)] leading-relaxed max-w-md mx-auto">
-                We have your interest for forthcoming virtual classes
-                {studentId ? (
-                  <>
-                    {' '}
-                    ({studentId})
-                  </>
-                ) : null}
-                . We will reach you at <strong className="text-[var(--ykp-ink)]">{formData.email}</strong> when classes open.
+                We received your {formData.role.toLowerCase()} inquiry
+                {inquiryId ? ` (${inquiryId})` : ''}. Our team will follow up at{' '}
+                <strong className="text-[var(--ykp-ink)]">{formData.email}</strong>.
               </p>
               <button
                 type="button"
