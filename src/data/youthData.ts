@@ -30,8 +30,7 @@ export const HERO_DATA = {
   ctaText: "Join the Movement"
 };
 
-export const HERO_IMAGE =
-  "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=2000&q=80";
+export const HERO_IMAGE = "/images/hero-vocational-center.png";
 
 export const VISION_DATA = {
   title: "The Vision Behind Youth ka Pakistan",
@@ -88,7 +87,7 @@ export const TALENTS_SECTION = {
       num: "01",
       title: "Skills Development",
       description: "We organize skill development workshops that focus on various talents such as arts, sports, and technology. These workshops are designed to equip our youth with essential skills for their future.",
-      image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80",
+      image: "/images/offering-skills-development.png",
       category: "Training & Workshops",
       details: [
         "Digital Literacy & Tech Bootcamps",
@@ -116,7 +115,7 @@ export const TALENTS_SECTION = {
       num: "03",
       title: "Talent Promotion",
       description: "We host regular events, both indoor and outdoor, that not only provide entertainment but also foster networking opportunities among youth, connecting them with industry professionals.",
-      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80",
+      image: "/images/offering-talent-promotion.png",
       category: "Media & Professional Network",
       details: [
         "National Talent Competitions",
@@ -174,7 +173,7 @@ export const WHY_CHOOSE_DATA = {
       id: "nationwide-reach",
       title: "Nationwide Reach",
       description: "Our organization operates across Pakistan, ensuring that no talented youth are left behind. We connect youth from every corner with opportunities that matter.",
-      image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=80",
+      image: "/images/map-of-pakistan.png",
       ctaText: "Learn More"
     },
     {

@@ -42,7 +42,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
       <section className="relative min-h-[88vh] flex items-center overflow-hidden">
         <img
           src={HERO_IMAGE}
-          alt="Pakistani youth together"
+          alt="Youth Ka Pakistan Vocational Training Center"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(3,40,22,0.92)_0%,rgba(5,71,42,0.75)_50%,rgba(3,40,22,0.55)_100%)]" />
@@ -143,16 +143,16 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
             >
               <div className="absolute top-0 right-0 w-[68%] aspect-[4/5] overflow-hidden rounded-xl shadow-lg z-10">
                 <img
-                  src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=900&q=80"
-                  alt=""
-                  className="w-full h-full object-cover"
+                  src="/images/about-collaboration.png"
+                  alt="Young professionals collaborating"
+                  className="w-full h-full object-cover object-[70%_center]"
                 />
               </div>
-              <div className="absolute bottom-0 left-0 w-[55%] aspect-[4/3] overflow-hidden rounded-xl shadow-xl border-4 border-white z-20">
+              <div className="absolute bottom-0 left-0 w-[55%] aspect-[4/3] overflow-hidden rounded-xl shadow-xl border-4 border-white z-20 bg-white">
                 <img
-                  src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=80"
-                  alt=""
-                  className="w-full h-full object-cover"
+                  src="/images/ykp-logo.png"
+                  alt="Youth Ka Pakistan"
+                  className="w-full h-full object-contain p-3 sm:p-4"
                 />
               </div>
             </motion.div>
@@ -263,8 +263,12 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {WHY_CHOOSE_DATA.features.map((feature) => (
               <div key={feature.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-                <div className="aspect-[16/9] overflow-hidden">
-                  <img src={feature.image} alt={feature.title} className="w-full h-full object-cover" />
+                <div className={`aspect-[16/9] overflow-hidden ${feature.id === 'nationwide-reach' ? 'bg-[#f4f1ea]' : ''}`}>
+                  <img
+                    src={feature.image}
+                    alt={feature.title}
+                    className={`w-full h-full ${feature.id === 'nationwide-reach' ? 'object-contain' : 'object-cover'}`}
+                  />
                 </div>
                 <div className="p-6 space-y-3">
                   <h3 className="font-display text-2xl font-semibold text-[var(--ykp-ink)]">
