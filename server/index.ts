@@ -12,7 +12,6 @@ import {
   nextProfileId,
   updateProfile
 } from './profiles';
-import { composeAttendeePoster, ensurePosterTemplate } from './poster';
 import { sendRegistrationEmail } from './email';
 import { appendFounderCeoToSheet, isFounderOrCeo } from './sheets';
 import { addInquiry, addStudent, listInquiries, listStudents } from './inquiries';
@@ -104,6 +103,7 @@ async function ensureDirs() {
   await fs.mkdir(PHOTOS_DIR, { recursive: true });
   await fs.mkdir(POSTERS_OUT_DIR, { recursive: true });
   await fs.mkdir(PROFILES_DIR, { recursive: true });
+  const { ensurePosterTemplate } = await import('./poster');
   await ensurePosterTemplate();
 }
 
@@ -211,6 +211,7 @@ app.post('/api/registrations', (req, res) => {
       await fs.writeFile(photoPath, photoBuffer);
 
       try {
+        const { composeAttendeePoster } = await import('./poster');
         await composeAttendeePoster({
           photoPath,
           fullName,

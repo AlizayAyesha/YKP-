@@ -45,11 +45,14 @@ export async function registerAttendee(input: {
   try {
     data = text ? (JSON.parse(text) as { error?: string }) : {};
   } catch {
-    throw new Error(
-      response.status === 404 || response.status === 502
-        ? 'The registration API is not running. Start it with npm run dev, then try again.'
-        : 'Registration failed. Please try again.'
-    );
+    const plain = text.replace(/\s+/g, ' ').trim().slice(0, 180);
+    if (response.status === 404 || response.status === 502) {
+      throw new Error('The registration API is not running. Start it with npm run dev, then try again.');
+    }
+    if (plain) {
+      throw new Error(`Registration failed (${response.status}): ${plain}`);
+    }
+    throw new Error('Registration failed. Please try again.');
   }
 
   if (!response.ok) {

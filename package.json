@@ -12,6 +12,9 @@
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit"
   },
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "@google/genai": "^2.4.0",
     "@tailwindcss/vite": "^4.1.14",
@@ -26,6 +29,11 @@
     "multer": "^2.0.2",
     "nodemailer": "^7.0.11",
     "sharp": "^0.34.4"
+  },
+  "optionalDependencies": {
+    "@img/sharp-linux-x64": "0.34.5",
+    "@img/sharp-linuxmusl-x64": "0.34.5",
+    "@img/sharp-wasm32": "0.34.5"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
