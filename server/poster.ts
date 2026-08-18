@@ -62,6 +62,7 @@ const TEMPLATE_PNG = path.join(POSTERS_DIR, 'ykp-attendee-template.png');
 const CONFIG_PATH = path.join(POSTERS_DIR, 'template-config.json');
 
 const SERIF_FONT_CANDIDATES = [
+  path.join(process.cwd(), 'public', 'fonts', 'Tinos-Italic.ttf'),
   '/System/Library/Fonts/Supplemental/Times New Roman Italic.ttf',
   '/Library/Fonts/Times New Roman Italic.ttf',
   '/usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf'
