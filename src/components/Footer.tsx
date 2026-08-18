@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUp, Facebook, Youtube, Instagram, Mail } from 'lucide-react';
+import { ArrowUp, Facebook, Instagram, Linkedin, Mail, Youtube } from 'lucide-react';
 import { ActiveTab, ModalType } from '../types';
 import { SITE_INFO } from '../data/youthData';
 
@@ -31,8 +31,9 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, openModal }) => {
             <div className="flex items-center gap-3 pt-1">
               {[
                 { href: SITE_INFO.socials.facebook, icon: Facebook, label: 'Facebook' },
-                { href: SITE_INFO.socials.youtube, icon: Youtube, label: 'Youtube' },
-                { href: SITE_INFO.socials.instagram, icon: Instagram, label: 'Instagram' }
+                { href: SITE_INFO.socials.instagram, icon: Instagram, label: 'Instagram' },
+                { href: SITE_INFO.socials.linkedin, icon: Linkedin, label: 'LinkedIn' },
+                { href: SITE_INFO.socials.youtube, icon: Youtube, label: 'Youtube' }
               ].map(({ href, icon: Icon, label }) => (
                 <a
                   key={label}

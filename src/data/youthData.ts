@@ -18,9 +18,10 @@ export const SITE_INFO = {
   address: "Karachi Pakistan",
   copyright: "Copyright © 2026 youthkapakistan.com",
   socials: {
-    facebook: "https://facebook.com/youthkapakistan",
-    youtube: "https://youtube.com/youthkapakistan",
-    instagram: "https://instagram.com/youthkapakistan"
+    facebook: "https://www.facebook.com/YouthKaPakistan.YKP",
+    instagram: "https://www.instagram.com/ykpfoundation/",
+    linkedin: "https://www.linkedin.com/in/ykp-foundation-374461426/",
+    youtube: "https://youtube.com/youthkapakistan"
   }
 };
 
