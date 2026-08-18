@@ -1,4 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
+import { handleRegistration } from '../server/register';
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
   try {
@@ -8,7 +9,6 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       res.end(JSON.stringify({ error: 'POST required to register.' }));
       return;
     }
-    const { handleRegistration } = await import('../server/register');
     await handleRegistration(req, res);
   } catch (error) {
     console.error(error);
