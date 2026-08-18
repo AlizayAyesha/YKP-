@@ -66,6 +66,7 @@ export function toPublicProfile(row: EventProfile): PublicEventProfile {
     role: row.role,
     bio: row.bio,
     photoUrl: row.photoUrl,
+    linkedinUrl: row.linkedinUrl,
     featuredSpeaker: row.featuredSpeaker,
     featuredPanelist: row.featuredPanelist
   };

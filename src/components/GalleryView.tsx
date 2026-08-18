@@ -75,9 +75,9 @@ export const GalleryView: React.FC = () => {
                       <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[var(--ykp-gold)] mb-1">
                         {album.year}
                       </p>
-                      <h3 className="font-display text-lg sm:text-xl font-semibold text-white leading-snug">
+                      <h2 className="font-display text-lg sm:text-xl font-semibold text-white leading-snug">
                         {album.name}
-                      </h3>
+                      </h2>
                       <p className="mt-1.5 inline-flex items-center gap-1.5 text-xs text-white/80">
                         <Images className="w-3.5 h-3.5" />
                         {album.images.length} photos

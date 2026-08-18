@@ -1,0 +1,29 @@
+{
+  "name": "Youth ka Pakistan",
+  "short_name": "YKP",
+  "description": "A nationwide nonprofit helping Pakistani youth build real skills, find mentors, and access free programs and events.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "lang": "en-PK",
+  "dir": "ltr",
+  "orientation": "portrait-primary",
+  "background_color": "#F3F6F3",
+  "theme_color": "#05472A",
+  "categories": ["education", "nonprofit"],
+  "icons": [
+    {
+      "src": "/ykp-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

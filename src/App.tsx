@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ActiveTab, ModalType, YkpEvent } from './types';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
@@ -8,6 +8,7 @@ import { ContactView } from './components/ContactView';
 import { EventsView } from './components/EventsView';
 import { GalleryView } from './components/GalleryView';
 import { AdminAttendeesView } from './components/AdminAttendeesView';
+import { Seo } from './components/Seo';
 import { YouthContactModal } from './components/Modals/YouthContactModal';
 import { ProgramEnrollModal } from './components/Modals/ProgramEnrollModal';
 import { LearnMoreModal } from './components/Modals/LearnMoreModal';
@@ -15,16 +16,38 @@ import { StudentRegistrationModal } from './components/Modals/StudentRegistratio
 import { EventRsvpModal } from './components/Modals/EventRsvpModal';
 import { InvitationProfileModal } from './components/Modals/InvitationProfileModal';
 import { PartnerInquiryModal } from './components/Modals/PartnerInquiryModal';
+import { pathToTab, tabToPath } from './lib/seo';
+
+function readTabFromLocation(): ActiveTab {
+  if (window.location.hash === '#admin') return 'admin';
+  return pathToTab(window.location.pathname);
+}
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<ActiveTab>('home');
+  const [activeTab, setActiveTabState] = useState<ActiveTab>(readTabFromLocation);
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const [rsvpEvent, setRsvpEvent] = useState<YkpEvent | null>(null);
 
+  const setActiveTab = useCallback((tab: ActiveTab) => {
+    const nextPath = tabToPath(tab);
+    const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
+    if (currentPath !== nextPath) {
+      window.history.pushState({ tab }, '', nextPath);
+    }
+    setActiveTabState(tab);
+  }, []);
+
   useEffect(() => {
     if (window.location.hash === '#admin') {
-      setActiveTab('admin');
+      window.history.replaceState({ tab: 'admin' }, '', '/admin');
+      setActiveTabState('admin');
     }
+
+    const onPopState = () => {
+      setActiveTabState(readTabFromLocation());
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
   const openModal = (type: ModalType) => {
@@ -43,13 +66,14 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--ykp-canvas)] text-[var(--ykp-ink)] font-sans">
+      <Seo tab={activeTab} />
       <Header
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         openModal={openModal}
       />
 
-      <main className="flex-1">
+      <main id="main-content" className="flex-1" tabIndex={-1}>
         {(activeTab === 'home' || activeTab === 'about' || activeTab === 'offerings') && (
           <HomeView
             setActiveTab={setActiveTab}

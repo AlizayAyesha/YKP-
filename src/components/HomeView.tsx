@@ -42,8 +42,12 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
       <section className="relative min-h-[88vh] flex items-center overflow-hidden">
         <img
           src={HERO_IMAGE}
-          alt="Youth Ka Pakistan Vocational Training Center"
+          alt="Youth at a Youth ka Pakistan vocational training center in Pakistan"
           className="absolute inset-0 w-full h-full object-cover"
+          width={1920}
+          height={1080}
+          fetchPriority="high"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(3,40,22,0.92)_0%,rgba(5,71,42,0.75)_50%,rgba(3,40,22,0.55)_100%)]" />
 
@@ -144,14 +148,14 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
               <div className="absolute top-0 right-0 w-[68%] aspect-[4/5] overflow-hidden rounded-xl shadow-lg z-10">
                 <img
                   src="/images/about-collaboration.png"
-                  alt="Young professionals collaborating"
+                  alt="Young professionals collaborating at a Youth ka Pakistan session"
                   className="w-full h-full object-cover object-[70%_center]"
                 />
               </div>
               <div className="absolute bottom-0 left-0 w-[55%] aspect-[4/3] overflow-hidden rounded-xl shadow-xl border-4 border-white z-20 bg-white">
                 <img
                   src="/images/ykp-logo.png"
-                  alt="Youth Ka Pakistan"
+                  alt="Youth Ka Pakistan logo — educate, empower, skills, and networking"
                   className="w-full h-full object-contain p-3 sm:p-4"
                 />
               </div>

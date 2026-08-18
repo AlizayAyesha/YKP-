@@ -20,6 +20,23 @@
     -webkit-text-size-adjust: 100%;
   }
 
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -100%;
+    z-index: 100;
+    background: #05472A;
+    color: #fff;
+    padding: 0.6rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 0.25rem;
+  }
+
+  .skip-link:focus {
+    top: 0.75rem;
+  }
+
   body {
     font-family: var(--font-sans);
     background-color: var(--ykp-canvas);

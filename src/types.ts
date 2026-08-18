@@ -240,6 +240,7 @@ export interface EventProfile {
   email: string;
   phone: string;
   photoUrl: string;
+  linkedinUrl?: string;
   status: ProfileApprovalStatus;
   featuredSpeaker: boolean;
   featuredPanelist: boolean;
@@ -254,6 +255,7 @@ export interface PublicEventProfile {
   role: EventProfileRole;
   bio: string;
   photoUrl: string;
+  linkedinUrl?: string;
   featuredSpeaker: boolean;
   featuredPanelist: boolean;
 }

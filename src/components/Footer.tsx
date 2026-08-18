@@ -1,7 +1,8 @@
 import React from 'react';
-import { ArrowUp, Facebook, Instagram, Linkedin, Mail, Youtube } from 'lucide-react';
+import { ArrowUp, Facebook, Instagram, Linkedin, Mail, MapPin, Youtube } from 'lucide-react';
 import { ActiveTab, ModalType } from '../types';
 import { SITE_INFO } from '../data/youthData';
+import { tabToPath } from '../lib/seo';
 
 interface FooterProps {
   setActiveTab: (tab: ActiveTab) => void;
@@ -21,8 +22,10 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, openModal }) => {
             <div className="inline-block bg-white rounded-md px-3 py-2">
               <img
                 src="/ykp-logo.png"
-                alt="Youth Ka Pakistan — Education & Skills Business Forum"
+                alt="Youth Ka Pakistan logo — educate, empower, skills, and networking for Pakistani youth"
                 className="h-16 w-auto object-contain"
+                width={220}
+                height={64}
               />
             </div>
             <p className="text-white/55 text-sm leading-relaxed">
@@ -49,9 +52,9 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, openModal }) => {
             </div>
 
             <div className="pt-6">
-              <h4 className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[var(--ykp-gold)] mb-5">
+              <h2 className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[var(--ykp-gold)] mb-5">
                 Get in touch
-              </h4>
+              </h2>
               <ul className="space-y-4 text-sm">
                 <li className="flex items-center gap-2.5">
                   <Mail className="w-4 h-4 text-[var(--ykp-gold)] shrink-0" />
@@ -60,6 +63,23 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, openModal }) => {
                     className="hover:text-white transition-colors"
                   >
                     {SITE_INFO.contactEmail}
+                  </a>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <MapPin className="w-4 h-4 text-[var(--ykp-gold)] shrink-0 mt-0.5" />
+                  <a
+                    href={tabToPath('contact')}
+                    onClick={(event) => {
+                      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) {
+                        return;
+                      }
+                      event.preventDefault();
+                      setActiveTab('contact');
+                      scrollToTop();
+                    }}
+                    className="hover:text-white transition-colors"
+                  >
+                    {SITE_INFO.address}
                   </a>
                 </li>
                 <li className="flex flex-col items-start gap-2 pt-1">
@@ -81,30 +101,41 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, openModal }) => {
           </div>
 
           <div>
-            <h4 className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[var(--ykp-gold)] mb-5">
+            <h2 className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[var(--ykp-gold)] mb-5">
               Navigate
-            </h4>
+            </h2>
             <ul className="space-y-3 text-sm">
               {[
-                { label: 'Home', action: () => { setActiveTab('home'); scrollToTop(); } },
-                { label: 'Events', action: () => { setActiveTab('events'); scrollToTop(); } },
-                { label: 'Gallery', action: () => { setActiveTab('gallery'); scrollToTop(); } },
-                { label: 'Blog', action: () => { setActiveTab('blog'); scrollToTop(); } },
-                { label: 'Contact', action: () => { setActiveTab('contact'); scrollToTop(); } }
+                { label: 'Home', tab: 'home' as ActiveTab },
+                { label: 'Events', tab: 'events' as ActiveTab },
+                { label: 'Gallery', tab: 'gallery' as ActiveTab },
+                { label: 'Blog', tab: 'blog' as ActiveTab },
+                { label: 'Contact', tab: 'contact' as ActiveTab }
               ].map((item) => (
                 <li key={item.label}>
-                  <button onClick={item.action} className="hover:text-white transition-colors cursor-pointer">
+                  <a
+                    href={tabToPath(item.tab)}
+                    onClick={(event) => {
+                      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) {
+                        return;
+                      }
+                      event.preventDefault();
+                      setActiveTab(item.tab);
+                      scrollToTop();
+                    }}
+                    className="hover:text-white transition-colors"
+                  >
                     {item.label}
-                  </button>
+                  </a>
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[var(--ykp-gold)] mb-5">
+            <h2 className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[var(--ykp-gold)] mb-5">
               Programs
-            </h4>
+            </h2>
             <ul className="space-y-3 text-sm text-white/55">
               {['Skills Development', 'Event Management', 'Talent Promotion', 'Free Mentorship'].map((label) => (
                 <li key={label}>

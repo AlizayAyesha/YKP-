@@ -5,7 +5,8 @@ import {
   YkpVideo,
   YkpEvent,
   PastEventStat,
-  GalleryAlbum
+  GalleryAlbum,
+  PublicEventProfile
 } from '../types';
 import eventsJson from './events.json';
 
@@ -15,7 +16,7 @@ export const SITE_INFO = {
   domain: "youthkapakistan.com",
   contactEmail: "info@youthkapakistan.com",
   contactPhone: "+923002530110",
-  address: "Karachi Pakistan",
+  address: "Karachi, Sindh, Pakistan",
   copyright: "Copyright © 2026 youthkapakistan.com",
   socials: {
     facebook: "https://www.facebook.com/YouthKaPakistan.YKP",
@@ -190,33 +191,33 @@ export const WHY_CHOOSE_DATA = {
 export const BLOG_POSTS: BlogPost[] = [
   {
     id: "1",
-    title: "Crafting Captivating Headlines: Your awesome post title goes here",
-    excerpt: "Engaging Introductions: Capturing Your Audience’s Interest The initial impression your blog post makes is crucial, and that’s where your introduction […]",
-    content: "Engaging Introductions: Capturing Your Audience’s Interest The initial impression your blog post makes is crucial, and that’s where your introduction sets the stage for empowering Pakistani youth with real skillsets, guidance, and opportunity.",
+    title: "Skills that open doors: why practical learning matters for Pakistani youth",
+    excerpt: "Degrees help, but employers hire people who can do the work. Youth ka Pakistan focuses on free, practical skills young people can use immediately.",
+    content: "Across Pakistan, thousands of talented young people finish school or university without a clear path into work. Youth ka Pakistan exists to close that gap. Our skills programmes focus on what students can actually use: communication, digital tools, event production, and the confidence to show up on a stage or in a workplace.\n\nWe believe opportunity should not depend on a family’s income or a city’s postcode. That is why our resources and student pathways are free. If you are ready to learn, there is a place for you in this movement.\n\nJoin as a student to get on the waitlist for forthcoming virtual classes, workshops, and national events such as URAAN-E-AI 2026.",
     date: "January 25, 2026",
-    author: "youthadminpakistan",
-    category: "Blog",
+    author: "Youth ka Pakistan",
+    category: "Skills",
     image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: "2",
-    title: "The Art of Drawing Readers In: Your attractive post title goes here",
-    excerpt: "Engaging Introductions: Capturing Your Audience’s Interest The initial impression your blog post makes is crucial, and that’s where your introduction",
-    content: "Engaging Introductions: Capturing Your Audience’s Interest The initial impression your blog post makes is crucial, and that’s where your introduction creates a gateway for learning and professional growth.",
+    title: "How mentorship helps young Pakistanis turn talent into a career",
+    excerpt: "A mentor shortens the distance between potential and a first real opportunity. Here is how Youth ka Pakistan connects students with people who have walked the path.",
+    content: "Talent is common. Access is not. Mentorship is one of the fastest ways a young person in Karachi, Lahore, Peshawar, or a smaller city can see a realistic next step — a portfolio, an interview, a first stage, a first job.\n\nYouth ka Pakistan invites educators, industry professionals, and partners to offer time, not just advice. Students get guidance. Mentors get to invest in the generation that will shape Pakistan’s economy and culture.\n\nIf you can teach, hire, or open a door, send a partner inquiry. If you are a student looking for that door, register and tell us what you want to learn.",
     date: "January 25, 2026",
-    author: "youthadminpakistan",
-    category: "Blog",
+    author: "Youth ka Pakistan",
+    category: "Mentorship",
     image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: "3",
-    title: "Mastering the First Impression: Your intriguing post title goes here",
-    excerpt: "Engaging Introductions: Capturing Your Audience’s Interest The initial impression your blog post makes is crucial, and that’s where your introduction",
-    content: "Engaging Introductions: Capturing Your Audience’s Interest The initial impression your blog post makes is crucial, and that’s where your introduction connects youth with lifelong mentors and resources.",
-    date: "January 25, 2026",
-    author: "youthadminpakistan",
-    category: "Blog",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80"
+    title: "URAAN-E-AI 2026: Pakistan’s Digital Flight lands in Karachi",
+    excerpt: "On 1 September 2026 at DHA Suffa University, Youth ka Pakistan hosts a national IT and Artificial Intelligence seminar for students, educators, and innovators.",
+    content: "URAAN-E-AI 2026 — Pakistan’s Digital Flight — is a national conversation on an AI-first economy. Students, educators, technology professionals, entrepreneurs, and emerging innovators will gather at DHA Suffa University in Karachi on Tuesday, 1 September 2026 from 2:00 PM onwards.\n\nThe panel explores business adoption, future skills, startups, education, ethics, and national development. Admission is free with RSVP.\n\nWhether you are a student planning an AI-ready career or an organisation preparing your workforce, this seminar is the place to listen, ask, and connect. RSVP on the events page and follow Pakistan’s Digital Flight on Instagram and Facebook for updates.",
+    date: "August 19, 2026",
+    author: "Youth ka Pakistan",
+    category: "Events",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80"
   }
 ];
 
@@ -267,6 +268,45 @@ export const YKP_IN_ACTION = {
 export const EVENTS_DATA: YkpEvent[] = eventsJson as YkpEvent[];
 
 export const FEATURED_EVENT: YkpEvent = EVENTS_DATA[0];
+
+export const FEATURED_EVENT_SPEAKERS: PublicEventProfile[] = [
+  {
+    id: 'beyond-tahir',
+    fullName: 'Beyond Tahir',
+    designation: 'Chair – AAAI Pakistan',
+    organization: 'PureDesigners',
+    role: 'Speaker',
+    bio: 'Forbes-nominated, government-awarded AI leader. IBM Certified Coach Champion & Partner, founder of PureDesigners, and author. Chair of AAAI Pakistan.',
+    photoUrl: '/images/speakers/beyond-tahir.png',
+    linkedinUrl: 'https://www.linkedin.com/in/beyondtahir/',
+    featuredSpeaker: true,
+    featuredPanelist: false
+  },
+  {
+    id: 'ahmed-rauf-essa',
+    fullName: 'Ahmed Rauf Essa',
+    designation: 'Founder, Telemart & ARE Ventures',
+    organization: 'Telemart',
+    role: 'Speaker',
+    bio: 'Forbes 30 Under 30 entrepreneur, 14-time global awards winner, and Chair of the International Business Awards. Founder of Telemart and ARE Ventures, and a global mentor at Startup World Cup.',
+    photoUrl: '/images/speakers/ahmed-rauf-essa.png',
+    linkedinUrl: 'https://www.linkedin.com/in/ahmed-rauf-essa/',
+    featuredSpeaker: true,
+    featuredPanelist: false
+  },
+  {
+    id: 'imran-batada',
+    fullName: 'Dr. Imran Batada',
+    designation: 'Chief Digital Officer',
+    organization: 'Institute of Business Management',
+    role: 'Speaker',
+    bio: 'Five-time Global CIO Award winner and author of Digital Pakistan. Chief Digital Officer at IoBM, former CIO at IBA Karachi, and educator who has trained 25,000+ professionals in digital transformation.',
+    photoUrl: '/images/speakers/imran-batada.png',
+    linkedinUrl: 'https://www.linkedin.com/in/imranbatada/',
+    featuredSpeaker: true,
+    featuredPanelist: false
+  }
+];
 
 export const GALLERY_ALBUMS: GalleryAlbum[] = [
   {

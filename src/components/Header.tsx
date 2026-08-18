@@ -1,6 +1,7 @@
 import React from 'react';
 import { ActiveTab, ModalType } from '../types';
 import { Menu, X } from 'lucide-react';
+import { tabToPath } from '../lib/seo';
 
 interface HeaderProps {
   activeTab: ActiveTab;
@@ -19,7 +20,11 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, openMod
     { id: 'contact', label: 'Contact' }
   ];
 
-  const handleNavClick = (id: ActiveTab) => {
+  const handleNavClick = (event: React.MouseEvent<HTMLAnchorElement>, id: ActiveTab) => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) {
+      return;
+    }
+    event.preventDefault();
     setActiveTab(id);
     setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -28,25 +33,30 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, openMod
   return (
     <header className="sticky top-0 z-40 bg-white text-[var(--ykp-ink)] border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[4.25rem] sm:h-[5rem] flex items-center justify-between gap-2 sm:gap-4">
-        <button
-          onClick={() => handleNavClick('home')}
+        <a
+          href="/"
+          onClick={(event) => handleNavClick(event, 'home')}
           className="flex items-center focus:outline-none shrink-0 min-w-0 hover:opacity-90 transition-opacity"
           aria-label="Youth ka Pakistan — Home"
         >
           <img
             src="/ykp-logo.png"
-            alt="Youth Ka Pakistan — Education & Skills Business Forum"
+            alt="Youth Ka Pakistan logo — educate, empower, skills, and networking for Pakistani youth"
             className="h-10 sm:h-14 w-auto max-w-[150px] sm:max-w-none object-contain object-left"
+            width={220}
+            height={56}
           />
-        </button>
+        </a>
 
-        <nav className="hidden lg:flex items-center gap-0.5">
+        <nav className="hidden lg:flex items-center gap-0.5" aria-label="Primary">
           {navItems.map((item) => {
             const isActive = activeTab === item.id;
             return (
-              <button
+              <a
                 key={item.id}
-                onClick={() => handleNavClick(item.id)}
+                href={tabToPath(item.id)}
+                aria-current={isActive ? 'page' : undefined}
+                onClick={(event) => handleNavClick(event, item.id)}
                 className={`px-3 xl:px-4 py-2 text-sm font-medium transition-colors ${
                   isActive
                     ? 'text-[var(--ykp-green)]'
@@ -54,7 +64,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, openMod
                 }`}
               >
                 {item.label}
-              </button>
+              </a>
             );
           })}
         </nav>
@@ -71,7 +81,9 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, openMod
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="lg:hidden text-[var(--ykp-ink)] hover:text-[var(--ykp-green)] p-2 -mr-1"
-            aria-label="Toggle menu"
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-nav"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -79,19 +91,21 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, openMod
       </div>
 
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-t border-gray-200 px-4 pt-3 pb-5 space-y-1 max-h-[calc(100vh-4.25rem)] overflow-y-auto">
+        <nav id="mobile-nav" className="lg:hidden bg-white border-t border-gray-200 px-4 pt-3 pb-5 space-y-1 max-h-[calc(100vh-4.25rem)] overflow-y-auto" aria-label="Mobile">
           {navItems.map((item) => (
-            <button
+            <a
               key={item.id}
-              onClick={() => handleNavClick(item.id)}
-              className={`w-full text-left px-4 py-3 rounded-md text-sm font-medium transition-colors ${
+              href={tabToPath(item.id)}
+              aria-current={activeTab === item.id ? 'page' : undefined}
+              onClick={(event) => handleNavClick(event, item.id)}
+              className={`block w-full text-left px-4 py-3 rounded-md text-sm font-medium transition-colors ${
                 activeTab === item.id
                   ? 'bg-[var(--ykp-green)]/8 text-[var(--ykp-green)]'
                   : 'text-[var(--ykp-muted)] hover:bg-gray-50'
               }`}
             >
               {item.label}
-            </button>
+            </a>
           ))}
           <button
             type="button"
@@ -103,7 +117,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, openMod
           >
             Become a Student
           </button>
-        </div>
+        </nav>
       )}
     </header>
   );

@@ -3,6 +3,8 @@ import { SITE_INFO } from '../data/youthData';
 import { JoinMovementBanner } from './JoinMovementBanner';
 import { Mail, PhoneCall, MapPin, CheckCircle2, ArrowRight } from 'lucide-react';
 import { ModalType } from '../types';
+import { LocationMap } from './LocationMap';
+import { HQ_LOCATION } from '../lib/location';
 
 interface ContactViewProps {
   openModal: (type: ModalType) => void;
@@ -54,7 +56,13 @@ export const ContactView: React.FC<ContactViewProps> = ({ openModal }) => {
 
               <div className="space-y-8">
                 {[
-                  { icon: MapPin, label: 'Address', value: SITE_INFO.address },
+                  {
+                    icon: MapPin,
+                    label: 'Address',
+                    value: SITE_INFO.address,
+                    href: HQ_LOCATION.googleMapsUrl,
+                    external: true
+                  },
                   {
                     icon: PhoneCall,
                     label: 'Phone',
@@ -67,23 +75,27 @@ export const ContactView: React.FC<ContactViewProps> = ({ openModal }) => {
                     value: SITE_INFO.contactEmail,
                     href: `mailto:${SITE_INFO.contactEmail}`
                   }
-                ].map(({ icon: Icon, label, value, href }) => (
+                ].map(({ icon: Icon, label, value, href, external }) => (
                   <div key={label} className="flex items-start gap-4">
                     <div className="w-10 h-10 bg-[var(--ykp-green)] text-[var(--ykp-gold-bright)] flex items-center justify-center shrink-0">
                       <Icon className="w-4 h-4" />
                     </div>
-                    <div>
+                    <address className="not-italic">
                       <div className="text-[10px] tracking-[0.2em] uppercase text-[var(--ykp-muted)] font-semibold">
                         {label}
                       </div>
                       {href ? (
-                        <a href={href} className="text-base font-medium text-[var(--ykp-green)] hover:underline mt-1 block">
+                        <a
+                          href={href}
+                          {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                          className="text-base font-medium text-[var(--ykp-green)] hover:underline mt-1 block"
+                        >
                           {value}
                         </a>
                       ) : (
                         <div className="text-base font-medium text-[var(--ykp-ink)] mt-1">{value}</div>
                       )}
-                    </div>
+                    </address>
                   </div>
                 ))}
               </div>
@@ -108,13 +120,21 @@ export const ContactView: React.FC<ContactViewProps> = ({ openModal }) => {
 
             <div className="lg:col-span-7">
               {!submitted ? (
-                <form onSubmit={handleSubmit} className="space-y-5 bg-white p-8 sm:p-10 border border-[var(--ykp-green)]/10">
+                <form
+                  onSubmit={handleSubmit}
+                  className="space-y-5 bg-white p-8 sm:p-10 border border-[var(--ykp-green)]/10"
+                  name="contact"
+                  method="post"
+                >
                   <div>
-                    <label className="block text-[11px] font-semibold text-[var(--ykp-muted)] uppercase tracking-[0.18em] mb-2">
+                    <label htmlFor="contact-name" className="block text-[11px] font-semibold text-[var(--ykp-muted)] uppercase tracking-[0.18em] mb-2">
                       Full Name *
                     </label>
                     <input
+                      id="contact-name"
+                      name="name"
                       type="text"
+                      autoComplete="name"
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -123,11 +143,14 @@ export const ContactView: React.FC<ContactViewProps> = ({ openModal }) => {
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-semibold text-[var(--ykp-muted)] uppercase tracking-[0.18em] mb-2">
+                    <label htmlFor="contact-email" className="block text-[11px] font-semibold text-[var(--ykp-muted)] uppercase tracking-[0.18em] mb-2">
                       Email *
                     </label>
                     <input
+                      id="contact-email"
+                      name="email"
                       type="email"
+                      autoComplete="email"
                       required
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -136,10 +159,12 @@ export const ContactView: React.FC<ContactViewProps> = ({ openModal }) => {
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-semibold text-[var(--ykp-muted)] uppercase tracking-[0.18em] mb-2">
+                    <label htmlFor="contact-message" className="block text-[11px] font-semibold text-[var(--ykp-muted)] uppercase tracking-[0.18em] mb-2">
                       Message *
                     </label>
                     <textarea
+                      id="contact-message"
+                      name="message"
                       rows={5}
                       required
                       value={formData.message}
@@ -177,6 +202,12 @@ export const ContactView: React.FC<ContactViewProps> = ({ openModal }) => {
           </div>
         </div>
       </section>
+
+      <LocationMap
+        location={HQ_LOCATION}
+        title="Karachi, Pakistan"
+        description="Youth ka Pakistan is based in Karachi and works with youth nationwide. Open the map in Google or Bing for directions."
+      />
 
       <JoinMovementBanner openModal={openModal} />
     </div>

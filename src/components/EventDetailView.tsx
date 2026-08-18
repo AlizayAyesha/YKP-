@@ -8,6 +8,7 @@ import {
   Phone,
   Instagram,
   Facebook,
+  Linkedin,
   Sparkles,
   Users,
   Mic2,
@@ -15,8 +16,10 @@ import {
   Cpu,
   Network
 } from 'lucide-react';
-import { FEATURED_EVENT } from '../data/youthData';
+import { FEATURED_EVENT, FEATURED_EVENT_SPEAKERS } from '../data/youthData';
 import { EventProfileRole, PublicEventProfile, YkpEvent } from '../types';
+import { LocationMap } from './LocationMap';
+import { EVENT_VENUE_LOCATION } from '../lib/location';
 
 interface EventDetailViewProps {
   event?: YkpEvent;
@@ -40,7 +43,7 @@ export const EventDetailView: React.FC<EventDetailViewProps> = ({
   onRsvp,
   onSubmitProfile
 }) => {
-  const [profiles, setProfiles] = useState<PublicEventProfile[]>([]);
+  const [apiProfiles, setApiProfiles] = useState<PublicEventProfile[]>([]);
   const [filter, setFilter] = useState<'all' | EventProfileRole>('all');
   const [selected, setSelected] = useState<PublicEventProfile | null>(null);
 
@@ -49,15 +52,34 @@ export const EventDetailView: React.FC<EventDetailViewProps> = ({
     fetch(`/api/events/${event.id}/profiles`)
       .then((res) => res.json())
       .then((data) => {
-        if (!cancelled) setProfiles(data.profiles || []);
+        if (!cancelled) setApiProfiles(data.profiles || []);
       })
       .catch(() => {
-        if (!cancelled) setProfiles([]);
+        if (!cancelled) setApiProfiles([]);
       });
     return () => {
       cancelled = true;
     };
   }, [event.id]);
+
+  const profiles = useMemo(() => {
+    const unique = new Map<string, PublicEventProfile>();
+    for (const person of FEATURED_EVENT_SPEAKERS) {
+      unique.set(person.fullName.toLowerCase(), person);
+    }
+    for (const person of apiProfiles) {
+      const existing = unique.get(person.fullName.toLowerCase());
+      unique.set(person.fullName.toLowerCase(), {
+        ...existing,
+        ...person,
+        linkedinUrl: person.linkedinUrl || existing?.linkedinUrl,
+        photoUrl: person.photoUrl || existing?.photoUrl,
+        featuredSpeaker: Boolean(person.featuredSpeaker || existing?.featuredSpeaker),
+        featuredPanelist: Boolean(person.featuredPanelist || existing?.featuredPanelist)
+      });
+    }
+    return Array.from(unique.values());
+  }, [apiProfiles]);
 
   const distinguished = useMemo(
     () => profiles.filter((person) => person.role !== 'Participant'),
@@ -120,7 +142,7 @@ export const EventDetailView: React.FC<EventDetailViewProps> = ({
             <div className="lg:col-span-6">
               <img
                 src={event.image}
-                alt="Pakistan's Digital Flight"
+                alt="URAAN-E-AI 2026 — Pakistan's Digital Flight national IT and AI seminar"
                 className="w-full aspect-square object-contain bg-white rounded-2xl border border-white/10 shadow-[0_24px_60px_rgba(0,0,0,0.28)] p-4 sm:p-8"
               />
             </div>
@@ -133,18 +155,35 @@ export const EventDetailView: React.FC<EventDetailViewProps> = ({
           {[
             { icon: Calendar, label: 'Date', value: event.dates },
             { icon: Clock, label: 'Time', value: event.time },
-            { icon: MapPin, label: 'Venue', value: place }
+            { icon: MapPin, label: 'Venue', value: place, href: EVENT_VENUE_LOCATION.googleMapsUrl }
           ].map((item) => (
             <div key={item.label} className="flex items-start gap-3 p-4 bg-[var(--ykp-canvas)] rounded-xl">
               <item.icon className="w-5 h-5 text-[var(--ykp-green)] mt-0.5" />
               <div>
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--ykp-muted)] font-semibold">{item.label}</p>
-                <p className="mt-1 font-medium">{item.value}</p>
+                {'href' in item && item.href ? (
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-1 font-medium text-[var(--ykp-green)] hover:underline block"
+                  >
+                    {item.value}
+                  </a>
+                ) : (
+                  <p className="mt-1 font-medium">{item.value}</p>
+                )}
               </div>
             </div>
           ))}
         </div>
       </section>
+
+      <LocationMap
+        location={EVENT_VENUE_LOCATION}
+        title="Event venue"
+        description="URAAN-E-AI 2026 is at DHA Suffa University, Karachi. Switch between Google Maps and Bing Maps, or open directions in a new tab."
+      />
 
       <section id="about-uraan" className="py-16 sm:py-20 bg-white scroll-mt-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5">
@@ -353,7 +392,7 @@ export const EventDetailView: React.FC<EventDetailViewProps> = ({
       {selected && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-[var(--ykp-green-deep)]/70" onClick={() => setSelected(null)}>
           <div className="bg-white w-full max-w-md rounded-t-2xl sm:rounded-xl p-6 space-y-4" onClick={(e) => e.stopPropagation()}>
-            <img src={selected.photoUrl} alt={selected.fullName} className="w-full aspect-[4/5] object-cover rounded-lg" />
+            <img src={selected.photoUrl} alt={selected.fullName} className="w-full aspect-[4/5] object-cover object-top rounded-lg" />
             <div>
               <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--ykp-gold)] font-semibold">{selected.role}</p>
               <h3 className="font-display text-2xl font-semibold mt-1">{selected.fullName}</h3>
@@ -361,6 +400,17 @@ export const EventDetailView: React.FC<EventDetailViewProps> = ({
               <p className="text-sm text-[var(--ykp-muted)]">{selected.organization}</p>
             </div>
             {selected.bio && <p className="text-sm text-[var(--ykp-muted)] leading-relaxed">{selected.bio}</p>}
+            {selected.linkedinUrl && (
+              <a
+                href={selected.linkedinUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--ykp-green)] hover:underline"
+              >
+                <Linkedin className="w-4 h-4" />
+                LinkedIn profile
+              </a>
+            )}
             <button type="button" onClick={() => setSelected(null)} className="w-full border border-[var(--ykp-green)]/20 py-3 text-sm font-semibold cursor-pointer">
               Close
             </button>
@@ -458,21 +508,34 @@ function PersonCard({
   prominent?: boolean;
 }) {
   return (
-    <motion.button
-      type="button"
-      onClick={() => onSelect(person)}
+    <motion.article
       initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className={`text-left bg-white rounded-xl overflow-hidden border border-gray-100 cursor-pointer ${prominent ? 'shadow-sm' : ''}`}
+      className={`text-left bg-white rounded-xl overflow-hidden border border-gray-100 ${prominent ? 'shadow-sm' : ''}`}
     >
-      <img src={person.photoUrl} alt={person.fullName} className="w-full aspect-[4/5] object-cover" />
-      <div className="p-4 space-y-1">
-        <p className="text-[10px] uppercase tracking-[0.16em] font-semibold text-[var(--ykp-gold)]">{person.role}</p>
-        <h3 className="font-display text-lg font-semibold leading-tight">{person.fullName}</h3>
-        <p className="text-sm">{person.designation}</p>
-        <p className="text-xs text-[var(--ykp-muted)]">{person.organization}</p>
-      </div>
-    </motion.button>
+      <button type="button" onClick={() => onSelect(person)} className="w-full text-left cursor-pointer">
+        <img src={person.photoUrl} alt={person.fullName} className="w-full aspect-[4/5] object-cover object-top" />
+        <div className="p-4 space-y-1">
+          <p className="text-[10px] uppercase tracking-[0.16em] font-semibold text-[var(--ykp-gold)]">{person.role}</p>
+          <h3 className="font-display text-lg font-semibold leading-tight">{person.fullName}</h3>
+          <p className="text-sm">{person.designation}</p>
+          <p className="text-xs text-[var(--ykp-muted)]">{person.organization}</p>
+        </div>
+      </button>
+      {person.linkedinUrl && (
+        <div className="px-4 pb-4">
+          <a
+            href={person.linkedinUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--ykp-green)] hover:underline"
+          >
+            <Linkedin className="w-3.5 h-3.5" />
+            LinkedIn
+          </a>
+        </div>
+      )}
+    </motion.article>
   );
 }

@@ -42,9 +42,9 @@ export const BlogView: React.FC = () => {
                 <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[var(--ykp-gold)] mb-2">
                   {post.date}
                 </p>
-                <h3 className="font-display text-xl font-semibold text-[var(--ykp-ink)] group-hover:text-[var(--ykp-green)] transition-colors leading-snug mb-3">
+                <h2 className="font-display text-xl font-semibold text-[var(--ykp-ink)] group-hover:text-[var(--ykp-green)] transition-colors leading-snug mb-3">
                   {post.title}
-                </h3>
+                </h2>
                 <p className="text-sm text-[var(--ykp-muted)] leading-relaxed flex-1 mb-4">
                   {post.excerpt}
                 </p>
@@ -60,14 +60,16 @@ export const BlogView: React.FC = () => {
 
       {selectedPost && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[var(--ykp-green-deep)]/70 backdrop-blur-sm">
-          <div className="bg-white max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-10 space-y-6 shadow-2xl">
+          <article className="bg-white max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-10 space-y-6 shadow-2xl">
             <div className="flex items-center justify-between">
               <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[var(--ykp-gold)]">
                 {selectedPost.category}
               </p>
               <button
+                type="button"
                 onClick={() => setSelectedPost(null)}
                 className="text-[var(--ykp-muted)] hover:text-[var(--ykp-ink)] p-2 transition-colors cursor-pointer"
+                aria-label="Close article"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -83,16 +85,17 @@ export const BlogView: React.FC = () => {
               alt={selectedPost.title}
               className="w-full h-56 object-cover"
             />
-            <p className="text-[var(--ykp-muted)] text-sm leading-relaxed">
+            <p className="text-[var(--ykp-muted)] text-sm leading-relaxed whitespace-pre-line">
               {selectedPost.content}
             </p>
             <button
+              type="button"
               onClick={() => setSelectedPost(null)}
               className="text-sm font-semibold text-[var(--ykp-green)] link-underline cursor-pointer"
             >
               Close
             </button>
-          </div>
+          </article>
         </div>
       )}
     </div>
