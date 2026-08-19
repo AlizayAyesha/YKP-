@@ -352,6 +352,120 @@ export const FEATURED_EVENT_SPEAKERS: PublicEventProfile[] = [
     photoUrl: '/images/speakers/najeeb-ur-rehman-malik.png',
     featuredSpeaker: false,
     featuredPanelist: true
+  },
+  {
+    id: 'daniyal-nagori',
+    fullName: 'Daniyal Nagori',
+    designation: 'CEO',
+    organization: 'Governor Sindh IT Initiative',
+    role: 'Guest of Honor',
+    bio: '',
+    photoUrl: '/images/speakers/daniyal-nagori.png',
+    linkedinUrl: 'https://www.linkedin.com/in/daniyalnagori/',
+    featuredSpeaker: false,
+    featuredPanelist: false
+  },
+  {
+    id: 'junaid-ahmed-khan',
+    fullName: 'Junaid Ahmed Khan',
+    designation: 'President',
+    organization: 'All Pakistan Media Alliance',
+    role: 'Guest of Honor',
+    bio: '',
+    photoUrl: '/images/speakers/junaid-ahmed-khan.png',
+    featuredSpeaker: false,
+    featuredPanelist: false
+  },
+  {
+    id: 'haider-raza-khan',
+    fullName: 'LtCol M Haider Raza Khan (Retd)',
+    designation: 'Retired Lieutenant Colonel',
+    organization: '',
+    role: 'Guest of Honor',
+    bio: '',
+    photoUrl: '/images/speakers/haider-raza-khan.png',
+    linkedinUrl: 'https://www.linkedin.com/in/lt-col-haider-raza/',
+    featuredSpeaker: false,
+    featuredPanelist: false
+  },
+  {
+    id: 'saleem-sheikh',
+    fullName: 'M. Saleem Sheikh',
+    designation: 'Chairman & CEO; Corporate Tax Attorney',
+    organization: 'MSS Associate',
+    role: 'Guest of Honor',
+    bio: '',
+    photoUrl: '/images/speakers/saleem-sheikh.png',
+    featuredSpeaker: false,
+    featuredPanelist: false
+  },
+  {
+    id: 'imran-khaliq',
+    fullName: 'Imran Khaliq',
+    designation: 'Director, IK Coaching Center; IN Foundation President',
+    organization: 'Friends / Lions Club International',
+    role: 'Guest of Honor',
+    bio: '',
+    photoUrl: '/images/speakers/imran-khaliq.png',
+    featuredSpeaker: false,
+    featuredPanelist: false
+  },
+  {
+    id: 'ghulam-azfar-mahisar',
+    fullName: 'Ghulam Azfar Mahisar',
+    designation: 'DIGP CTD',
+    organization: 'Sindh Police, Karachi',
+    role: 'Guest of Honor',
+    bio: '',
+    photoUrl: '/images/speakers/ghulam-azfar-mahisar.png',
+    featuredSpeaker: false,
+    featuredPanelist: false
+  },
+  {
+    id: 'mariam-sana',
+    fullName: 'Mariam Sana',
+    designation: 'AVP',
+    organization: 'National Bank of Pakistan',
+    role: 'Guest of Honor',
+    bio: '',
+    photoUrl: '/images/speakers/mariam-sana.png',
+    featuredSpeaker: false,
+    featuredPanelist: false
+  },
+  {
+    id: 'muhammad-umer-khan',
+    fullName: 'Muhammad Umer Khan',
+    designation: '',
+    organization: '',
+    role: 'Guest of Honor',
+    bio: '',
+    photoUrl: '/images/speakers/muhammad-umer-khan.png',
+    linkedinUrl: 'https://www.linkedin.com/in/umerconsulting/',
+    featuredSpeaker: false,
+    featuredPanelist: false
+  },
+  {
+    id: 'atif-iqbal',
+    fullName: 'Atif Iqbal',
+    designation: 'Group CEO',
+    organization: 'Hi-Q Group & Hi-Q Pharmaceuticals',
+    role: 'Guest of Honor',
+    bio: '',
+    photoUrl: '/images/speakers/atif-iqbal.png',
+    linkedinUrl: 'https://www.linkedin.com/in/atif-iqbal-11290835/',
+    featuredSpeaker: false,
+    featuredPanelist: false
+  },
+  {
+    id: 'hasan-baig',
+    fullName: 'Hasan Baig',
+    designation: 'Influencer',
+    organization: '',
+    role: 'Guest of Honor',
+    bio: '',
+    photoUrl: '/images/speakers/hasan-baig.png',
+    featuredSpeaker: false,
+    featuredPanelist: false
   }
 ];
 
