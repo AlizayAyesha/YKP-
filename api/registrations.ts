@@ -10,6 +10,15 @@ function send(res: ServerResponse, status: number, body: unknown) {
   res.end(JSON.stringify(body));
 }
 
+function publicErrorMessage(error: unknown, fallback: string) {
+  const raw = error instanceof Error && error.message ? error.message : fallback;
+  return raw
+    .replace(/(?:sk|pk|api|token|secret|key|password|authorization)[=:\s][^\s,]+/gi, '[redacted]')
+    .replace(/\/(?:Users|home|var|tmp)\/[^\s"']+/g, '[path]')
+    .replace(/[A-Za-z0-9+/_-]{40,}/g, '[redacted]')
+    .slice(0, 280);
+}
+
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
   try {
     if (req.method !== 'POST') {
@@ -37,6 +46,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
     const sanitize = (value: unknown, max = 120) =>
       String(value ?? '')
+        .normalize('NFC')
         .replace(/<[^>]*>/g, '')
         .trim()
         .slice(0, max);
@@ -80,9 +90,22 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     await fs.writeFile(photoPath, typed.file.buffer);
 
     const role = [designation, organization].filter(Boolean).join(' — ');
-    await composePoster(photoPath, fullName, role, posterPath);
+    try {
+      await composePoster(photoPath, fullName, role, posterPath);
+    } catch (error) {
+      console.error('Poster generation failed', error);
+      send(res, 500, {
+        error: `Poster generation failed: ${publicErrorMessage(error, 'the attendee name and designation could not be drawn.')}`
+      });
+      return;
+    }
 
     const posterBuffer = await fs.readFile(posterPath);
+    if (!posterBuffer.length) {
+      send(res, 500, { error: 'Poster generation failed: the output image was empty.' });
+      return;
+    }
+
     const registrationId = `YKP-URAAN-2026-${Date.now().toString(36).toUpperCase()}`;
     send(res, 200, {
       ok: true,
@@ -94,9 +117,9 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       absolutePosterUrl: `data:image/png;base64,${posterBuffer.toString('base64')}`
     });
   } catch (error) {
-    console.error(error);
+    console.error('Registration failed', error);
     send(res, 500, {
-      error: error instanceof Error ? error.message : 'Registration failed.'
+      error: publicErrorMessage(error, 'Registration failed.')
     });
   }
 }
@@ -134,6 +157,9 @@ async function composePoster(photoPath: string, fullName: string, role: string, 
 
   const { nameDesignationOverlay } = await import('../server/poster-text');
   const text = nameDesignationOverlay(fullName, role);
+  if (!text.length) {
+    throw new Error('the name and designation overlay was empty.');
+  }
 
   await sharp({
     create: {
