@@ -22,6 +22,5 @@ glyphs[' '] = {
   d: ''
 };
 
-const out = `export const POSTER_FONT_SIZE = 1000;\nexport const POSTER_GLYPHS: Record<string, { adv: number; d: string }> = ${JSON.stringify(glyphs, null, 2)};\n`;
-writeFileSync('server/poster-glyphs.ts', out);
-console.log('glyphs', Object.keys(glyphs).length, 'bytes', Buffer.byteLength(out));
+writeFileSync('src/data/poster-glyphs.json', JSON.stringify({ size: 1000, glyphs }));
+console.log('glyphs', Object.keys(glyphs).length);

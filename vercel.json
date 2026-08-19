@@ -56,11 +56,11 @@
     "api/registrations.ts": {
       "maxDuration": 60,
       "memory": 1024,
-      "includeFiles": "{public/posters/**,src/data/events.json}"
+      "includeFiles": "{public/posters/**,src/data/events.json,src/data/poster-glyphs.json}"
     },
     "api/[[...path]].ts": {
       "maxDuration": 60,
-      "includeFiles": "{public/posters/**,src/data/events.json}"
+      "includeFiles": "{public/posters/**,src/data/events.json,src/data/poster-glyphs.json}"
     }
   }
 }
