@@ -2,6 +2,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
+import { nameDesignationOverlay } from '../server/poster-text';
 
 function send(res: ServerResponse, status: number, body: unknown) {
   if (res.headersSent) return;
@@ -13,16 +14,14 @@ function send(res: ServerResponse, status: number, body: unknown) {
 function publicErrorMessage(error: unknown, fallback: string) {
   const raw = error instanceof Error && error.message ? error.message : fallback;
   return raw
-    .replace(/(?:sk|pk|api|token|secret|key|password|authorization)[=:\s][^\s,]+/gi, '[redacted]')
-    .replace(/\/(?:Users|home|var|tmp)\/[^\s"']+/g, '[path]')
-    .replace(/[A-Za-z0-9+/_-]{40,}/g, '[redacted]')
-    .slice(0, 280);
+    .replace(/(?:api[_-]?key|token|secret|password|authorization)[=:\s][^\s,]+/gi, '[redacted]')
+    .slice(0, 400);
 }
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
   try {
     if (req.method !== 'POST') {
-      send(res, 405, { error: 'POST required to register.' });
+      send(res, 405, { error: 'POST required to register.', engine: 'glyph-atlas' });
       return;
     }
 
@@ -155,7 +154,6 @@ async function composePoster(photoPath: string, fullName: string, role: string, 
     .png()
     .toBuffer();
 
-  const { nameDesignationOverlay } = await import('../server/poster-text');
   const text = nameDesignationOverlay(fullName, role);
   if (!text.length) {
     throw new Error('the name and designation overlay was empty.');
