@@ -305,6 +305,50 @@ export const FEATURED_EVENT_SPEAKERS: PublicEventProfile[] = [
     linkedinUrl: 'https://www.linkedin.com/in/imranbatada/',
     featuredSpeaker: true,
     featuredPanelist: false
+  },
+  {
+    id: 'azam-mughal',
+    fullName: 'M. Azam Mughal',
+    designation: '',
+    organization: '',
+    role: 'Panelist',
+    bio: '',
+    photoUrl: '/images/speakers/azam-mughal.png',
+    featuredSpeaker: false,
+    featuredPanelist: true
+  },
+  {
+    id: 'jamil-ur-rehman',
+    fullName: 'Jamil ur Rehman',
+    designation: '',
+    organization: '',
+    role: 'Panelist',
+    bio: '',
+    photoUrl: '/images/speakers/jamil-ur-rehman.png',
+    featuredSpeaker: false,
+    featuredPanelist: true
+  },
+  {
+    id: 'majid-noor-khan',
+    fullName: 'Majid Noor Khan',
+    designation: '',
+    organization: '',
+    role: 'Panelist',
+    bio: '',
+    photoUrl: '/images/speakers/majid-noor-khan.png',
+    featuredSpeaker: false,
+    featuredPanelist: true
+  },
+  {
+    id: 'najeeb-ur-rehman-malik',
+    fullName: 'Dr. Najeeb ur Rehman Malik',
+    designation: '',
+    organization: '',
+    role: 'Panelist',
+    bio: '',
+    photoUrl: '/images/speakers/najeeb-ur-rehman-malik.png',
+    featuredSpeaker: false,
+    featuredPanelist: true
   }
 ];
 

@@ -396,8 +396,8 @@ export const EventDetailView: React.FC<EventDetailViewProps> = ({
             <div>
               <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--ykp-gold)] font-semibold">{selected.role}</p>
               <h3 className="font-display text-2xl font-semibold mt-1">{selected.fullName}</h3>
-              <p className="text-sm text-[var(--ykp-ink)] mt-1">{selected.designation}</p>
-              <p className="text-sm text-[var(--ykp-muted)]">{selected.organization}</p>
+              {selected.designation ? <p className="text-sm text-[var(--ykp-ink)] mt-1">{selected.designation}</p> : null}
+              {selected.organization ? <p className="text-sm text-[var(--ykp-muted)]">{selected.organization}</p> : null}
             </div>
             {selected.bio && <p className="text-sm text-[var(--ykp-muted)] leading-relaxed">{selected.bio}</p>}
             {selected.linkedinUrl && (
@@ -519,8 +519,8 @@ function PersonCard({
         <div className="p-4 space-y-1">
           <p className="text-[10px] uppercase tracking-[0.16em] font-semibold text-[var(--ykp-gold)]">{person.role}</p>
           <h3 className="font-display text-lg font-semibold leading-tight">{person.fullName}</h3>
-          <p className="text-sm">{person.designation}</p>
-          <p className="text-xs text-[var(--ykp-muted)]">{person.organization}</p>
+          {person.designation ? <p className="text-sm">{person.designation}</p> : null}
+          {person.organization ? <p className="text-xs text-[var(--ykp-muted)]">{person.organization}</p> : null}
         </div>
       </button>
       {person.linkedinUrl && (
