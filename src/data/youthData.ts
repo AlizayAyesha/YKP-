@@ -314,6 +314,7 @@ export const FEATURED_EVENT_SPEAKERS: PublicEventProfile[] = [
     role: 'Panelist',
     bio: '',
     photoUrl: '/images/speakers/azam-mughal.png',
+    linkedinUrl: 'https://www.linkedin.com/in/mazammug/',
     featuredSpeaker: false,
     featuredPanelist: true
   },
@@ -325,6 +326,7 @@ export const FEATURED_EVENT_SPEAKERS: PublicEventProfile[] = [
     role: 'Panelist',
     bio: '',
     photoUrl: '/images/speakers/jamil-ur-rehman.png',
+    linkedinUrl: 'https://www.linkedin.com/in/jamilurehman/',
     featuredSpeaker: false,
     featuredPanelist: true
   },
@@ -336,6 +338,7 @@ export const FEATURED_EVENT_SPEAKERS: PublicEventProfile[] = [
     role: 'Panelist',
     bio: '',
     photoUrl: '/images/speakers/majid-noor-khan.png',
+    linkedinUrl: 'https://www.linkedin.com/in/majid-noor-9929b978/',
     featuredSpeaker: false,
     featuredPanelist: true
   },
