@@ -580,6 +580,18 @@ export const FEATURED_EVENT_SPEAKERS: PublicEventProfile[] = [
     linkedinUrl: 'https://www.linkedin.com/in/noman-ali-shaikh-a49a1924/',
     featuredSpeaker: false,
     featuredPanelist: false
+  },
+  {
+    id: 'amna-shahzad',
+    fullName: 'Amna Shahzad',
+    designation: "Pakistan's youngest data scientist; Co-Founder & CTO",
+    organization: 'Deventra Solutions',
+    role: 'Guest of Honor',
+    bio: '',
+    photoUrl: '/images/speakers/amna-shahzad.png',
+    linkedinUrl: 'https://www.linkedin.com/in/amna-shahzad-data-scientist/',
+    featuredSpeaker: false,
+    featuredPanelist: false
   }
 ];
 
