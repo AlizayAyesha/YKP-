@@ -31,9 +31,7 @@ const ROLE_FILTERS: Array<{ id: 'all' | EventProfileRole; label: string }> = [
   { id: 'all', label: 'All' },
   { id: 'Guest of Honor', label: 'Guests of Honor' },
   { id: 'Speaker', label: 'Speakers' },
-  { id: 'Panelist', label: 'Panelists' },
-  { id: 'Educational Leader', label: 'Educational Leaders' },
-  { id: 'Corporate Representative', label: 'Corporate Representatives' }
+  { id: 'Panelist', label: 'Panelists' }
 ];
 
 const expectIcons = [Mic2, Cpu, GraduationCap, Network, Sparkles];
