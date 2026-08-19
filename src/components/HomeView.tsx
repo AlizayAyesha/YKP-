@@ -9,7 +9,8 @@ import {
   ABOUT_DATA,
   WHY_CHOOSE_DATA,
   PARTNERS_DATA,
-  PAST_EVENTS
+  PAST_EVENTS,
+  SITE_INFO
 } from '../data/youthData';
 import { JoinMovementBanner } from './JoinMovementBanner';
 import { YkpInAction } from './YkpInAction';
@@ -160,6 +161,54 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
                 />
               </div>
             </motion.div>
+          </div>
+
+          <div className="mt-12 sm:mt-14 grid grid-cols-1 md:grid-cols-2 gap-5">
+            {[
+              {
+                name: SITE_INFO.patronInChief.name,
+                role: SITE_INFO.patronInChief.role,
+                note: SITE_INFO.patronInChief.note,
+                photoUrl: SITE_INFO.patronInChief.photoUrl,
+                alt: `${SITE_INFO.patronInChief.name}, ${SITE_INFO.patronInChief.role} of Youth ka Pakistan`
+              },
+              {
+                name: `${SITE_INFO.president.name}, ${SITE_INFO.president.honorific}`,
+                role: SITE_INFO.president.role,
+                note: undefined as string | undefined,
+                photoUrl: SITE_INFO.president.photoUrl,
+                alt: `${SITE_INFO.president.name}, ${SITE_INFO.president.honorific}, ${SITE_INFO.president.role} of Youth ka Pakistan`
+              }
+            ].map((person) => (
+              <div
+                key={person.role}
+                className="flex flex-col sm:flex-row items-center sm:items-start gap-5 sm:gap-6 bg-[var(--ykp-canvas)] border border-gray-200 rounded-xl p-5 sm:p-6"
+              >
+                <img
+                  src={person.photoUrl}
+                  alt={person.alt}
+                  className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover object-top border-2 border-[var(--ykp-gold)] shrink-0"
+                  width={112}
+                  height={112}
+                />
+                <div className="text-center sm:text-left space-y-1">
+                  <p className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[var(--ykp-gold)]">
+                    Leadership
+                  </p>
+                  <h3 className="font-display text-2xl font-semibold text-[var(--ykp-ink)]">
+                    {person.name}
+                  </h3>
+                  <p className="text-sm font-semibold text-[var(--ykp-green)]">
+                    {person.role}, Youth ka Pakistan
+                  </p>
+                  {person.note && (
+                    <p className="text-sm text-[var(--ykp-muted)] leading-relaxed pt-1">
+                      {person.note}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
 
           <div className="mt-14 sm:mt-16 space-y-8">

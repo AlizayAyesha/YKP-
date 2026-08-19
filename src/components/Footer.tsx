@@ -31,6 +31,11 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, openModal }) => {
             <p className="text-white/55 text-sm leading-relaxed">
               Unleashing the potential of Pakistani youth through skills, mentorship, and real opportunities nationwide.
             </p>
+            <p className="text-white/70 text-sm leading-relaxed">
+              {SITE_INFO.patronInChief.role}: {SITE_INFO.patronInChief.name}
+              <br />
+              {SITE_INFO.president.role}: {SITE_INFO.president.name}, {SITE_INFO.president.honorific}
+            </p>
             <div className="flex items-center gap-3 pt-1">
               {[
                 { href: SITE_INFO.socials.facebook, icon: Facebook, label: 'Facebook' },

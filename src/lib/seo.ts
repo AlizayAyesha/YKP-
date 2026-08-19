@@ -1,4 +1,5 @@
 import { ActiveTab } from '../types';
+import { SITE_INFO } from '../data/youthData';
 
 export const SITE_URL = 'https://youthkapakistan.com';
 export const SITE_NAME = 'Youth ka Pakistan';
@@ -188,6 +189,23 @@ function organizationJsonLd() {
       'Talent promotion',
       'Event management',
       'Pakistani youth empowerment'
+    ],
+    employee: [
+      {
+        '@type': 'Person',
+        name: SITE_INFO.patronInChief.name,
+        jobTitle: SITE_INFO.patronInChief.role,
+        image: `${SITE_URL}${SITE_INFO.patronInChief.photoUrl}`,
+        worksFor: { '@id': `${SITE_URL}/#organization` }
+      },
+      {
+        '@type': 'Person',
+        name: SITE_INFO.president.name,
+        honorificSuffix: SITE_INFO.president.honorific,
+        jobTitle: SITE_INFO.president.role,
+        image: `${SITE_URL}${SITE_INFO.president.photoUrl}`,
+        worksFor: { '@id': `${SITE_URL}/#organization` }
+      }
     ]
   };
 }
