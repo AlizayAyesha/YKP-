@@ -466,6 +466,120 @@ export const FEATURED_EVENT_SPEAKERS: PublicEventProfile[] = [
     photoUrl: '/images/speakers/hasan-baig.png',
     featuredSpeaker: false,
     featuredPanelist: false
+  },
+  {
+    id: 'zulfiqar-halepoto',
+    fullName: 'Zulfiqar Hali Poto',
+    designation: 'Author & Social Development Consultant',
+    organization: '',
+    role: 'Guest of Honor',
+    bio: '',
+    photoUrl: '/images/speakers/zulfiqar-halepoto.png',
+    linkedinUrl: 'https://www.linkedin.com/in/zulfiqar-halepoto-b3015b16/',
+    featuredSpeaker: false,
+    featuredPanelist: false
+  },
+  {
+    id: 'ali-arsh-khan',
+    fullName: 'Ali Arsh Khan',
+    designation: 'Founder & Chairman, International Business Forum (IBF); CEO/Founder, A Group; Co-founder, H&A Group',
+    organization: '',
+    role: 'Guest of Honor',
+    bio: '',
+    photoUrl: '/images/speakers/ali-arsh-khan.png',
+    linkedinUrl: 'https://www.linkedin.com/in/ali-arsh-khan-42974137b/',
+    featuredSpeaker: false,
+    featuredPanelist: false
+  },
+  {
+    id: 'azhar-zia-mohammad',
+    fullName: 'Azhar Zia Mohammad',
+    designation: '',
+    organization: 'EMA Group of Companies',
+    role: 'Guest of Honor',
+    bio: '',
+    photoUrl: '/images/speakers/azhar-zia-mohammad.png',
+    featuredSpeaker: false,
+    featuredPanelist: false
+  },
+  {
+    id: 'mohsin-ismail',
+    fullName: 'Mohsin Ismail',
+    designation: 'Blogger',
+    organization: 'Chaltay Phirtay',
+    role: 'Guest of Honor',
+    bio: '',
+    photoUrl: '/images/speakers/mohsin-ismail.png',
+    featuredSpeaker: false,
+    featuredPanelist: false
+  },
+  {
+    id: 'zulfikar-ali-memon',
+    fullName: 'Dr. Zulfikar Ali Memon',
+    designation: 'Director',
+    organization: 'FAST-NUCES Karachi',
+    role: 'Guest of Honor',
+    bio: '',
+    photoUrl: '/images/speakers/zulfikar-ali-memon.png',
+    linkedinUrl: 'https://www.linkedin.com/in/memonzulfiqar/',
+    featuredSpeaker: false,
+    featuredPanelist: false
+  },
+  {
+    id: 'hafiz-muzammil-malik',
+    fullName: 'Hafiz Muzammil Malik',
+    designation: 'Founder & President',
+    organization: 'Sirat-e-Mustaqeem Welfare Trust',
+    role: 'Guest of Honor',
+    bio: '',
+    photoUrl: '/images/speakers/hafiz-muzammil-malik.png',
+    featuredSpeaker: false,
+    featuredPanelist: false
+  },
+  {
+    id: 'fahad-yasin',
+    fullName: 'Fahad Yasin',
+    designation: 'CEO, DS Skills Academy; Manager, Shahji Digital Academy',
+    organization: '',
+    role: 'Guest of Honor',
+    bio: '',
+    photoUrl: '/images/speakers/fahad-yasin.png',
+    featuredSpeaker: false,
+    featuredPanelist: false
+  },
+  {
+    id: 'syed-ali-raza',
+    fullName: 'Syed Ali Raza',
+    designation: 'Senior Anchor Person',
+    organization: 'ARY News',
+    role: 'Guest of Honor',
+    bio: '',
+    photoUrl: '/images/speakers/syed-ali-raza.png',
+    featuredSpeaker: false,
+    featuredPanelist: false
+  },
+  {
+    id: 'mujtaba-sumsum',
+    fullName: 'Barrister Mujtaba Sumsum',
+    designation: 'Chairman',
+    organization: 'Voice of Youth Karachi',
+    role: 'Guest of Honor',
+    bio: '',
+    photoUrl: '/images/speakers/mujtaba-sumsum.png',
+    featuredSpeaker: false,
+    featuredPanelist: false
+  },
+  {
+    id: 'noman-ali-sheikh',
+    fullName: 'Noman Ali Sheikh',
+    designation: 'Public Relations Coordinator; Secretary',
+    organization: "Pakistan People's Party",
+    role: 'Guest of Honor',
+    bio: '',
+    photoUrl: '/images/speakers/noman-ali-sheikh.png',
+    linkedinUrl: 'https://www.linkedin.com/in/noman-ali-shaikh-a49a1924/',
+    featuredSpeaker: false,
+    featuredPanelist: false
   }
 ];
 
