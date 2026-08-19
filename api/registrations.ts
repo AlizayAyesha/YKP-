@@ -2,7 +2,6 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import { nameDesignationOverlay } from '../server/poster-text';
 
 function send(res: ServerResponse, status: number, body: unknown) {
   if (res.headersSent) return;
@@ -96,7 +95,9 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     });
   } catch (error) {
     console.error(error);
-    send(res, 500, { error: error instanceof Error ? error.message : 'Registration failed.' });
+    send(res, 500, {
+      error: error instanceof Error ? error.message : 'Registration failed.'
+    });
   }
 }
 
@@ -131,6 +132,7 @@ async function composePoster(photoPath: string, fullName: string, role: string, 
     .png()
     .toBuffer();
 
+  const { nameDesignationOverlay } = await import('../server/poster-text');
   const text = nameDesignationOverlay(fullName, role);
 
   await sharp({

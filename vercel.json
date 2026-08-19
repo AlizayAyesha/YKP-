@@ -55,6 +55,7 @@
     },
     "api/registrations.ts": {
       "maxDuration": 60,
+      "memory": 1024,
       "includeFiles": "{public/posters/**,public/fonts/**,src/data/events.json,server/poster-text.ts}"
     },
     "api/[[...path]].ts": {

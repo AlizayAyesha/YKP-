@@ -1,10 +1,8 @@
-import { createRequire } from 'node:module';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import opentypePkg from 'opentype.js';
 import type { Font } from 'opentype.js';
-
-const require = createRequire(import.meta.url);
-const opentype = require('opentype.js') as typeof import('opentype.js');
 
 interface OverlayLayout {
   width: number;
@@ -33,26 +31,44 @@ interface OverlayLayout {
   };
 }
 
-const FONT_CANDIDATES = [
-  path.join(process.cwd(), 'public', 'fonts', 'Inter-Bold.ttf'),
-  path.join(process.cwd(), 'public', 'fonts', 'Inter-SemiBold.ttf'),
-  path.join(process.cwd(), 'public', 'fonts', 'Tinos-Italic.ttf')
-];
+type OpenTypeLib = { parse: (input: ArrayBuffer) => Font };
+
+function opentypeLib(): OpenTypeLib {
+  const pkg = opentypePkg as unknown as OpenTypeLib & { default?: OpenTypeLib };
+  const lib = pkg.parse ? pkg : pkg.default;
+  if (!lib?.parse) {
+    throw new Error('opentype.js failed to load in the registration function.');
+  }
+  return lib;
+}
+
+function fontCandidates() {
+  const here = path.dirname(fileURLToPath(import.meta.url));
+  const names = ['Inter-Bold.ttf', 'Inter-SemiBold.ttf', 'Tinos-Italic.ttf'];
+  const roots = [
+    path.join(process.cwd(), 'public', 'fonts'),
+    path.join(process.cwd(), 'fonts'),
+    path.join(here, '..', 'public', 'fonts'),
+    path.join(here, 'public', 'fonts'),
+    path.join(here, '..', '..', 'public', 'fonts')
+  ];
+  return roots.flatMap((root) => names.map((name) => path.join(root, name)));
+}
 
 let cachedFont: Font | null = null;
 
 function loadPosterFont() {
   if (cachedFont) return cachedFont;
-  for (const fontPath of FONT_CANDIDATES) {
-    try {
-      const buf = readFileSync(fontPath);
-      cachedFont = opentype.parse(buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength));
-      if (cachedFont) return cachedFont;
-    } catch {
-      /* try next */
-    }
+  const parse = opentypeLib().parse;
+  const tried: string[] = [];
+  for (const fontPath of fontCandidates()) {
+    tried.push(fontPath);
+    if (!existsSync(fontPath)) continue;
+    const buf = readFileSync(fontPath);
+    cachedFont = parse(buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength));
+    if (cachedFont) return cachedFont;
   }
-  throw new Error('Poster Latin font is missing from public/fonts.');
+  throw new Error(`Poster font missing. Looked in: ${tried.slice(0, 6).join(' | ')}`);
 }
 
 export function posterLatinText(value: string) {
