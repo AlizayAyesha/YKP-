@@ -2,6 +2,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
+import { nameDesignationOverlay } from '../server/poster-text';
 
 function send(res: ServerResponse, status: number, body: unknown) {
   if (res.headersSent) return;
@@ -99,14 +100,6 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   }
 }
 
-function escapeXml(value: string) {
-  return value
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;');
-}
-
 async function composePoster(photoPath: string, fullName: string, role: string, outputPath: string) {
   const sharp = (await import('sharp')).default;
   const postersDir = path.join(process.cwd(), 'public', 'posters');
@@ -138,22 +131,7 @@ async function composePoster(photoPath: string, fullName: string, role: string, 
     .png()
     .toBuffer();
 
-  const name = escapeXml(fullName.trim().toUpperCase());
-  const designation = escapeXml(role.trim().toUpperCase());
-  const fontPath = path.join(process.cwd(), 'public', 'fonts', 'Tinos-Italic.ttf');
-  const fontData = await fs.readFile(fontPath);
-  const fontCss = `@font-face{font-family:'AttendeeSerif';src:url('data:font/ttf;base64,${fontData.toString('base64')}') format('truetype');font-style:italic;font-weight:700;}`;
-  const text = Buffer.from(`<?xml version="1.0" encoding="UTF-8"?>
-<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
-  <style>${fontCss}
-    .name { font-family: AttendeeSerif, serif; font-size: 24px; font-style: italic; font-weight: 700; fill: #FFFFFF; }
-    .role { font-family: AttendeeSerif, serif; font-size: 14px; font-style: italic; font-weight: 700; fill: #24693A; }
-  </style>
-  <rect x="318" y="756" width="388" height="36" fill="#073265"/>
-  <text x="512" y="784" text-anchor="middle" class="name">${name}</text>
-  ${designation ? `<rect x="318" y="816" width="388" height="26" rx="13" fill="#F7F9FC" stroke="#D7DEE8"/>
-  <text x="512" y="834" text-anchor="middle" class="role">${designation}</text>` : ''}
-</svg>`);
+  const text = nameDesignationOverlay(fullName, role);
 
   await sharp({
     create: {

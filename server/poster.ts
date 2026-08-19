@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
 import type { YkpEvent } from '../src/types';
+import { nameDesignationOverlay } from './poster-text';
 
 /**
  * Deterministic attendee-poster compositor.
@@ -61,24 +62,6 @@ const POSTERS_DIR = path.join(process.cwd(), 'public', 'posters');
 const TEMPLATE_PNG = path.join(POSTERS_DIR, 'ykp-attendee-template.png');
 const CONFIG_PATH = path.join(POSTERS_DIR, 'template-config.json');
 
-const SERIF_FONT_CANDIDATES = [
-  path.join(process.cwd(), 'public', 'fonts', 'Tinos-Italic.ttf'),
-  '/System/Library/Fonts/Supplemental/Times New Roman Italic.ttf',
-  '/Library/Fonts/Times New Roman Italic.ttf',
-  '/usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf'
-];
-
-let cachedFontCss = '';
-
-function escapeXml(value: string) {
-  return value
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&apos;');
-}
-
 function canvasSize(config: TemplateConfig) {
   return {
     width: config.canvas?.width ?? config.width ?? 1024,
@@ -108,21 +91,6 @@ export async function ensurePosterTemplate() {
 async function loadConfig(): Promise<TemplateConfig> {
   const raw = await fs.readFile(CONFIG_PATH, 'utf8');
   return JSON.parse(raw) as TemplateConfig;
-}
-
-async function serifFontCss() {
-  if (cachedFontCss) return cachedFontCss;
-  for (const fontPath of SERIF_FONT_CANDIDATES) {
-    try {
-      const buf = await fs.readFile(fontPath);
-      cachedFontCss = `@font-face{font-family:'AttendeeSerif';src:url('data:font/ttf;base64,${buf.toString('base64')}') format('truetype');font-style:italic;font-weight:700;}`;
-      return cachedFontCss;
-    } catch {
-      /* try next */
-    }
-  }
-  cachedFontCss = '';
-  return cachedFontCss;
 }
 
 function innerPhotoBox(frame: PhotoSlot) {
@@ -227,48 +195,34 @@ async function preparePortrait(photoPath: string, box: ReturnType<typeof innerPh
   return cropped;
 }
 
-function fittedSize(slot: TextSlot, text: string) {
-  const max = slot.fontSize;
-  const min = slot.minFontSize ?? Math.max(11, Math.round(max * 0.55));
-  if (!text) return max;
-  const usable = slot.width * 0.92;
-  const estimated = (ch: number) => text.length * ch * 0.62 + (slot.letterSpacing ?? 0) * Math.max(0, text.length - 1);
-  let size = max;
-  while (size > min && estimated(size) > usable) size -= 1;
-  return size;
-}
-
-async function textOverlay(config: TemplateConfig, fullName: string, designation: string) {
+function textOverlay(config: TemplateConfig, fullName: string, designation: string) {
   const { width, height } = canvasSize(config);
-  const name = escapeXml(fullName.trim().toUpperCase());
-  const role = escapeXml(designation.trim().toUpperCase());
-  const nameSize = fittedSize(config.name, fullName.trim().toUpperCase());
-  const roleSize = fittedSize(config.designation, designation.trim().toUpperCase());
-  const fontCss = await serifFontCss();
-  const nameCoverW = config.name.coverWidth ?? config.name.width;
-  const nameCoverH = config.name.coverHeight ?? 34;
-  const nameCoverX = config.name.coverX ?? config.name.x;
-  const nameCoverY = config.name.coverY ?? config.name.y - nameCoverH + 8;
-  const roleCoverX = config.designation.coverX ?? config.name.x;
-  const roleCoverW = config.designation.coverWidth ?? config.name.width;
-  const roleCoverY = config.designation.coverY ?? 814;
-  const roleCoverH = config.designation.coverHeight ?? 26;
-  const roleCoverColor = config.designation.coverColor ?? '#F7F9FC';
-  const roleRadius = Math.round(roleCoverH / 2);
-  const cx = width / 2;
-  const letterSpacing = config.designation.letterSpacing ?? 0;
-
-  return Buffer.from(`<?xml version="1.0" encoding="UTF-8"?>
-<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
-  <style>${fontCss}
-    .name { font-family: ${config.name.fontFamily}; font-size: ${nameSize}px; font-weight: ${config.name.fontWeight}; font-style: ${config.name.fontStyle ?? 'italic'}; fill: ${config.name.color}; }
-    .role { font-family: ${config.designation.fontFamily}; font-size: ${roleSize}px; font-weight: ${config.designation.fontWeight}; font-style: ${config.designation.fontStyle ?? 'italic'}; fill: ${config.designation.color}; letter-spacing: ${letterSpacing}px; }
-  </style>
-  <rect x="${nameCoverX}" y="${nameCoverY}" width="${nameCoverW}" height="${nameCoverH}" fill="${config.name.coverColor ?? '#073265'}"/>
-  <text x="${cx}" y="${config.name.y}" text-anchor="middle" class="name">${name}</text>
-  ${role ? `<rect x="${roleCoverX}" y="${roleCoverY}" width="${roleCoverW}" height="${roleCoverH}" rx="${roleRadius}" ry="${roleRadius}" fill="${roleCoverColor}" stroke="#D7DEE8" stroke-width="1"/>
-  <text x="${cx}" y="${config.designation.y}" text-anchor="middle" class="role">${role}</text>` : ''}
-</svg>`);
+  return nameDesignationOverlay(fullName, designation, {
+    width,
+    height,
+    name: {
+      y: config.name.y,
+      fontSize: config.name.fontSize,
+      minFontSize: config.name.minFontSize ?? 14,
+      color: config.name.color,
+      coverX: config.name.coverX ?? config.name.x,
+      coverY: config.name.coverY ?? config.name.y - 28,
+      coverWidth: config.name.coverWidth ?? config.name.width,
+      coverHeight: config.name.coverHeight ?? 36,
+      coverColor: config.name.coverColor ?? '#073265'
+    },
+    designation: {
+      y: config.designation.y,
+      fontSize: config.designation.fontSize,
+      minFontSize: config.designation.minFontSize ?? 11,
+      color: config.designation.color,
+      coverX: config.designation.coverX ?? config.name.x,
+      coverY: config.designation.coverY ?? 816,
+      coverWidth: config.designation.coverWidth ?? config.name.width,
+      coverHeight: config.designation.coverHeight ?? 26,
+      coverColor: config.designation.coverColor ?? '#F7F9FC'
+    }
+  });
 }
 
 async function healDesignationBand(master: Buffer, config: TemplateConfig) {
@@ -395,7 +349,7 @@ export async function composeAttendeePoster(input: {
     .png()
     .toBuffer();
 
-  const nameOverlay = await textOverlay(config, input.fullName, input.designation);
+  const nameOverlay = textOverlay(config, input.fullName, input.designation);
   const badge = await badgeSticker(healedMaster, width, height);
 
   await sharp({

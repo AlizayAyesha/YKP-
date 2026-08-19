@@ -55,11 +55,11 @@
     },
     "api/registrations.ts": {
       "maxDuration": 60,
-      "includeFiles": "{public/posters/**,public/fonts/**,src/data/events.json}"
+      "includeFiles": "{public/posters/**,public/fonts/**,src/data/events.json,server/poster-text.ts}"
     },
     "api/[[...path]].ts": {
       "maxDuration": 60,
-      "includeFiles": "{public/posters/**,public/fonts/**,src/data/events.json}"
+      "includeFiles": "{public/posters/**,public/fonts/**,src/data/events.json,server/poster-text.ts}"
     }
   }
 }
