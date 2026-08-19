@@ -597,63 +597,66 @@ export const FEATURED_EVENT_SPEAKERS: PublicEventProfile[] = [
 
 export const GALLERY_ALBUMS: GalleryAlbum[] = [
   {
-    id: "album-summit-prep",
-    eventId: "ykp-summit-2026",
-    name: "Youth ka Pakistan Summit 2026",
-    year: "2026",
-    coverImage: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1000&q=80",
+    id: 'album-chef-iconic-awards-2026',
+    eventId: 'pakistan-chef-iconic-awards-2026',
+    name: 'Pakistan Chef Icon Award',
+    year: '2026',
+    coverImage: '/images/gallery/chef-iconic-awards-2026/01.jpg',
     images: [
-      { id: "1", url: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80", caption: "Opening hall" },
-      { id: "2", url: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1200&q=80", caption: "Keynote stage" },
-      { id: "3", url: "https://images.unsplash.com/photo-1591115765373-5207764f72bc?auto=format&fit=crop&w=1200&q=80", caption: "Youth delegates" },
-      { id: "4", url: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1200&q=80", caption: "Workshop corner" },
-      { id: "5", url: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=1200&q=80", caption: "Networking lounge" },
-      { id: "6", url: "https://images.unsplash.com/photo-1559223607-a43c990c692c?auto=format&fit=crop&w=1200&q=80", caption: "Closing moments" }
+      { id: '1', url: '/images/gallery/chef-iconic-awards-2026/01.jpg', caption: 'Official poster — Pakistan Chef Icon Award 2026' },
+      { id: '2', url: '/images/gallery/chef-iconic-awards-2026/02.jpg', caption: 'Stage and culinary panel' },
+      { id: '3', url: '/images/gallery/chef-iconic-awards-2026/03.jpg', caption: 'Syed Nasir Hussain Shah addressing the ceremony' },
+      { id: '4', url: '/images/gallery/chef-iconic-awards-2026/04.jpg', caption: 'Award presentation' },
+      { id: '5', url: '/images/gallery/chef-iconic-awards-2026/05.jpg', caption: 'Chief guest with award recipients' },
+      { id: '6', url: '/images/gallery/chef-iconic-awards-2026/06.jpg', caption: 'Pakistan Chef Icon Award presentation' },
+      { id: '7', url: '/images/gallery/chef-iconic-awards-2026/07.jpg', caption: 'Guests and chefs on stage' },
+      { id: '8', url: '/images/gallery/chef-iconic-awards-2026/08.jpg', caption: 'Trophy presentation' },
+      { id: '9', url: '/images/gallery/chef-iconic-awards-2026/09.jpg', caption: 'YKP Foundation guests of honour' },
+      { id: '10', url: '/images/gallery/chef-iconic-awards-2026/10.jpg', caption: 'Group photo' },
+      { id: '11', url: '/images/gallery/chef-iconic-awards-2026/11.jpg', caption: 'Guest of Honour award' },
+      { id: '12', url: '/images/gallery/chef-iconic-awards-2026/12.jpg', caption: 'Cake cutting at Desi Tadka' }
     ]
   },
   {
-    id: "album-talent-2025",
-    eventId: "national-talent-2025",
-    name: "National Talent Showcase 2025",
-    year: "2025",
-    coverImage: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1000&q=80",
+    id: 'album-marka-e-haq-excellence-award',
+    eventId: 'marka-e-haq-excellence-award',
+    name: 'Marka e Haq Excellence Award',
+    year: '2025',
+    coverImage: '/images/gallery/marka-e-haq-excellence-award/cover.jpg',
     images: [
-      { id: "1", url: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80", caption: "Group celebration" },
-      { id: "2", url: "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80", caption: "Stage lights" },
-      { id: "3", url: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80", caption: "Performance night" },
-      { id: "4", url: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=1200&q=80", caption: "Audience energy" },
-      { id: "5", url: "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?auto=format&fit=crop&w=1200&q=80", caption: "Crowd cheer" },
-      { id: "6", url: "https://images.unsplash.com/photo-1464375117522-1311d6a5b81f?auto=format&fit=crop&w=1200&q=80", caption: "Award moment" }
+      { id: 'cover', url: '/images/gallery/marka-e-haq-excellence-award/cover.jpg', caption: 'Official poster — Marka e Haq Excellence Award' },
+      { id: '1', url: '/images/gallery/marka-e-haq-excellence-award/01.jpg', caption: 'Award presentation' },
+      { id: '2', url: '/images/gallery/marka-e-haq-excellence-award/02.jpg', caption: 'Mr. Master World 2024 championship belt' },
+      { id: '3', url: '/images/gallery/marka-e-haq-excellence-award/03.jpg', caption: 'Excellence award handshake' },
+      { id: '4', url: '/images/gallery/marka-e-haq-excellence-award/04.jpg', caption: 'Award presentation' },
+      { id: '5', url: '/images/gallery/marka-e-haq-excellence-award/05.jpg', caption: 'Recipients with awards' },
+      { id: '6', url: '/images/gallery/marka-e-haq-excellence-award/06.jpg', caption: 'Marka-e-Haq Excellence Award' },
+      { id: '7', url: '/images/gallery/marka-e-haq-excellence-award/07.jpg', caption: 'Award presentation' },
+      { id: '8', url: '/images/gallery/marka-e-haq-excellence-award/08.jpg', caption: 'Award with guests' },
+      { id: '9', url: '/images/gallery/marka-e-haq-excellence-award/09.jpg', caption: 'Group photo' },
+      { id: '10', url: '/images/gallery/marka-e-haq-excellence-award/10.jpg', caption: 'Studio conversation' },
+      { id: '11', url: '/images/gallery/marka-e-haq-excellence-award/11.jpg', caption: 'Cake cutting and award ceremony' }
     ]
   },
   {
-    id: "album-bootcamp-lahore",
-    eventId: "skills-bootcamp-lahore",
-    name: "Skills Bootcamp — Lahore",
-    year: "2026",
-    coverImage: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1000&q=80",
+    id: 'album-celebration-pakistan-chef-icon-award',
+    eventId: 'celebration-pakistan-chef-icon-award',
+    name: 'Celebration Pakistan Chef Icon Award',
+    year: '2024',
+    coverImage: '/images/gallery/celebration-pakistan-chef-icon-award/06.jpg',
     images: [
-      { id: "1", url: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80", caption: "Team learning" },
-      { id: "2", url: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80", caption: "Classroom session" },
-      { id: "3", url: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80", caption: "Hands-on practice" },
-      { id: "4", url: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80", caption: "Peer collaboration" },
-      { id: "5", url: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80", caption: "Mentor circle" },
-      { id: "6", url: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80", caption: "Project demos" }
-    ]
-  },
-  {
-    id: "album-forums-2023",
-    eventId: "community-forums-2023",
-    name: "Community Youth Forums 2023",
-    year: "2023",
-    coverImage: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1000&q=80",
-    images: [
-      { id: "1", url: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1200&q=80", caption: "Forum circle" },
-      { id: "2", url: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80", caption: "Community leaders" },
-      { id: "3", url: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=80", caption: "Discussion panel" },
-      { id: "4", url: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?auto=format&fit=crop&w=1200&q=80", caption: "Youth speakers" },
-      { id: "5", url: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200&q=80", caption: "Partner meetup" },
-      { id: "6", url: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80", caption: "Team planning" }
+      { id: '1', url: '/images/gallery/celebration-pakistan-chef-icon-award/01.jpg', caption: 'Guests in conversation' },
+      { id: '2', url: '/images/gallery/celebration-pakistan-chef-icon-award/02.jpg', caption: 'Guest of Honour award' },
+      { id: '3', url: '/images/gallery/celebration-pakistan-chef-icon-award/03.jpg', caption: 'Group with Pakistan Chef Icon Award' },
+      { id: '4', url: '/images/gallery/celebration-pakistan-chef-icon-award/04.jpg', caption: 'Guests of the celebration' },
+      { id: '5', url: '/images/gallery/celebration-pakistan-chef-icon-award/05.jpg', caption: 'Celebration guests' },
+      { id: '6', url: '/images/gallery/celebration-pakistan-chef-icon-award/06.jpg', caption: 'Group photo' },
+      { id: '7', url: '/images/gallery/celebration-pakistan-chef-icon-award/07.jpg', caption: 'Celebration banner' },
+      { id: '8', url: '/images/gallery/celebration-pakistan-chef-icon-award/08.jpg', caption: 'Chef Irfan Wasti award' },
+      { id: '9', url: '/images/gallery/celebration-pakistan-chef-icon-award/09.jpg', caption: 'Kiran Khan award' },
+      { id: '10', url: '/images/gallery/celebration-pakistan-chef-icon-award/10.jpg', caption: 'Award presentation' },
+      { id: '11', url: '/images/gallery/celebration-pakistan-chef-icon-award/11.jpg', caption: 'Award with chefs and guests' },
+      { id: '12', url: '/images/gallery/celebration-pakistan-chef-icon-award/12.jpg', caption: 'Cake cutting' }
     ]
   }
 ];

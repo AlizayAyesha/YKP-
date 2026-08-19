@@ -32,19 +32,19 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, openMod
 
   return (
     <header className="sticky top-0 z-40 bg-white text-[var(--ykp-ink)] border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[4.25rem] sm:h-[5rem] flex items-center justify-between gap-2 sm:gap-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[6.75rem] sm:min-h-[8rem] py-3 sm:py-4 flex items-center justify-between gap-2 sm:gap-4">
         <a
           href="/"
           onClick={(event) => handleNavClick(event, 'home')}
-          className="flex items-center focus:outline-none shrink-0 min-w-0 hover:opacity-90 transition-opacity"
+          className="flex items-center focus:outline-none shrink-0 hover:opacity-90 transition-opacity"
           aria-label="Youth ka Pakistan — Home"
         >
           <img
             src="/ykp-logo.png"
             alt="Youth Ka Pakistan logo — educate, empower, skills, and networking for Pakistani youth"
-            className="h-10 sm:h-14 w-auto max-w-[150px] sm:max-w-none object-contain object-left"
-            width={220}
-            height={56}
+            className="h-[5.5rem] sm:h-[6.75rem] w-auto object-contain object-left"
+            width={260}
+            height={108}
           />
         </a>
 
@@ -91,7 +91,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, openMod
       </div>
 
       {mobileMenuOpen && (
-        <nav id="mobile-nav" className="lg:hidden bg-white border-t border-gray-200 px-4 pt-3 pb-5 space-y-1 max-h-[calc(100vh-4.25rem)] overflow-y-auto" aria-label="Mobile">
+        <nav id="mobile-nav" className="lg:hidden bg-white border-t border-gray-200 px-4 pt-3 pb-5 space-y-1 max-h-[calc(100vh-8rem)] overflow-y-auto" aria-label="Mobile">
           {navItems.map((item) => (
             <a
               key={item.id}
