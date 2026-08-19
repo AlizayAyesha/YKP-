@@ -27,7 +27,7 @@ function publicErrorMessage(error: unknown, fallback: string) {
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
   try {
     if (req.method !== 'POST') {
-      send(res, 405, { error: 'POST required to register.', engine: 'glyph-atlas' });
+      send(res, 405, { error: 'POST required to register.', engine: 'glyph-atlas-heal' });
       return;
     }
 
@@ -264,8 +264,8 @@ async function composePoster(photoPath: string, fullName: string, role: string, 
   const hole = Buffer.from(
     `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg"><circle cx="${box.x + box.size / 2}" cy="${box.y + box.size / 2}" r="${box.size / 2}" fill="#fff"/></svg>`
   );
-  const template = await sharp(templatePath)
-    .ensureAlpha()
+  const healedMaster = await healTemplatePlaceholderText(sharp, templatePath, width, height);
+  const template = await sharp(healedMaster)
     .composite([{ input: hole, blend: 'dest-out' }])
     .png()
     .toBuffer();
@@ -291,4 +291,58 @@ async function composePoster(photoPath: string, fullName: string, role: string, 
     ])
     .png()
     .toFile(outputPath);
+}
+
+async function healTemplatePlaceholderText(
+  sharp: (typeof import('sharp'))['default'],
+  templatePath: string,
+  width: number,
+  height: number
+) {
+  const { data, info } = await sharp(templatePath).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const channels = info.channels;
+  const y0 = 772;
+  const y1 = 842;
+  const srcY = 796;
+  const barX = 318;
+  const barRight = 706;
+
+  const isGlyph = (i: number) => {
+    const r = data[i];
+    const g = data[i + 1];
+    const b = data[i + 2];
+    const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+    if (lum > 210 || r >= 175) return false;
+    return g > 48 && g > r + 8 && g >= b - 22;
+  };
+
+  for (let y = y0; y < Math.min(height, y1); y++) {
+    for (let x = 40; x < 984; x++) {
+      const dest = (y * width + x) * channels;
+      const insideBar = x >= barX && x < barRight;
+      let paint = !insideBar && isGlyph(dest);
+      if (!paint && !insideBar) {
+        outer: for (let dy = -2; dy <= 2 && !paint; dy++) {
+          for (let dx = -2; dx <= 2; dx++) {
+            const nx = x + dx;
+            const ny = y + dy;
+            if (nx < 0 || nx >= width || ny < 0 || ny >= height) continue;
+            if (isGlyph((ny * width + nx) * channels)) {
+              paint = true;
+              break outer;
+            }
+          }
+        }
+      }
+      if (insideBar) paint = isGlyph(dest);
+      if (!paint) continue;
+      const src = (srcY * width + x) * channels;
+      data[dest] = data[src];
+      data[dest + 1] = data[src + 1];
+      data[dest + 2] = data[src + 2];
+      if (channels === 4) data[dest + 3] = 255;
+    }
+  }
+
+  return sharp(data, { raw: { width, height, channels } }).png().toBuffer();
 }
