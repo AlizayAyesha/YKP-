@@ -17,6 +17,7 @@ import { EventRsvpModal } from './components/Modals/EventRsvpModal';
 import { InvitationProfileModal } from './components/Modals/InvitationProfileModal';
 import { PartnerInquiryModal } from './components/Modals/PartnerInquiryModal';
 import { pathToTab, tabToPath } from './lib/seo';
+import './lib/canvasTone';
 
 function readTabFromLocation(): ActiveTab {
   if (window.location.hash === '#admin') return 'admin';
