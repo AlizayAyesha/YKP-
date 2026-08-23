@@ -24,11 +24,24 @@ export const SITE_INFO = {
     note: "YKP events are held under his supervision.",
     photoUrl: "/images/leadership/nasir-hussain-shah.jpg"
   },
+  chairperson: {
+    name: "Ms. Sabi",
+    role: "Chairperson",
+    organization: "Youth Ka Pakistan YKP Foundation",
+    photoUrl: "/images/leadership/ms-sabi.png"
+  },
   president: {
     name: "Saima Agha",
     honorific: "MPA",
     role: "President",
     photoUrl: "/images/leadership/saima-agha.png"
+  },
+  vicePresident: {
+    name: "Azhar Zia Muhammad",
+    role: "Vice President",
+    organization: "YKP Foundation",
+    affiliation: "EMA Group of Companies",
+    photoUrl: "/images/leadership/azhar-zia-muhammad.png"
   },
   socials: {
     facebook: "https://www.facebook.com/YouthKaPakistan.YKP",
@@ -59,7 +72,7 @@ export const ABOUT_DATA = {
   paragraphs: [
     "Youth ka Pakistan is a nationwide non-profit organization dedicated to unlocking the potential of Pakistan's youth by creating meaningful opportunities to learn, grow, develop skills, and build connections.",
     "We believe that an empowered generation begins with access to the right knowledge, practical skills, supportive networks, and opportunities to lead.",
-    "Youth ka Pakistan is led by President Saima Agha, MPA. Our events are held under the supervision of Patron-in-Chief Syed Nasir Hussain Shah."
+    "Youth ka Pakistan is led by President Saima Agha, MPA. Ms. Sabi is Chairperson of the Youth Ka Pakistan YKP Foundation, and Azhar Zia Muhammad is Vice President of YKP Foundation (EMA Group of Companies). Our events are held under the supervision of Patron-in-Chief Syed Nasir Hussain Shah."
   ],
   pillarsIntro: "Our mission is built around four core pillars:",
   closing: [

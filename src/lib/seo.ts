@@ -200,10 +200,24 @@ function organizationJsonLd() {
       },
       {
         '@type': 'Person',
+        name: SITE_INFO.chairperson.name,
+        jobTitle: SITE_INFO.chairperson.role,
+        image: `${SITE_URL}${SITE_INFO.chairperson.photoUrl}`,
+        worksFor: { '@id': `${SITE_URL}/#organization` }
+      },
+      {
+        '@type': 'Person',
         name: SITE_INFO.president.name,
         honorificSuffix: SITE_INFO.president.honorific,
         jobTitle: SITE_INFO.president.role,
         image: `${SITE_URL}${SITE_INFO.president.photoUrl}`,
+        worksFor: { '@id': `${SITE_URL}/#organization` }
+      },
+      {
+        '@type': 'Person',
+        name: SITE_INFO.vicePresident.name,
+        jobTitle: SITE_INFO.vicePresident.role,
+        image: `${SITE_URL}${SITE_INFO.vicePresident.photoUrl}`,
         worksFor: { '@id': `${SITE_URL}/#organization` }
       }
     ]

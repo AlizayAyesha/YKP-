@@ -34,7 +34,11 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, openModal }) => {
             <p className="text-white/70 text-sm leading-relaxed">
               {SITE_INFO.patronInChief.role}: {SITE_INFO.patronInChief.name}
               <br />
+              {SITE_INFO.chairperson.role}: {SITE_INFO.chairperson.name}
+              <br />
               {SITE_INFO.president.role}: {SITE_INFO.president.name}, {SITE_INFO.president.honorific}
+              <br />
+              {SITE_INFO.vicePresident.role}: {SITE_INFO.vicePresident.name}
             </p>
             <div className="flex items-center gap-3 pt-1">
               {[

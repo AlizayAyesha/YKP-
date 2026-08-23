@@ -168,16 +168,34 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
               {
                 name: SITE_INFO.patronInChief.name,
                 role: SITE_INFO.patronInChief.role,
+                org: 'Youth ka Pakistan',
                 note: SITE_INFO.patronInChief.note,
                 photoUrl: SITE_INFO.patronInChief.photoUrl,
                 alt: `${SITE_INFO.patronInChief.name}, ${SITE_INFO.patronInChief.role} of Youth ka Pakistan`
               },
               {
+                name: SITE_INFO.chairperson.name,
+                role: SITE_INFO.chairperson.role,
+                org: SITE_INFO.chairperson.organization,
+                note: undefined as string | undefined,
+                photoUrl: SITE_INFO.chairperson.photoUrl,
+                alt: `${SITE_INFO.chairperson.name}, ${SITE_INFO.chairperson.role} of ${SITE_INFO.chairperson.organization}`
+              },
+              {
                 name: `${SITE_INFO.president.name}, ${SITE_INFO.president.honorific}`,
                 role: SITE_INFO.president.role,
+                org: 'Youth ka Pakistan',
                 note: undefined as string | undefined,
                 photoUrl: SITE_INFO.president.photoUrl,
                 alt: `${SITE_INFO.president.name}, ${SITE_INFO.president.honorific}, ${SITE_INFO.president.role} of Youth ka Pakistan`
+              },
+              {
+                name: SITE_INFO.vicePresident.name,
+                role: SITE_INFO.vicePresident.role,
+                org: SITE_INFO.vicePresident.organization,
+                note: SITE_INFO.vicePresident.affiliation,
+                photoUrl: SITE_INFO.vicePresident.photoUrl,
+                alt: `${SITE_INFO.vicePresident.name}, ${SITE_INFO.vicePresident.role} of ${SITE_INFO.vicePresident.organization}`
               }
             ].map((person) => (
               <div
@@ -199,7 +217,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
                     {person.name}
                   </h3>
                   <p className="text-sm font-semibold text-[var(--ykp-green)]">
-                    {person.role}, Youth ka Pakistan
+                    {person.role}, {person.org}
                   </p>
                   {person.note && (
                     <p className="text-sm text-[var(--ykp-muted)] leading-relaxed pt-1">
