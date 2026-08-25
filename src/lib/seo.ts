@@ -1,5 +1,5 @@
 import { ActiveTab } from '../types';
-import { SITE_INFO, GALLERY_ALBUMS, BLOG_POSTS, YKP_IN_ACTION } from '../data/youthData';
+import { SITE_INFO, GALLERY_ALBUMS, BLOG_POSTS } from '../data/youthData';
 
 export const SITE_URL = 'https://youthkapakistan.com';
 export const SITE_NAME = 'Youth ka Pakistan';
@@ -193,10 +193,7 @@ function organizationJsonLd() {
       latitude: 24.8607,
       longitude: 67.0011
     },
-    hasMap: [
-      'https://www.google.com/maps/search/?api=1&query=Karachi%2C%20Sindh%2C%20Pakistan',
-      'https://www.bing.com/maps?cp=24.8607~67.0011&lvl=12&q=Karachi%2C%20Sindh%2C%20Pakistan'
-    ],
+    hasMap: 'https://www.google.com/maps/search/?api=1&query=Karachi%2C%20Sindh%2C%20Pakistan',
     areaServed: {
       '@type': 'Country',
       name: 'Pakistan'
@@ -283,52 +280,7 @@ function websiteJsonLd() {
     alternateName: ['YKP Foundation', 'Youth Ka Pakistan'],
     description: SITE_TAGLINE,
     inLanguage: 'en-PK',
-    publisher: { '@id': `${SITE_URL}/#organization` },
-    potentialAction: {
-      '@type': 'ReadAction',
-      target: `${SITE_URL}/`
-    }
-  };
-}
-
-function faqJsonLd() {
-  return {
-    '@type': 'FAQPage',
-    '@id': `${SITE_URL}/#faq`,
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'What is Youth Ka Pakistan (YKP Foundation)?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Youth Ka Pakistan, also known as YKP Foundation, is a nationwide nonprofit based in Karachi that helps Pakistani youth build practical skills, find mentors, and join free events and programmes.'
-        }
-      },
-      {
-        '@type': 'Question',
-        name: 'Who leads Youth Ka Pakistan?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `Patron-in-Chief is ${SITE_INFO.patronInChief.name}. Chairperson is ${SITE_INFO.chairperson.name}. President is ${SITE_INFO.president.name}, ${SITE_INFO.president.honorific}. Vice President is ${SITE_INFO.vicePresident.name}.`
-        }
-      },
-      {
-        '@type': 'Question',
-        name: 'When is URAAN-E-AI 2026?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: "URAAN-E-AI 2026 — Pakistan's Digital Flight — is a free national IT and Artificial Intelligence seminar on Tuesday, 1 September 2026 from 2:00 PM at DHA Suffa University, Karachi."
-        }
-      },
-      {
-        '@type': 'Question',
-        name: 'How can students join Youth Ka Pakistan?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Students can register free on youthkapakistan.com for virtual classes, mentorship, and events. Email info@youthkapakistan.com or visit the contact page.'
-        }
-      }
-    ]
+    publisher: { '@id': `${SITE_URL}/#organization` }
   };
 }
 
@@ -344,55 +296,6 @@ function galleryListJsonLd() {
       name: album.name,
       url: `${SITE_URL}/gallery`,
       image: `${SITE_URL}${album.coverImage}`
-    }))
-  };
-}
-
-function howToRsvpJsonLd() {
-  return {
-    '@type': 'HowTo',
-    '@id': `${SITE_URL}/events#rsvp`,
-    name: 'How to RSVP for URAAN-E-AI 2026',
-    description: 'Register free for Youth Ka Pakistan’s national IT and AI seminar in Karachi.',
-    step: [
-      {
-        '@type': 'HowToStep',
-        position: 1,
-        name: 'Open the events page',
-        text: 'Go to https://youthkapakistan.com/events'
-      },
-      {
-        '@type': 'HowToStep',
-        position: 2,
-        name: 'Fill the free RSVP form',
-        text: 'Enter your name, photo, and details to reserve a seat.'
-      },
-      {
-        '@type': 'HowToStep',
-        position: 3,
-        name: 'Receive your attendee poster',
-        text: 'Youth Ka Pakistan emails an official URAAN-E-AI 2026 attendee poster.'
-      }
-    ]
-  };
-}
-
-function videoListJsonLd() {
-  return {
-    '@type': 'ItemList',
-    '@id': `${SITE_URL}/#videos`,
-    name: 'YKP in Action',
-    itemListElement: YKP_IN_ACTION.videos.slice(0, 4).map((video, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      item: {
-        '@type': 'VideoObject',
-        name: video.title,
-        description: video.description,
-        thumbnailUrl: `https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg`,
-        embedUrl: `https://www.youtube.com/embed/${video.youtubeId}`,
-        publisher: { '@id': `${SITE_URL}/#organization` }
-      }
     }))
   };
 }
@@ -416,11 +319,7 @@ function articleJsonLd(page: SeoPage) {
     publisher: { '@id': `${SITE_URL}/#organization` },
     mainEntityOfPage: { '@id': `${canonicalUrl(page.path)}#webpage` },
     articleSection: post.category,
-    inLanguage: 'en-PK',
-    speakable: {
-      '@type': 'SpeakableSpecification',
-      cssSelector: ['h1', 'p']
-    }
+    inLanguage: 'en-PK'
   };
 }
 
@@ -437,19 +336,11 @@ function eventJsonLd() {
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     startDate: '2026-09-01T14:00:00+05:00',
-    eventSchedule: {
-      '@type': 'Schedule',
-      startDate: '2026-09-01',
-      startTime: '14:00:00',
-      scheduleTimezone: 'Asia/Karachi'
-    },
+    endDate: '2026-09-01T20:00:00+05:00',
     location: {
       '@type': 'Place',
       name: 'DHA Suffa University',
-      hasMap: [
-        'https://www.google.com/maps/search/?api=1&query=DHA%20Suffa%20University%2C%20Karachi',
-        'https://www.bing.com/maps?q=DHA%20Suffa%20University%20Karachi'
-      ],
+      hasMap: 'https://www.google.com/maps/search/?api=1&query=DHA%20Suffa%20University%2C%20Karachi',
       geo: {
         '@type': 'GeoCoordinates',
         latitude: 24.8142,
@@ -463,8 +354,12 @@ function eventJsonLd() {
         addressCountry: 'PK'
       }
     },
-    organizer: { '@id': `${SITE_URL}/#organization` },
-    performer: { '@id': `${SITE_URL}/#organization` },
+    organizer: {
+      '@type': 'NGO',
+      '@id': `${SITE_URL}/#organization`,
+      name: SITE_NAME,
+      url: `${SITE_URL}/`
+    },
     isAccessibleForFree: true,
     offers: {
       '@type': 'Offer',
@@ -487,10 +382,6 @@ export function buildJsonLd(page: SeoPage): object {
     inLanguage: 'en-PK',
     isPartOf: { '@id': `${SITE_URL}/#website` },
     about: { '@id': `${SITE_URL}/#organization` },
-    speakable: {
-      '@type': 'SpeakableSpecification',
-      cssSelector: ['h1', 'h2']
-    },
     primaryImageOfPage: {
       '@type': 'ImageObject',
       url: DEFAULT_OG_IMAGE
@@ -502,6 +393,7 @@ export function buildJsonLd(page: SeoPage): object {
   if (page.path !== '/') {
     graph.push({
       '@type': 'BreadcrumbList',
+      '@id': `${canonicalUrl(page.path)}#breadcrumb`,
       itemListElement: [
         {
           '@type': 'ListItem',
@@ -519,21 +411,8 @@ export function buildJsonLd(page: SeoPage): object {
     });
   }
 
-  if (page.id === 'home') {
-    graph.push({
-      '@type': 'AboutPage',
-      '@id': `${SITE_URL}/#about`,
-      url: `${SITE_URL}/`,
-      name: 'About Youth Ka Pakistan',
-      mainEntity: { '@id': `${SITE_URL}/#organization` }
-    });
-    graph.push(faqJsonLd());
-    graph.push(videoListJsonLd());
-  }
-
   if (page.id === 'events') {
     graph.push(eventJsonLd());
-    graph.push(howToRsvpJsonLd());
   }
 
   if (page.id === 'gallery') {
@@ -546,13 +425,6 @@ export function buildJsonLd(page: SeoPage): object {
   }
 
   if (page.id === 'contact') {
-    graph.push({
-      '@type': 'ContactPage',
-      '@id': `${SITE_URL}/contact#contact`,
-      url: `${SITE_URL}/contact`,
-      name: 'Contact Youth ka Pakistan',
-      mainEntity: { '@id': `${SITE_URL}/#organization` }
-    });
     graph.push({
       '@type': 'Place',
       '@id': `${SITE_URL}/contact#place`,
@@ -569,10 +441,7 @@ export function buildJsonLd(page: SeoPage): object {
         latitude: 24.8607,
         longitude: 67.0011
       },
-      hasMap: [
-        'https://www.google.com/maps/search/?api=1&query=Karachi%2C%20Sindh%2C%20Pakistan',
-        'https://www.bing.com/maps?cp=24.8607~67.0011&lvl=12&q=Karachi%2C%20Sindh%2C%20Pakistan'
-      ],
+      hasMap: 'https://www.google.com/maps/search/?api=1&query=Karachi%2C%20Sindh%2C%20Pakistan',
       telephone: '+92-300-2530110'
     });
   }
