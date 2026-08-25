@@ -16,6 +16,7 @@ import { JoinMovementBanner } from './JoinMovementBanner';
 import { YkpInAction } from './YkpInAction';
 import { EventRegistrationSection } from './EventRegistrationSection';
 import { TestimonialsCarousel } from './TestimonialsCarousel';
+import { EventGallerySlider } from './EventGallerySlider';
 import { ArrowRight } from 'lucide-react';
 
 interface HomeViewProps {
@@ -163,7 +164,11 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
             </motion.div>
           </div>
 
-          <div className="mt-12 sm:mt-14 grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="mt-12 sm:mt-14 space-y-6">
+            <h3 className="font-display text-2xl sm:text-3xl font-semibold text-[var(--ykp-ink)]">
+              Leadership
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
             {[
               {
                 name: SITE_INFO.patronInChief.name,
@@ -198,24 +203,21 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
                 alt: `${SITE_INFO.vicePresident.name}, ${SITE_INFO.vicePresident.role} of ${SITE_INFO.vicePresident.organization}`
               }
             ].map((person) => (
-              <div
+              <article
                 key={person.role}
-                className="flex flex-col sm:flex-row items-center sm:items-start gap-5 sm:gap-6 bg-[var(--ykp-canvas)] border border-gray-200 rounded-xl p-5 sm:p-6"
+                className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(5,71,42,0.08)]"
               >
-                <img
-                  src={person.photoUrl}
-                  alt={person.alt}
-                  className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover object-top border-2 border-[var(--ykp-gold)] shrink-0"
-                  width={112}
-                  height={112}
-                />
-                <div className="text-center sm:text-left space-y-1">
-                  <p className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[var(--ykp-gold)]">
-                    Leadership
-                  </p>
-                  <h3 className="font-display text-2xl font-semibold text-[var(--ykp-ink)]">
+                <div className="aspect-[4/5] bg-[var(--ykp-canvas)]">
+                  <img
+                    src={person.photoUrl}
+                    alt={person.alt}
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+                <div className="p-5 sm:p-6 space-y-1.5 text-center">
+                  <h4 className="font-display text-2xl font-semibold text-[var(--ykp-ink)] leading-snug">
                     {person.name}
-                  </h3>
+                  </h4>
                   <p className="text-sm font-semibold text-[var(--ykp-green)]">
                     {person.role}, {person.org}
                   </p>
@@ -225,8 +227,9 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
                     </p>
                   )}
                 </div>
-              </div>
+              </article>
             ))}
+            </div>
           </div>
 
           <div className="mt-14 sm:mt-16 space-y-8">
@@ -269,6 +272,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
           </div>
         </div>
       </section>
+
+      <EventGallerySlider setActiveTab={setActiveTab} />
 
       {/* Offerings */}
       <section id="offerings" className="py-20 sm:py-24 bg-white scroll-mt-24">

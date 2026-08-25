@@ -1,10 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BLOG_POSTS } from '../data/youthData';
 import { BlogPost } from '../types';
 import { ArrowRight, X } from 'lucide-react';
+import { applyDocumentSeo, blogPostFromPath, seoPageFromPath } from '../lib/seo';
 
 export const BlogView: React.FC = () => {
-  const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
+  const [selectedPost, setSelectedPost] = useState<BlogPost | null>(() =>
+    blogPostFromPath(window.location.pathname)
+  );
+
+  const openPost = (post: BlogPost) => {
+    setSelectedPost(post);
+    window.history.pushState({ tab: 'blog', slug: post.slug }, '', `/blog/${post.slug}`);
+    applyDocumentSeo(seoPageFromPath(`/blog/${post.slug}`));
+  };
+
+  const closePost = () => {
+    setSelectedPost(null);
+    window.history.pushState({ tab: 'blog' }, '', '/blog');
+    applyDocumentSeo(seoPageFromPath('/blog'));
+  };
+
+  useEffect(() => {
+    const onPop = () => setSelectedPost(blogPostFromPath(window.location.pathname));
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
 
   return (
     <div className="text-[var(--ykp-ink)]">
@@ -30,7 +51,7 @@ export const BlogView: React.FC = () => {
               <article
                 key={post.id}
                 className="group cursor-pointer flex flex-col"
-                onClick={() => setSelectedPost(post)}
+                onClick={() => openPost(post)}
               >
                 <div className="aspect-[16/11] overflow-hidden mb-5">
                   <img
@@ -67,7 +88,7 @@ export const BlogView: React.FC = () => {
               </p>
               <button
                 type="button"
-                onClick={() => setSelectedPost(null)}
+                onClick={() => closePost()}
                 className="text-[var(--ykp-muted)] hover:text-[var(--ykp-ink)] p-2 transition-colors cursor-pointer"
                 aria-label="Close article"
               >
@@ -90,7 +111,7 @@ export const BlogView: React.FC = () => {
             </p>
             <button
               type="button"
-              onClick={() => setSelectedPost(null)}
+              onClick={() => closePost()}
               className="text-sm font-semibold text-[var(--ykp-green)] link-underline cursor-pointer"
             >
               Close

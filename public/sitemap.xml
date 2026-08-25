@@ -1,33 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://youthkapakistan.com/</loc>
-    <lastmod>2026-08-19</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://youthkapakistan.com/og-image.png</image:loc>
+      <image:title>Youth Ka Pakistan YKP Foundation</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://youthkapakistan.com/events</loc>
-    <lastmod>2026-08-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://youthkapakistan.com/images/pdf-digital-flight-logo.png</image:loc>
+      <image:title>URAAN-E-AI 2026 Pakistan's Digital Flight</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://youthkapakistan.com/gallery</loc>
-    <lastmod>2026-08-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://youthkapakistan.com/images/gallery/chef-iconic-awards-2026/01.jpg</image:loc>
+      <image:title>Pakistan Chef Icon Award</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://youthkapakistan.com/images/gallery/marka-e-haq-excellence-award/cover.jpg</image:loc>
+      <image:title>Marka e Haq Excellence Award</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://youthkapakistan.com/images/gallery/celebration-pakistan-chef-icon-award/06.jpg</image:loc>
+      <image:title>Celebration Pakistan Chef Icon Award</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://youthkapakistan.com/blog</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://youthkapakistan.com/blog/skills-that-open-doors</loc>
+    <lastmod>2026-01-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://youthkapakistan.com/blog/mentorship-for-pakistani-youth</loc>
+    <lastmod>2026-01-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://youthkapakistan.com/blog/uraan-e-ai-2026-digital-flight</loc>
     <lastmod>2026-08-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://youthkapakistan.com/contact</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
 </urlset>

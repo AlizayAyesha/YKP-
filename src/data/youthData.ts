@@ -217,30 +217,36 @@ export const WHY_CHOOSE_DATA = {
 export const BLOG_POSTS: BlogPost[] = [
   {
     id: "1",
+    slug: "skills-that-open-doors",
     title: "Skills that open doors: why practical learning matters for Pakistani youth",
     excerpt: "Degrees help, but employers hire people who can do the work. Youth ka Pakistan focuses on free, practical skills young people can use immediately.",
     content: "Across Pakistan, thousands of talented young people finish school or university without a clear path into work. Youth ka Pakistan exists to close that gap. Our skills programmes focus on what students can actually use: communication, digital tools, event production, and the confidence to show up on a stage or in a workplace.\n\nWe believe opportunity should not depend on a family’s income or a city’s postcode. That is why our resources and student pathways are free. If you are ready to learn, there is a place for you in this movement.\n\nJoin as a student to get on the waitlist for forthcoming virtual classes, workshops, and national events such as URAAN-E-AI 2026.",
     date: "January 25, 2026",
+    dateIso: "2026-01-25",
     author: "Youth ka Pakistan",
     category: "Skills",
     image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: "2",
+    slug: "mentorship-for-pakistani-youth",
     title: "How mentorship helps young Pakistanis turn talent into a career",
     excerpt: "A mentor shortens the distance between potential and a first real opportunity. Here is how Youth ka Pakistan connects students with people who have walked the path.",
     content: "Talent is common. Access is not. Mentorship is one of the fastest ways a young person in Karachi, Lahore, Peshawar, or a smaller city can see a realistic next step — a portfolio, an interview, a first stage, a first job.\n\nYouth ka Pakistan invites educators, industry professionals, and partners to offer time, not just advice. Students get guidance. Mentors get to invest in the generation that will shape Pakistan’s economy and culture.\n\nIf you can teach, hire, or open a door, send a partner inquiry. If you are a student looking for that door, register and tell us what you want to learn.",
     date: "January 25, 2026",
+    dateIso: "2026-01-25",
     author: "Youth ka Pakistan",
     category: "Mentorship",
     image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: "3",
+    slug: "uraan-e-ai-2026-digital-flight",
     title: "URAAN-E-AI 2026: Pakistan’s Digital Flight lands in Karachi",
     excerpt: "On 1 September 2026 at DHA Suffa University, Youth ka Pakistan hosts a national IT and Artificial Intelligence seminar for students, educators, and innovators.",
     content: "URAAN-E-AI 2026 — Pakistan’s Digital Flight — is a national conversation on an AI-first economy. Students, educators, technology professionals, entrepreneurs, and emerging innovators will gather at DHA Suffa University in Karachi on Tuesday, 1 September 2026 from 2:00 PM onwards.\n\nThe panel explores business adoption, future skills, startups, education, ethics, and national development. Admission is free with RSVP.\n\nWhether you are a student planning an AI-ready career or an organisation preparing your workforce, this seminar is the place to listen, ask, and connect. RSVP on the events page and follow Pakistan’s Digital Flight on Instagram and Facebook for updates.",
     date: "August 19, 2026",
+    dateIso: "2026-08-19",
     author: "Youth ka Pakistan",
     category: "Events",
     image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80"

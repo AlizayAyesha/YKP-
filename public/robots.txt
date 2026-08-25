@@ -3,6 +3,17 @@ Allow: /
 Disallow: /admin
 Disallow: /api/
 Disallow: /uploads/
+Allow: /llms.txt
+Allow: /ai.txt
+Allow: /feed.xml
+Allow: /sitemap.xml
+Allow: /sitemap-index.xml
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
 
 User-agent: Bingbot
 Allow: /
@@ -13,11 +24,36 @@ Allow: /
 User-agent: GPTBot
 Allow: /
 
-User-agent: Google-Extended
-Allow: /
-
 User-agent: ChatGPT-User
 Allow: /
 
-Sitemap: https://youthkapakistan.com/sitemap.xml
+User-agent: Google-Extended
+Allow: /
 
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+Sitemap: https://youthkapakistan.com/sitemap-index.xml
+Sitemap: https://youthkapakistan.com/sitemap.xml
+Host: https://youthkapakistan.com

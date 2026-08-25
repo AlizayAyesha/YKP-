@@ -294,10 +294,12 @@ export interface ProgramOffering {
 
 export interface BlogPost {
   id: string;
+  slug: string;
   title: string;
   excerpt: string;
   content: string;
   date: string;
+  dateIso: string;
   author: string;
   category: string;
   image: string;

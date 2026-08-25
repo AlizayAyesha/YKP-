@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Youth Ka Pakistan (YKP Foundation)</title>
+    <link>https://youthkapakistan.com/</link>
+    <description>Skills, mentorship, and youth events from Youth Ka Pakistan — a nationwide nonprofit in Karachi.</description>
+    <language>en-PK</language>
+    <atom:link href="https://youthkapakistan.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>URAAN-E-AI 2026: Pakistan’s Digital Flight lands in Karachi</title>
+      <link>https://youthkapakistan.com/blog/uraan-e-ai-2026-digital-flight</link>
+      <guid>https://youthkapakistan.com/blog/uraan-e-ai-2026-digital-flight</guid>
+      <pubDate>Wed, 19 Aug 2026 00:00:00 +0500</pubDate>
+      <description>On 1 September 2026 at DHA Suffa University, Youth ka Pakistan hosts a national IT and Artificial Intelligence seminar for students, educators, and innovators.</description>
+    </item>
+    <item>
+      <title>How mentorship helps young Pakistanis turn talent into a career</title>
+      <link>https://youthkapakistan.com/blog/mentorship-for-pakistani-youth</link>
+      <guid>https://youthkapakistan.com/blog/mentorship-for-pakistani-youth</guid>
+      <pubDate>Sun, 25 Jan 2026 00:00:00 +0500</pubDate>
+      <description>A mentor shortens the distance between potential and a first real opportunity. Here is how Youth ka Pakistan connects students with people who have walked the path.</description>
+    </item>
+    <item>
+      <title>Skills that open doors: why practical learning matters for Pakistani youth</title>
+      <link>https://youthkapakistan.com/blog/skills-that-open-doors</link>
+      <guid>https://youthkapakistan.com/blog/skills-that-open-doors</guid>
+      <pubDate>Sun, 25 Jan 2026 00:00:00 +0500</pubDate>
+      <description>Degrees help, but employers hire people who can do the work. Youth ka Pakistan focuses on free, practical skills young people can use immediately.</description>
+    </item>
+  </channel>
+</rss>

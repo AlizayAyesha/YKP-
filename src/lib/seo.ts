@@ -1,5 +1,5 @@
 import { ActiveTab } from '../types';
-import { SITE_INFO } from '../data/youthData';
+import { SITE_INFO, GALLERY_ALBUMS, BLOG_POSTS, YKP_IN_ACTION } from '../data/youthData';
 
 export const SITE_URL = 'https://youthkapakistan.com';
 export const SITE_NAME = 'Youth ka Pakistan';
@@ -23,9 +23,9 @@ export const SEO_PAGES: Record<SeoPageId, SeoPage> = {
   home: {
     id: 'home',
     path: '/',
-    title: 'Youth ka Pakistan | Skills, Mentorship & Opportunity for Pakistani Youth',
+    title: 'Youth Ka Pakistan (YKP Foundation) | Skills, Mentorship & Youth Events in Pakistan',
     description:
-      'Youth ka Pakistan is a nationwide nonprofit helping Pakistani youth build real skills, find mentors, and access free programs, events, and opportunities across the country.',
+      'Youth Ka Pakistan (YKP Foundation) is a nationwide nonprofit in Karachi helping Pakistani youth build skills, find mentors, and join free events such as URAAN-E-AI 2026. Led by President Saima Agha, MPA.',
     robots: 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1',
     ogType: 'website',
     preloadImage: '/images/hero-vocational-center.png'
@@ -33,9 +33,9 @@ export const SEO_PAGES: Record<SeoPageId, SeoPage> = {
   events: {
     id: 'events',
     path: '/events',
-    title: 'URAAN-E-AI 2026 | National IT & AI Seminar | Youth ka Pakistan',
+    title: 'URAAN-E-AI 2026 | National IT & AI Seminar in Karachi | YKP Foundation',
     description:
-      'Join URAAN-E-AI 2026 - Pakistan\'s Digital Flight. A national IT and Artificial Intelligence seminar on 1 September 2026 at DHA Suffa University, Karachi. RSVP free.',
+      'URAAN-E-AI 2026 — Pakistan\'s Digital Flight. Free national IT and Artificial Intelligence seminar on 1 September 2026 at DHA Suffa University, Karachi, hosted by Youth Ka Pakistan (YKP Foundation). RSVP now.',
     robots: 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1',
     ogType: 'website',
     preloadImage: '/images/pdf-digital-flight-logo.png'
@@ -43,27 +43,27 @@ export const SEO_PAGES: Record<SeoPageId, SeoPage> = {
   gallery: {
     id: 'gallery',
     path: '/gallery',
-    title: 'Gallery | Youth ka Pakistan Events & Youth Stories',
+    title: 'Gallery | Pakistan Chef Icon Award, Marka e Haq & YKP Events',
     description:
-      'Browse photo albums from Youth ka Pakistan events, talent showcases, workshops, and youth gatherings across Pakistan.',
+      'Photo gallery from Youth Ka Pakistan (YKP Foundation) events including Pakistan Chef Icon Award, Celebration Pakistan Chef Icon Award, and Marka e Haq Excellence Award.',
     robots: 'index,follow,max-image-preview:large',
     ogType: 'website'
   },
   blog: {
     id: 'blog',
     path: '/blog',
-    title: 'Blog | Skills, Mentorship & Youth Opportunity in Pakistan',
+    title: 'Blog | Youth Skills, Mentorship & URAAN-E-AI | YKP Foundation',
     description:
-      'Stories and guidance from Youth ka Pakistan on skills development, mentorship, AI careers, and opportunities for young people nationwide.',
+      'Read Youth Ka Pakistan stories on practical skills, mentorship for Pakistani youth, and URAAN-E-AI 2026 — Pakistan\'s Digital Flight in Karachi.',
     robots: 'index,follow,max-image-preview:large,max-snippet:-1',
     ogType: 'article'
   },
   contact: {
     id: 'contact',
     path: '/contact',
-    title: 'Contact Youth ka Pakistan | Students, Mentors & Partners',
+    title: 'Contact Youth Ka Pakistan | YKP Foundation Karachi',
     description:
-      'Visit Youth ka Pakistan in Karachi. Find us on Google Maps and Bing Maps, or email info@youthkapakistan.com about student programs, mentorship, and partnership.',
+      'Contact Youth Ka Pakistan (YKP Foundation) in Karachi, Sindh. Email info@youthkapakistan.com or call +92 300 2530110 for students, mentors, and partners.',
     robots: 'index,follow,max-image-preview:large',
     ogType: 'website'
   },
@@ -95,13 +95,12 @@ export function pathToTab(pathname: string): ActiveTab {
       return 'events';
     case '/gallery':
       return 'gallery';
-    case '/blog':
-      return 'blog';
     case '/contact':
       return 'contact';
     case '/admin':
       return 'admin';
     default:
+      if (clean.startsWith('/blog')) return 'blog';
       return 'home';
   }
 }
@@ -124,12 +123,52 @@ export function getSeoPage(tab: ActiveTab): SeoPage {
   return SEO_PAGES[tabToSeoId(tab)];
 }
 
+export function blogPostFromPath(pathname: string) {
+  const clean = pathname.replace(/\/+$/, '') || '/';
+  const match = clean.match(/^\/blog\/([^/]+)$/);
+  if (!match) return null;
+  return BLOG_POSTS.find((post) => post.slug === match[1]) ?? null;
+}
+
+export function seoPageFromPath(pathname: string): SeoPage {
+  const post = blogPostFromPath(pathname);
+  if (post) {
+    return {
+      id: 'blog',
+      path: `/blog/${post.slug}`,
+      title: `${post.title} | YKP Foundation`,
+      description: post.excerpt,
+      robots: SEO_PAGES.blog.robots,
+      ogType: 'article'
+    };
+  }
+  return getSeoPage(pathToTab(pathname));
+}
+
+export function indexableUrls(): string[] {
+  return [
+    `${SITE_URL}/`,
+    `${SITE_URL}/events`,
+    `${SITE_URL}/gallery`,
+    `${SITE_URL}/blog`,
+    ...BLOG_POSTS.map((post) => `${SITE_URL}/blog/${post.slug}`),
+    `${SITE_URL}/contact`
+  ];
+}
+
 function organizationJsonLd() {
   return {
     '@type': 'NGO',
     '@id': `${SITE_URL}/#organization`,
     name: SITE_NAME,
-    alternateName: ['YKP', 'YKP Foundation', 'Youth Ka Pakistan'],
+    alternateName: [
+      'YKP',
+      'YKP Foundation',
+      'Youth Ka Pakistan',
+      'Youth Ka Pakistan YKP Foundation',
+      'Youthka Pakistan',
+      'youthkapakistan.com'
+    ],
     legalName: 'Youth ka Pakistan',
     url: `${SITE_URL}/`,
     logo: {
@@ -182,14 +221,25 @@ function organizationJsonLd() {
         addressCountry: 'PK'
       }
     },
+    slogan: 'Educate. Empower. Skill. Connect.',
     knowsAbout: [
       'Youth skills development',
       'Mentorship',
       'Artificial Intelligence education',
       'Talent promotion',
       'Event management',
-      'Pakistani youth empowerment'
+      'Pakistani youth empowerment',
+      'URAAN-E-AI',
+      'Pakistan Chef Icon Award'
     ],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer support',
+      email: 'info@youthkapakistan.com',
+      telephone: '+92-300-2530110',
+      areaServed: 'PK',
+      availableLanguage: ['English', 'Urdu']
+    },
     employee: [
       {
         '@type': 'Person',
@@ -230,9 +280,147 @@ function websiteJsonLd() {
     '@id': `${SITE_URL}/#website`,
     url: `${SITE_URL}/`,
     name: SITE_NAME,
+    alternateName: ['YKP Foundation', 'Youth Ka Pakistan'],
     description: SITE_TAGLINE,
     inLanguage: 'en-PK',
-    publisher: { '@id': `${SITE_URL}/#organization` }
+    publisher: { '@id': `${SITE_URL}/#organization` },
+    potentialAction: {
+      '@type': 'ReadAction',
+      target: `${SITE_URL}/`
+    }
+  };
+}
+
+function faqJsonLd() {
+  return {
+    '@type': 'FAQPage',
+    '@id': `${SITE_URL}/#faq`,
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is Youth Ka Pakistan (YKP Foundation)?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Youth Ka Pakistan, also known as YKP Foundation, is a nationwide nonprofit based in Karachi that helps Pakistani youth build practical skills, find mentors, and join free events and programmes.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Who leads Youth Ka Pakistan?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `Patron-in-Chief is ${SITE_INFO.patronInChief.name}. Chairperson is ${SITE_INFO.chairperson.name}. President is ${SITE_INFO.president.name}, ${SITE_INFO.president.honorific}. Vice President is ${SITE_INFO.vicePresident.name}.`
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'When is URAAN-E-AI 2026?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: "URAAN-E-AI 2026 — Pakistan's Digital Flight — is a free national IT and Artificial Intelligence seminar on Tuesday, 1 September 2026 from 2:00 PM at DHA Suffa University, Karachi."
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How can students join Youth Ka Pakistan?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Students can register free on youthkapakistan.com for virtual classes, mentorship, and events. Email info@youthkapakistan.com or visit the contact page.'
+        }
+      }
+    ]
+  };
+}
+
+function galleryListJsonLd() {
+  return {
+    '@type': 'ItemList',
+    '@id': `${SITE_URL}/gallery#albums`,
+    name: 'Youth Ka Pakistan event photo albums',
+    numberOfItems: GALLERY_ALBUMS.length,
+    itemListElement: GALLERY_ALBUMS.map((album, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: album.name,
+      url: `${SITE_URL}/gallery`,
+      image: `${SITE_URL}${album.coverImage}`
+    }))
+  };
+}
+
+function howToRsvpJsonLd() {
+  return {
+    '@type': 'HowTo',
+    '@id': `${SITE_URL}/events#rsvp`,
+    name: 'How to RSVP for URAAN-E-AI 2026',
+    description: 'Register free for Youth Ka Pakistan’s national IT and AI seminar in Karachi.',
+    step: [
+      {
+        '@type': 'HowToStep',
+        position: 1,
+        name: 'Open the events page',
+        text: 'Go to https://youthkapakistan.com/events'
+      },
+      {
+        '@type': 'HowToStep',
+        position: 2,
+        name: 'Fill the free RSVP form',
+        text: 'Enter your name, photo, and details to reserve a seat.'
+      },
+      {
+        '@type': 'HowToStep',
+        position: 3,
+        name: 'Receive your attendee poster',
+        text: 'Youth Ka Pakistan emails an official URAAN-E-AI 2026 attendee poster.'
+      }
+    ]
+  };
+}
+
+function videoListJsonLd() {
+  return {
+    '@type': 'ItemList',
+    '@id': `${SITE_URL}/#videos`,
+    name: 'YKP in Action',
+    itemListElement: YKP_IN_ACTION.videos.slice(0, 4).map((video, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'VideoObject',
+        name: video.title,
+        description: video.description,
+        thumbnailUrl: `https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg`,
+        embedUrl: `https://www.youtube.com/embed/${video.youtubeId}`,
+        publisher: { '@id': `${SITE_URL}/#organization` }
+      }
+    }))
+  };
+}
+
+function articleJsonLd(page: SeoPage) {
+  const post = BLOG_POSTS.find((item) => page.path === `/blog/${item.slug}`);
+  if (!post) return null;
+  return {
+    '@type': 'Article',
+    '@id': `${canonicalUrl(page.path)}#article`,
+    headline: post.title,
+    description: post.excerpt,
+    image: post.image,
+    datePublished: post.dateIso,
+    dateModified: post.dateIso,
+    author: {
+      '@type': 'Organization',
+      name: post.author,
+      url: SITE_URL
+    },
+    publisher: { '@id': `${SITE_URL}/#organization` },
+    mainEntityOfPage: { '@id': `${canonicalUrl(page.path)}#webpage` },
+    articleSection: post.category,
+    inLanguage: 'en-PK',
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', 'p']
+    }
   };
 }
 
@@ -291,7 +479,7 @@ function eventJsonLd() {
 
 export function buildJsonLd(page: SeoPage): object {
   const webPage = {
-    '@type': 'WebPage',
+    '@type': page.id === 'gallery' ? 'CollectionPage' : page.id === 'contact' ? 'ContactPage' : page.id === 'blog' ? 'Blog' : 'WebPage',
     '@id': `${canonicalUrl(page.path)}#webpage`,
     url: canonicalUrl(page.path),
     name: page.title,
@@ -299,6 +487,10 @@ export function buildJsonLd(page: SeoPage): object {
     inLanguage: 'en-PK',
     isPartOf: { '@id': `${SITE_URL}/#website` },
     about: { '@id': `${SITE_URL}/#organization` },
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', 'h2']
+    },
     primaryImageOfPage: {
       '@type': 'ImageObject',
       url: DEFAULT_OG_IMAGE
@@ -327,8 +519,30 @@ export function buildJsonLd(page: SeoPage): object {
     });
   }
 
+  if (page.id === 'home') {
+    graph.push({
+      '@type': 'AboutPage',
+      '@id': `${SITE_URL}/#about`,
+      url: `${SITE_URL}/`,
+      name: 'About Youth Ka Pakistan',
+      mainEntity: { '@id': `${SITE_URL}/#organization` }
+    });
+    graph.push(faqJsonLd());
+    graph.push(videoListJsonLd());
+  }
+
   if (page.id === 'events') {
     graph.push(eventJsonLd());
+    graph.push(howToRsvpJsonLd());
+  }
+
+  if (page.id === 'gallery') {
+    graph.push(galleryListJsonLd());
+  }
+
+  const article = articleJsonLd(page);
+  if (article) {
+    graph.push(article);
   }
 
   if (page.id === 'contact') {
@@ -413,10 +627,18 @@ export function applyDocumentSeo(page: SeoPage) {
   if (typeof document === 'undefined') return;
   const url = canonicalUrl(page.path);
   document.title = page.title;
-  document.documentElement.lang = 'en';
+  document.documentElement.lang = 'en-PK';
 
   setOrCreateMeta({ name: 'description' }, page.description);
   setOrCreateMeta({ name: 'robots' }, page.robots);
+  setOrCreateMeta(
+    { name: 'google-site-verification' },
+    'dhhD5h7vVGIoiIH9n1nVO1Tu1JRse7t1QdsuA6KsMrU'
+  );
+  setOrCreateMeta(
+    { name: 'keywords' },
+    'Youth Ka Pakistan, YKP Foundation, Youth ka Pakistan, URAAN-E-AI 2026, Saima Agha MPA, Pakistani youth, skills, mentorship, Karachi'
+  );
   setCanonical(url);
 
   setOrCreateMeta({ property: 'og:title' }, page.title);
@@ -424,11 +646,23 @@ export function applyDocumentSeo(page: SeoPage) {
   setOrCreateMeta({ property: 'og:url' }, url);
   setOrCreateMeta({ property: 'og:type' }, page.ogType);
   setOrCreateMeta({ property: 'og:image' }, DEFAULT_OG_IMAGE);
+  setOrCreateMeta({ property: 'og:locale' }, 'en_PK');
+  setOrCreateMeta({ property: 'og:site_name' }, SITE_NAME);
+  setOrCreateMeta({ name: 'twitter:card' }, 'summary_large_image');
   setOrCreateMeta({ name: 'twitter:title' }, page.title);
   setOrCreateMeta({ name: 'twitter:description' }, page.description);
   setOrCreateMeta({ name: 'twitter:image' }, DEFAULT_OG_IMAGE);
   setOrCreateMeta({ name: 'twitter:url' }, url);
 
+  const post = blogPostFromPath(page.path);
+  if (post) {
+    setOrCreateMeta({ property: 'article:published_time' }, `${post.dateIso}T00:00:00+05:00`);
+    setOrCreateMeta({ property: 'article:author' }, post.author);
+    setOrCreateMeta({ property: 'article:section' }, post.category);
+  }
+
+  const hreflangPk = document.head.querySelector('link[rel="alternate"][hreflang="en-PK"]') as HTMLLinkElement | null;
+  if (hreflangPk) hreflangPk.setAttribute('href', url);
   const hreflang = document.head.querySelector('link[rel="alternate"][hreflang="en"]') as HTMLLinkElement | null;
   if (hreflang) hreflang.setAttribute('href', url);
   const hreflangDefault = document.head.querySelector(
@@ -437,6 +671,88 @@ export function applyDocumentSeo(page: SeoPage) {
   if (hreflangDefault) hreflangDefault.setAttribute('href', url);
 
   setJsonLd(buildJsonLd(page));
+}
+
+function wrapSeoMain(inner: string): string {
+  return `<main style="max-width:46rem;margin:2.5rem auto;padding:0 1.25rem 3rem;font-family:Georgia,serif;color:#0B1F14;line-height:1.55"><!--ykp-seo-start-->${inner}<!--ykp-seo-end--></main>`;
+}
+
+export function seoBodyHtml(page: SeoPage): string {
+  const nav = `<nav><p><a href="/">Home</a> · <a href="/events">Events</a> · <a href="/gallery">Gallery</a> · <a href="/blog">Blog</a> · <a href="/contact">Contact</a></p></nav>`;
+
+  if (page.id === 'events') {
+    return wrapSeoMain(`
+      <h1>URAAN-E-AI 2026 — Pakistan's Digital Flight</h1>
+      ${nav}
+      <p>Youth Ka Pakistan (YKP Foundation) hosts a free national IT and Artificial Intelligence seminar on Tuesday, 1 September 2026 from 2:00 PM at DHA Suffa University, Karachi.</p>
+      <p>Students, educators, technology professionals, entrepreneurs, and innovators are invited to RSVP on this page.</p>
+    `);
+  }
+
+  if (page.id === 'gallery') {
+    const albums = GALLERY_ALBUMS.map((album) => `<li>${album.name} (${album.year})</li>`).join('');
+    return wrapSeoMain(`
+      <h1>Youth Ka Pakistan Gallery</h1>
+      ${nav}
+      <p>Photo albums from YKP Foundation events across Pakistan.</p>
+      <ul>${albums}</ul>
+    `);
+  }
+
+  if (page.id === 'blog') {
+    const post = BLOG_POSTS.find((item) => page.path === `/blog/${item.slug}`);
+    if (post) {
+      return wrapSeoMain(`
+        <article>
+          <h1>${post.title}</h1>
+          ${nav}
+          <p>${post.date} · ${post.author} · ${post.category}</p>
+          <p>${post.excerpt}</p>
+          <p>${post.content.replace(/\n\n/g, '</p><p>')}</p>
+        </article>
+      `);
+    }
+    const posts = BLOG_POSTS.map(
+      (item) => `<li><a href="/blog/${item.slug}"><strong>${item.title}</strong></a> — ${item.excerpt}</li>`
+    ).join('');
+    return wrapSeoMain(`
+      <h1>Youth Ka Pakistan Blog</h1>
+      ${nav}
+      <p>Stories on skills, mentorship, and youth opportunity in Pakistan from YKP Foundation.</p>
+      <ul>${posts}</ul>
+    `);
+  }
+
+  if (page.id === 'contact') {
+    return wrapSeoMain(`
+      <h1>Contact Youth Ka Pakistan (YKP Foundation)</h1>
+      ${nav}
+      <p>Karachi, Sindh, Pakistan</p>
+      <p>Email: <a href="mailto:info@youthkapakistan.com">info@youthkapakistan.com</a></p>
+      <p>Phone: <a href="tel:+923002530110">+92 300 2530110</a></p>
+    `);
+  }
+
+  if (page.id === 'admin') {
+    return wrapSeoMain(`<h1>Youth ka Pakistan administration</h1>`);
+  }
+
+  return wrapSeoMain(`
+    <h1>Youth Ka Pakistan (YKP Foundation)</h1>
+    ${nav}
+    <p>Youth Ka Pakistan is a nationwide nonprofit dedicated to unlocking the potential of Pakistan's youth through skills, mentorship, events, and opportunity. Educate. Empower. Skill. Connect.</p>
+    <h2>Leadership</h2>
+    <ul>
+      <li>${SITE_INFO.patronInChief.role}: ${SITE_INFO.patronInChief.name}</li>
+      <li>${SITE_INFO.chairperson.role}: ${SITE_INFO.chairperson.name}</li>
+      <li>${SITE_INFO.president.role}: ${SITE_INFO.president.name}, ${SITE_INFO.president.honorific}</li>
+      <li>${SITE_INFO.vicePresident.role}: ${SITE_INFO.vicePresident.name}, ${SITE_INFO.vicePresident.organization}</li>
+    </ul>
+    <h2>Upcoming event</h2>
+    <p><a href="/events">URAAN-E-AI 2026</a> — Pakistan's Digital Flight, 1 September 2026 at DHA Suffa University, Karachi.</p>
+    <h2>Offerings</h2>
+    <p>Skills development, event management, talent promotion, and free mentorship for Pakistani youth — boys and girls, nationwide.</p>
+  `);
 }
 
 export function injectSeoHtml(html: string, page: SeoPage): string {
@@ -449,6 +765,7 @@ export function injectSeoHtml(html: string, page: SeoPage): string {
     : '';
 
   let next = html
+    .replace(/<html lang="[^"]*">/, '<html lang="en-PK">')
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${title}</title>`)
     .replace(
       /<meta name="description" content="[^"]*"\s*\/?>/,
@@ -459,8 +776,20 @@ export function injectSeoHtml(html: string, page: SeoPage): string {
       `<meta name="robots" content="${page.robots}" />`
     )
     .replace(
+      /<meta name="keywords" content="[^"]*"\s*\/?>/,
+      `<meta name="keywords" content="Youth Ka Pakistan, YKP Foundation, Youth ka Pakistan, URAAN-E-AI 2026, Saima Agha MPA, Pakistani youth, skills, mentorship, Karachi" />`
+    )
+    .replace(
+      /<div id="root">[\s\S]*?<\/div>(\s*<noscript>)/,
+      `<div id="root">${seoBodyHtml(page)}</div>$1`
+    )
+    .replace(
       /<link rel="canonical" href="[^"]*"\s*\/?>/,
       `<link rel="canonical" href="${url}" />`
+    )
+    .replace(
+      /<link rel="alternate" hreflang="en-PK" href="[^"]*"\s*\/?>/,
+      `<link rel="alternate" hreflang="en-PK" href="${url}" />`
     )
     .replace(
       /<link rel="alternate" hreflang="en" href="[^"]*"\s*\/?>/,

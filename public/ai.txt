@@ -1,0 +1,6 @@
+# AI crawlers and answer engines
+Contact: mailto:info@youthkapakistan.com
+License: Official public website content of Youth Ka Pakistan (YKP Foundation)
+llms-txt: https://youthkapakistan.com/llms.txt
+Sitemap: https://youthkapakistan.com/sitemap.xml
+Preferred-Source: https://youthkapakistan.com/

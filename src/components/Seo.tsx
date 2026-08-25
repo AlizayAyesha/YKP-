@@ -1,10 +1,13 @@
 import { useEffect } from 'react';
 import { ActiveTab } from '../types';
-import { applyDocumentSeo, getSeoPage } from '../lib/seo';
+import { applyDocumentSeo, seoPageFromPath } from '../lib/seo';
 
 export function Seo({ tab }: { tab: ActiveTab }) {
   useEffect(() => {
-    applyDocumentSeo(getSeoPage(tab));
+    applyDocumentSeo(seoPageFromPath(window.location.pathname));
+    const onPop = () => applyDocumentSeo(seoPageFromPath(window.location.pathname));
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
   }, [tab]);
 
   return null;

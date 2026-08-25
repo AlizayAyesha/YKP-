@@ -51,7 +51,7 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, openModal }) => {
                   key={label}
                   href={href}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="me noopener noreferrer"
                   aria-label={label}
                   className="w-9 h-9 border border-white/15 hover:border-[var(--ykp-gold)] hover:text-[var(--ykp-gold)] flex items-center justify-center transition-colors"
                 >
