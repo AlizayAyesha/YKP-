@@ -271,14 +271,18 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
       </section>
 
       {/* Why choose — two features */}
-      <section className="py-20 sm:py-24 bg-[var(--ykp-canvas)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative py-20 sm:py-24 bg-[#02150c] text-white overflow-hidden">
+        <div
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgba(201,162,39,0.14),transparent_55%),radial-gradient(ellipse_60%_40%_at_100%_100%,rgba(5,71,42,0.45),transparent_50%)]"
+          aria-hidden
+        />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
             <p className="ykp-eyebrow">Why YKP</p>
-            <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[var(--ykp-ink)] text-balance">
+            <h2 className="font-display text-3xl sm:text-4xl font-semibold text-white text-balance">
               {WHY_CHOOSE_DATA.title}
             </h2>
-            <p className="text-[var(--ykp-muted)] text-base">
+            <p className="text-white/65 text-base">
               {WHY_CHOOSE_DATA.description}
             </p>
           </div>
