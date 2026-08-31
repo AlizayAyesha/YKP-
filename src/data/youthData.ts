@@ -46,7 +46,7 @@ export const SITE_INFO = {
   socials: {
     facebook: "https://www.facebook.com/YouthKaPakistan.YKP",
     instagram: "https://www.instagram.com/ykpfoundation/",
-    linkedin: "https://www.linkedin.com/in/ykp-foundation-374461426/",
+    linkedin: "https://www.linkedin.com/company/youth-ka-pakistan/",
     youtube: "https://youtube.com/youthkapakistan"
   }
 };
@@ -278,8 +278,8 @@ export const YKP_IN_ACTION = {
   eyebrow: "Watch & get inspired",
   title: "YKP in Action",
   description: "See workshops, stages, and youth stories from across Pakistan — then join the movement yourself.",
-  channelUrl: "https://youtube.com/youthkapakistan",
-  channelCta: "Visit YouTube Channel",
+  channelUrl: "https://www.linkedin.com/company/youth-ka-pakistan/posts/?feedView=all",
+  channelCta: "Visit LinkedIn",
   videos: [
     {
       id: "1",

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUp, Facebook, Instagram, Linkedin, Mail, MapPin, Youtube } from 'lucide-react';
+import { ArrowUp, Facebook, Instagram, Linkedin, Mail, MapPin } from 'lucide-react';
 import { ActiveTab, ModalType } from '../types';
 import { SITE_INFO } from '../data/youthData';
 import { tabToPath } from '../lib/seo';
@@ -15,11 +15,12 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, openModal }) => {
   };
 
   return (
-    <footer className="bg-[var(--ykp-green-deep)] text-white/70 font-sans text-sm">
+    <footer className="relative bg-[var(--ykp-green-deep)] text-white/70 font-sans text-sm">
+      <div className="h-[2px] bg-[linear-gradient(90deg,#05472A_0%,#C9A227_50%,#05472A_100%)]" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           <div className="space-y-5 lg:col-span-1">
-            <div className="inline-block bg-white rounded-md px-3 py-2">
+            <div className="inline-block bg-white rounded-xl px-3 py-2">
               <img
                 src="/ykp-logo.png"
                 alt="Youth Ka Pakistan logo — educate, empower, skills, and networking for Pakistani youth"
@@ -44,8 +45,7 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, openModal }) => {
               {[
                 { href: SITE_INFO.socials.facebook, icon: Facebook, label: 'Facebook' },
                 { href: SITE_INFO.socials.instagram, icon: Instagram, label: 'Instagram' },
-                { href: SITE_INFO.socials.linkedin, icon: Linkedin, label: 'LinkedIn' },
-                { href: SITE_INFO.socials.youtube, icon: Youtube, label: 'Youtube' }
+                { href: SITE_INFO.socials.linkedin, icon: Linkedin, label: 'LinkedIn' }
               ].map(({ href, icon: Icon, label }) => (
                 <a
                   key={label}
@@ -53,7 +53,7 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, openModal }) => {
                   target="_blank"
                   rel="me noopener noreferrer"
                   aria-label={label}
-                  className="w-9 h-9 border border-white/15 hover:border-[var(--ykp-gold)] hover:text-[var(--ykp-gold)] flex items-center justify-center transition-colors"
+                  className="w-10 h-10 rounded-full border border-white/15 hover:border-[var(--ykp-gold)] hover:text-[var(--ykp-gold)] hover:bg-white/5 flex items-center justify-center transition-colors"
                 >
                   <Icon className="w-4 h-4" />
                 </a>
@@ -77,14 +77,17 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, openModal }) => {
                 <li className="flex items-start gap-2.5">
                   <MapPin className="w-4 h-4 text-[var(--ykp-gold)] shrink-0 mt-0.5" />
                   <a
-                    href={tabToPath('contact')}
+                    href="/#contact"
                     onClick={(event) => {
                       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) {
                         return;
                       }
                       event.preventDefault();
-                      setActiveTab('contact');
-                      scrollToTop();
+                      setActiveTab('home');
+                      window.history.replaceState({ tab: 'home' }, '', '/#contact');
+                      window.setTimeout(() => {
+                        document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                      }, 120);
                     }}
                     className="hover:text-white transition-colors"
                   >
@@ -94,13 +97,13 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, openModal }) => {
                 <li className="flex flex-col items-start gap-2 pt-1">
                   <button
                     onClick={() => openModal('student-register')}
-                    className="inline-flex items-center gap-2 bg-[var(--ykp-gold)] hover:bg-[var(--ykp-gold-bright)] text-[var(--ykp-ink)] font-semibold text-xs tracking-wide px-5 py-2.5 transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-2 bg-[var(--ykp-gold)] hover:bg-[var(--ykp-gold-bright)] text-[var(--ykp-ink)] font-semibold text-xs tracking-wide px-5 py-2.5 rounded-full transition-colors cursor-pointer"
                   >
                     Become a Student
                   </button>
                   <button
                     onClick={() => openModal('partner-inquiry')}
-                    className="inline-flex items-center gap-2 border border-white/20 hover:border-[var(--ykp-gold)] hover:text-[var(--ykp-gold)] font-semibold text-xs tracking-wide px-5 py-2.5 transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-2 border border-white/20 hover:border-[var(--ykp-gold)] hover:text-[var(--ykp-gold)] font-semibold text-xs tracking-wide px-5 py-2.5 rounded-full transition-colors cursor-pointer"
                   >
                     Partner / Mentor Inquiry
                   </button>
@@ -123,12 +126,20 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, openModal }) => {
               ].map((item) => (
                 <li key={item.label}>
                   <a
-                    href={tabToPath(item.tab)}
+                    href={item.tab === 'contact' ? '/#contact' : tabToPath(item.tab)}
                     onClick={(event) => {
                       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) {
                         return;
                       }
                       event.preventDefault();
+                      if (item.tab === 'contact') {
+                        setActiveTab('home');
+                        window.history.replaceState({ tab: 'home' }, '', '/#contact');
+                        window.setTimeout(() => {
+                          document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                        }, 120);
+                        return;
+                      }
                       setActiveTab(item.tab);
                       scrollToTop();
                     }}

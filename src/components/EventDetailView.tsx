@@ -21,6 +21,7 @@ import { EventProfileRole, PublicEventProfile, YkpEvent } from '../types';
 import { LocationMap } from './LocationMap';
 import { EVENT_VENUE_LOCATION } from '../lib/location';
 import { EventInviteCinema } from './EventInviteCinema';
+import { SmartImage } from './SmartImage';
 
 interface EventDetailViewProps {
   event?: YkpEvent;
@@ -121,18 +122,18 @@ export const EventDetailView: React.FC<EventDetailViewProps> = ({
                 <span className="text-[var(--ykp-gold)]">·</span>
                 <span>{place}</span>
               </div>
-              <div className="flex flex-wrap gap-3 pt-2">
+              <div className="flex flex-col sm:flex-row flex-wrap gap-3 pt-2">
                 <button
                   type="button"
                   onClick={() => onRsvp(event)}
-                  className="inline-flex items-center gap-2 bg-[var(--ykp-gold)] hover:bg-[var(--ykp-gold-bright)] text-[var(--ykp-ink)] font-semibold text-sm px-6 py-3.5 rounded-md cursor-pointer"
+                  className="inline-flex items-center justify-center gap-2 bg-[var(--ykp-gold)] hover:bg-[var(--ykp-gold-bright)] text-[var(--ykp-ink)] font-semibold text-sm px-6 py-3.5 rounded-full cursor-pointer w-full sm:w-auto"
                 >
                   RSVP for URAAN-E-AI 2026
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <a
                   href="#about-uraan"
-                  className="inline-flex items-center gap-2 border border-white/25 hover:border-[var(--ykp-gold)] text-white font-semibold text-sm px-6 py-3.5 rounded-md"
+                  className="inline-flex items-center justify-center gap-2 border border-white/25 hover:border-[var(--ykp-gold)] text-white font-semibold text-sm px-6 py-3.5 rounded-full w-full sm:w-auto"
                 >
                   Explore Event
                 </a>
@@ -387,7 +388,7 @@ export const EventDetailView: React.FC<EventDetailViewProps> = ({
       {selected && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-[var(--ykp-green-deep)]/70" onClick={() => setSelected(null)}>
           <div className="bg-white w-full max-w-md rounded-t-2xl sm:rounded-xl p-6 space-y-4" onClick={(e) => e.stopPropagation()}>
-            <img src={selected.photoUrl} alt={selected.fullName} className="w-full aspect-[4/5] object-cover object-top rounded-lg" />
+            <SmartImage src={selected.photoUrl} alt={selected.fullName} className="w-full aspect-[4/5] object-cover object-top rounded-lg" />
             <div>
               <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--ykp-gold)] font-semibold">{selected.role}</p>
               <h3 className="font-display text-2xl font-semibold mt-1">{selected.fullName}</h3>
@@ -510,7 +511,7 @@ function PersonCard({
       className={`text-left bg-white rounded-xl overflow-hidden border border-gray-100 ${prominent ? 'shadow-sm' : ''}`}
     >
       <button type="button" onClick={() => onSelect(person)} className="w-full text-left cursor-pointer">
-        <img src={person.photoUrl} alt={person.fullName} className="w-full aspect-[4/5] object-cover object-top" />
+        <SmartImage src={person.photoUrl} alt={person.fullName} className="w-full aspect-[4/5] object-cover object-top" loading="lazy" />
         <div className="p-4 space-y-1">
           <p className="text-[10px] uppercase tracking-[0.16em] font-semibold text-[var(--ykp-gold)]">{person.role}</p>
           <h3 className="font-display text-lg font-semibold leading-tight">{person.fullName}</h3>

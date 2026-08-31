@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, MapPin } from 'lucide-react';
 
 export interface MapLocation {
   name: string;
@@ -20,6 +20,7 @@ type MapProvider = 'google' | 'bing';
 
 export const LocationMap: React.FC<LocationMapProps> = ({ location, title, description }) => {
   const [provider, setProvider] = useState<MapProvider>('google');
+  const [loaded, setLoaded] = useState(false);
   const embed = provider === 'google' ? location.googleEmbed : location.bingEmbed;
   const providerLabel = provider === 'google' ? 'Google Maps' : 'Bing Maps';
 
@@ -73,20 +74,42 @@ export const LocationMap: React.FC<LocationMapProps> = ({ location, title, descr
         </div>
 
         <div className="overflow-hidden rounded-xl border border-[var(--ykp-green)]/10 shadow-[0_16px_40px_rgba(5,71,42,0.08)] bg-[var(--ykp-canvas)]">
-          <iframe
-            key={provider}
-            title={`${location.name} on ${providerLabel}`}
-            src={embed}
-            width="100%"
-            height="450"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            allowFullScreen
-            className="w-full h-[320px] sm:h-[420px] lg:h-[450px] border-0"
-          />
+          {loaded ? (
+            <iframe
+              key={provider}
+              title={`${location.name} on ${providerLabel}`}
+              src={embed}
+              width="100%"
+              height="450"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+              className="w-full h-[320px] sm:h-[420px] lg:h-[450px] border-0"
+            />
+          ) : (
+            <button
+              type="button"
+              onClick={() => setLoaded(true)}
+              className="flex w-full h-[320px] sm:h-[420px] lg:h-[450px] flex-col items-center justify-center gap-3 text-center px-6 cursor-pointer hover:bg-[#eef3ef] transition-colors"
+              aria-label={`Load ${providerLabel} for ${location.name}`}
+            >
+              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--ykp-green)] text-[var(--ykp-gold-bright)]">
+                <MapPin className="h-6 w-6" />
+              </span>
+              <span className="font-display text-xl font-semibold text-[var(--ykp-ink)]">
+                {location.label}
+              </span>
+              <span className="text-sm text-[var(--ykp-muted)] max-w-sm">
+                Load the map when you need directions. Nothing is fetched until you tap.
+              </span>
+              <span className="mt-1 inline-flex items-center rounded-full bg-[var(--ykp-green)] px-5 py-2.5 text-sm font-semibold text-white">
+                Show map
+              </span>
+            </button>
+          )}
         </div>
 
-        <div className="mt-4 flex flex-wrap gap-3">
+        <div className="mt-4 flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-3">
           <a
             href={location.googleMapsUrl}
             target="_blank"
@@ -96,7 +119,7 @@ export const LocationMap: React.FC<LocationMapProps> = ({ location, title, descr
             Open in Google Maps
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
-          <span className="text-[var(--ykp-muted)]">·</span>
+          <span className="text-[var(--ykp-muted)] hidden sm:inline">·</span>
           <a
             href={location.bingMapsUrl}
             target="_blank"

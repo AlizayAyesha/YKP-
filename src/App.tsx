@@ -9,6 +9,9 @@ import { EventsView } from './components/EventsView';
 import { GalleryView } from './components/GalleryView';
 import { AdminAttendeesView } from './components/AdminAttendeesView';
 import { Seo } from './components/Seo';
+import { BackToTopButton } from './components/BackToTopButton';
+import { LocationMap } from './components/LocationMap';
+import { HQ_LOCATION } from './lib/location';
 import { YouthContactModal } from './components/Modals/YouthContactModal';
 import { ProgramEnrollModal } from './components/Modals/ProgramEnrollModal';
 import { LearnMoreModal } from './components/Modals/LearnMoreModal';
@@ -104,10 +107,20 @@ export default function App() {
         )}
       </main>
 
+      {activeTab !== 'admin' &&
+        (activeTab === 'home' || activeTab === 'about' || activeTab === 'offerings' || activeTab === 'contact') && (
+        <LocationMap
+          location={HQ_LOCATION}
+          title="Karachi, Pakistan"
+          description="Youth ka Pakistan is based in Karachi and works with youth nationwide. Open the map in Google or Bing for directions."
+        />
+      )}
+
       <Footer
         setActiveTab={setActiveTab}
         openModal={openModal}
       />
+      <BackToTopButton page={activeTab} />
 
       <YouthContactModal
         isOpen={activeModal === 'contact'}

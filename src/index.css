@@ -18,6 +18,7 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    overflow-x: hidden;
   }
 
   .skip-link {
@@ -75,6 +76,74 @@
   font-family: var(--font-sans);
 }
 
+.ykp-eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ykp-gold);
+}
+
+.ykp-btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  background: var(--ykp-gold);
+  color: var(--ykp-ink);
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.85rem 1.75rem;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 10px 24px rgba(201, 162, 39, 0.28);
+}
+.ykp-btn-gold:hover {
+  background: var(--ykp-gold-bright);
+  transform: translateY(-1px);
+}
+
+.ykp-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.85rem 1.6rem;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+.ykp-btn-outline:hover {
+  border-color: var(--ykp-gold);
+  color: var(--ykp-gold);
+  background: rgba(201, 162, 39, 0.08);
+}
+
+@media (max-width: 639px) {
+  .ykp-btn-gold,
+  .ykp-btn-outline {
+    width: 100%;
+  }
+}
+
+.ykp-card {
+  border-radius: 1.25rem;
+  background: #fff;
+  border: 1px solid rgba(11, 31, 20, 0.06);
+  box-shadow:
+    0 10px 18px rgba(11, 31, 20, 0.04),
+    0 32px 56px -16px rgba(11, 31, 20, 0.12);
+}
+
+.ykp-gold-line {
+  height: 1px;
+  width: 3.5rem;
+  background: linear-gradient(90deg, var(--ykp-gold), transparent);
+}
+
 /* Atmosphere */
 .bg-canvas-glow {
   background:
@@ -110,6 +179,36 @@
 
 .link-underline:hover {
   background-size: 100% 1.5px;
+}
+
+@keyframes ykp-glow-pulse {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+.ykp-glow-pulse {
+  animation: ykp-glow-pulse 8s ease-in-out infinite;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+details summary {
+  list-style: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ykp-glow-pulse {
+    animation: none;
+  }
+
+  .motion-safe\:animate-\[ykp-kenburns_22s_ease-in-out_infinite_alternate\] {
+    animation: none !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 /* Custom scrollbar */

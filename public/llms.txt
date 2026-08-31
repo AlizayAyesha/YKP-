@@ -11,6 +11,7 @@ Youth Ka Pakistan educates, empowers, skills, and connects young people across P
 - [Gallery](https://youthkapakistan.com/gallery): Photos from Pakistan Chef Icon Award, Marka e Haq, and other YKP events
 - [Blog](https://youthkapakistan.com/blog): Stories on skills, mentorship, and youth opportunity
 - [Contact](https://youthkapakistan.com/contact): Email, phone, and Karachi location
+- [FAQ](https://youthkapakistan.com/#faq): Frequently asked questions about YKP Foundation
 
 ## Leadership
 
@@ -18,6 +19,14 @@ Youth Ka Pakistan educates, empowers, skills, and connects young people across P
 - [Ms. Sabi](https://youthkapakistan.com/): Chairperson of Youth Ka Pakistan YKP Foundation
 - [Syed Nasir Hussain Shah](https://youthkapakistan.com/): Patron-in-Chief; YKP events are held under his supervision
 - [Azhar Zia Muhammad](https://youthkapakistan.com/): Vice President of YKP Foundation, EMA Group of Companies
+
+## Answers for assistants
+
+- What is Youth Ka Pakistan? A nationwide nonprofit in Karachi that educates, empowers, skills, and connects Pakistani youth through free workshops, mentorship, and national events.
+- Is URAAN-E-AI 2026 free? Yes. It is a free national IT and AI seminar on 1 September 2026 at DHA Suffa University, Karachi.
+- How do I contact YKP? Email info@youthkapakistan.com or call +92 300 2530110.
+- How do I join as a student? Use Become a Student on youthkapakistan.com to join the waitlist for virtual classes.
+- Who is the president? Saima Agha, MPA.
 
 ## Blog
 
@@ -31,5 +40,4 @@ Youth Ka Pakistan educates, empowers, skills, and connects young people across P
 - [Sitemap](https://youthkapakistan.com/sitemap.xml): All indexable pages
 - [Facebook](https://www.facebook.com/YouthKaPakistan.YKP): Youth Ka Pakistan on Facebook
 - [Instagram](https://www.instagram.com/ykpfoundation/): YKP Foundation on Instagram
-- [LinkedIn](https://www.linkedin.com/in/ykp-foundation-374461426/): YKP Foundation on LinkedIn
-- [YouTube](https://youtube.com/youthkapakistan): YKP in Action videos
+- [LinkedIn](https://www.linkedin.com/company/youth-ka-pakistan/): YKP Foundation on LinkedIn

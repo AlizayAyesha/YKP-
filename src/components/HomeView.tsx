@@ -18,7 +18,10 @@ import { EventRegistrationSection } from './EventRegistrationSection';
 import { TestimonialsCarousel } from './TestimonialsCarousel';
 import { EventGallerySlider } from './EventGallerySlider';
 import { AboutValuesSection } from './AboutValuesSection';
+import { ContactSection } from './ContactSection';
+import { FaqSection } from './FaqSection';
 import { ArrowRight } from 'lucide-react';
+import { SmartImage } from './SmartImage';
 
 interface HomeViewProps {
   setActiveTab: (tab: ActiveTab) => void;
@@ -31,12 +34,20 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
   const lastPart = titleParts.length > 1 ? titleParts[titleParts.length - 1] : '';
   const firstParts = titleParts.length > 1 ? titleParts.slice(0, -1).join('. ') + '.' : HERO_DATA.title;
 
+  React.useEffect(() => {
+    if (window.location.hash !== '#contact') return;
+    const timer = window.setTimeout(() => {
+      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+    }, 80);
+    return () => window.clearTimeout(timer);
+  }, []);
+
   return (
     <div className="bg-white text-[var(--ykp-ink)]">
 
       {/* HERO — IYCO-style large serif H1 */}
       <section className="relative min-h-[88vh] flex items-center overflow-hidden">
-        <img
+        <SmartImage
           src={HERO_IMAGE}
           alt="Youth at a Youth ka Pakistan vocational training center in Pakistan"
           className="absolute inset-0 w-full h-full object-cover"
@@ -44,12 +55,13 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
           height={1080}
           fetchPriority="high"
           decoding="sync"
+          loading="eager"
         />
         <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(3,40,22,0.92)_0%,rgba(5,71,42,0.75)_50%,rgba(3,40,22,0.55)_100%)]" />
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-32">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-28 lg:py-32">
           <div className="max-w-3xl space-y-7">
-            <p className="text-[11px] font-semibold tracking-[0.28em] uppercase text-[var(--ykp-gold)]">
+            <p className="inline-flex items-center gap-2 rounded-full border border-[var(--ykp-gold)]/35 bg-black/25 px-3.5 py-1.5 text-[11px] font-semibold tracking-[0.28em] uppercase text-[var(--ykp-gold)] backdrop-blur-sm">
               Youth ka Pakistan
             </p>
 
@@ -67,17 +79,17 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
               {HERO_DATA.subtitle}
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 pt-1">
+            <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 pt-1 w-full max-w-md sm:max-w-none">
               <button
                 onClick={() => openModal('student-register')}
-                className="inline-flex items-center gap-2 bg-[var(--ykp-gold)] hover:bg-[var(--ykp-gold-bright)] text-[var(--ykp-ink)] font-semibold text-sm px-7 py-3.5 rounded-md transition-colors cursor-pointer"
+                className="ykp-btn-gold cursor-pointer"
               >
                 {HERO_DATA.ctaText}
                 <ArrowRight className="w-4 h-4" />
               </button>
               <button
                 onClick={() => document.getElementById('featured-event')?.scrollIntoView({ behavior: 'smooth' })}
-                className="inline-flex items-center gap-2 border border-white/30 hover:border-[var(--ykp-gold)] text-white hover:text-[var(--ykp-gold)] font-semibold text-sm px-6 py-3.5 rounded-md transition-colors cursor-pointer"
+                className="ykp-btn-outline cursor-pointer"
               >
                 Learn More
               </button>
@@ -99,12 +111,17 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
       </div>
 
       {/* ABOUT — vision, mission, four pillars */}
-      <section id="about" className="py-20 sm:py-24 bg-white scroll-mt-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="about" className="relative py-20 sm:py-24 bg-[#02150c] text-white scroll-mt-24 overflow-hidden">
+        <div
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgba(201,162,39,0.14),transparent_55%),radial-gradient(ellipse_60%_40%_at_100%_100%,rgba(5,71,42,0.45),transparent_50%)]"
+          aria-hidden
+        />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AboutValuesSection />
 
           <div className="mt-16 sm:mt-20 space-y-6">
-            <h3 className="font-display text-2xl sm:text-3xl font-semibold text-[var(--ykp-ink)]">
+            <p className="ykp-eyebrow mb-3">The foundation</p>
+            <h3 className="font-display text-2xl sm:text-3xl font-semibold text-white">
               Leadership
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
@@ -141,20 +158,26 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
                 photoUrl: SITE_INFO.vicePresident.photoUrl,
                 alt: `${SITE_INFO.vicePresident.name}, ${SITE_INFO.vicePresident.role} of ${SITE_INFO.vicePresident.organization}`
               }
-            ].map((person) => (
-              <article
+            ].map((person, i) => (
+              <motion.article
                 key={person.role}
-                className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(5,71,42,0.08)]"
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -6 }}
+                className="ykp-card overflow-hidden"
               >
                 <div className="bg-[var(--ykp-canvas)]">
-                  <img
+                  <SmartImage
                     src={person.photoUrl}
                     alt={person.alt}
                     className="w-full h-auto object-contain"
+                    loading="lazy"
                   />
                 </div>
                 <div className="p-5 sm:p-6 space-y-1.5 text-center">
-                  <h4 className="font-display text-2xl font-semibold text-[var(--ykp-ink)] leading-snug">
+                  <h4 className="font-display text-xl sm:text-2xl font-semibold text-[var(--ykp-ink)] leading-snug">
                     {person.name}
                   </h4>
                   <p className="text-sm font-semibold text-[var(--ykp-green)]">
@@ -166,23 +189,23 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
                     </p>
                   )}
                 </div>
-              </article>
+              </motion.article>
             ))}
             </div>
           </div>
 
           <div className="mt-14 sm:mt-16 space-y-8">
-            <div className="max-w-3xl space-y-4 text-[var(--ykp-muted)] text-base leading-relaxed">
+            <div className="max-w-3xl space-y-4 text-white/65 text-base leading-relaxed">
               {ABOUT_DATA.closing.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
-              <p className="text-[var(--ykp-ink)] font-semibold">
+              <p className="text-white font-semibold">
                 {ABOUT_DATA.closer}
               </p>
             </div>
             <button
               onClick={() => openModal('learn-more')}
-              className="inline-flex items-center gap-2 bg-[var(--ykp-green)] hover:bg-[var(--ykp-green-deep)] text-white font-semibold text-sm px-6 py-3 rounded-md transition-colors cursor-pointer"
+              className="ykp-btn-gold cursor-pointer"
             >
               {VISION_DATA.ctaText}
               <ArrowRight className="w-4 h-4" />
@@ -197,6 +220,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
       <section id="offerings" className="py-20 sm:py-24 bg-white scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
+            <p className="ykp-eyebrow">Our offerings</p>
             <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[var(--ykp-ink)]">
               {TALENTS_SECTION.subtitle}
             </h2>
@@ -204,7 +228,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
               {TALENTS_SECTION.description}
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
             {TALENTS_SECTION.offerings.map((item, i) => (
               <motion.div
                 key={item.id}
@@ -212,15 +236,17 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
-                className="group"
+                className="group ykp-card p-3 pb-6"
               >
                 <div className="aspect-[16/11] overflow-hidden rounded-xl mb-5">
-                  <img
+                  <SmartImage
                     src={item.image}
                     alt={item.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                    loading="lazy"
                   />
                 </div>
+                <div className="px-2">
                 <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[var(--ykp-gold)] mb-2">
                   {item.num}
                 </p>
@@ -237,6 +263,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
                   Become a Student
                   <ArrowRight className="w-4 h-4" />
                 </button>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -247,6 +274,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
       <section className="py-20 sm:py-24 bg-[var(--ykp-canvas)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
+            <p className="ykp-eyebrow">Why YKP</p>
             <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[var(--ykp-ink)] text-balance">
               {WHY_CHOOSE_DATA.title}
             </h2>
@@ -256,12 +284,13 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {WHY_CHOOSE_DATA.features.map((feature) => (
-              <div key={feature.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+              <div key={feature.id} className="ykp-card overflow-hidden">
                 <div className={`aspect-[16/9] overflow-hidden ${feature.id === 'nationwide-reach' ? 'bg-[#f4f1ea]' : ''}`}>
-                  <img
+                  <SmartImage
                     src={feature.image}
                     alt={feature.title}
                     className={`w-full h-full ${feature.id === 'nationwide-reach' ? 'object-contain' : 'object-cover'}`}
+                    loading="lazy"
                   />
                 </div>
                 <div className="p-6 space-y-3">
@@ -288,7 +317,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
       {/* Past events / impact stats */}
       <section className="py-20 sm:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
+          <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
+            <p className="ykp-eyebrow">Impact</p>
             <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[var(--ykp-ink)]">
               Past Events & Impact
             </h2>
@@ -297,13 +327,13 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
             {PAST_EVENTS.map((event) => (
               <div
                 key={event.id}
-                className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm"
+                className="ykp-card overflow-hidden"
               >
-                <div className="bg-[var(--ykp-green-deep)] text-white px-4 py-3">
-                  <p className="text-[var(--ykp-gold)] text-xs font-semibold tracking-wider">{event.year}</p>
-                  <h3 className="font-display text-base font-semibold mt-0.5 leading-snug">{event.title}</h3>
+                <div className="bg-[var(--ykp-green-deep)] text-white px-5 py-5">
+                  <p className="text-[var(--ykp-gold)] text-xs font-semibold tracking-[0.2em] uppercase">{event.year}</p>
+                  <h3 className="font-display text-lg font-semibold mt-1.5 leading-snug">{event.title}</h3>
                 </div>
-                <ul className="px-4 py-4 space-y-2 text-sm">
+                <ul className="px-5 py-5 space-y-3 text-sm">
                   {event.stats.map((stat) => (
                     <li key={stat.label} className="flex justify-between gap-3 text-[var(--ykp-muted)]">
                       <span>{stat.label}</span>
@@ -320,17 +350,18 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
       {/* Partners — logo cloud */}
       <section id="partners" className="py-16 bg-[var(--ykp-canvas)] border-y border-[var(--ykp-green)]/10">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="ykp-eyebrow mb-3">Partners</p>
           <h2 className="font-display text-2xl sm:text-3xl font-semibold text-[var(--ykp-ink)] mb-8">
             Our Partners
           </h2>
-          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-3 text-sm sm:text-base text-[var(--ykp-muted)] font-medium">
-            {PARTNERS_DATA.map((partner, i) => (
-              <React.Fragment key={partner.id}>
-                {i > 0 && <span className="text-[var(--ykp-green)]/30 hidden sm:inline">|</span>}
-                <span className="hover:text-[var(--ykp-green)] transition-colors px-1">
-                  {partner.name}
-                </span>
-              </React.Fragment>
+          <div className="flex flex-wrap items-center justify-center gap-2.5 text-sm sm:text-base text-[var(--ykp-muted)] font-medium">
+            {PARTNERS_DATA.map((partner) => (
+              <span
+                key={partner.id}
+                className="rounded-full border border-[var(--ykp-green)]/10 bg-white px-3.5 py-1.5 hover:text-[var(--ykp-green)] hover:border-[var(--ykp-gold)]/40 transition-colors"
+              >
+                {partner.name}
+              </span>
             ))}
           </div>
           <button
@@ -345,6 +376,10 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
       </section>
 
       <TestimonialsCarousel />
+
+      <FaqSection />
+
+      <ContactSection openModal={openModal} compact />
 
       <JoinMovementBanner openModal={openModal} />
     </div>

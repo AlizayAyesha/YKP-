@@ -1,5 +1,6 @@
 import { ActiveTab } from '../types';
 import { SITE_INFO, GALLERY_ALBUMS, BLOG_POSTS } from '../data/youthData';
+import { SITE_FAQS } from '../data/faq';
 
 export const SITE_URL = 'https://youthkapakistan.com';
 export const SITE_NAME = 'Youth ka Pakistan';
@@ -28,7 +29,7 @@ export const SEO_PAGES: Record<SeoPageId, SeoPage> = {
       'Youth Ka Pakistan (YKP Foundation) is a nationwide nonprofit in Karachi helping Pakistani youth build skills, find mentors, and join free events such as URAAN-E-AI 2026. Led by President Saima Agha, MPA.',
     robots: 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1',
     ogType: 'website',
-    preloadImage: '/images/hero-vocational-center.png'
+    preloadImage: '/images/hero-vocational-center.webp'
   },
   events: {
     id: 'events',
@@ -38,7 +39,7 @@ export const SEO_PAGES: Record<SeoPageId, SeoPage> = {
       'URAAN-E-AI 2026 — Pakistan\'s Digital Flight. Free national IT and Artificial Intelligence seminar on 1 September 2026 at DHA Suffa University, Karachi, hosted by Youth Ka Pakistan (YKP Foundation). RSVP now.',
     robots: 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1',
     ogType: 'website',
-    preloadImage: '/images/pdf-digital-flight-logo.png'
+    preloadImage: '/images/pdf-digital-flight-logo.webp'
   },
   gallery: {
     id: 'gallery',
@@ -158,7 +159,7 @@ export function indexableUrls(): string[] {
 
 function organizationJsonLd() {
   return {
-    '@type': 'NGO',
+    '@type': ['NGO', 'EducationalOrganization'],
     '@id': `${SITE_URL}/#organization`,
     name: SITE_NAME,
     alternateName: [
@@ -201,7 +202,7 @@ function organizationJsonLd() {
     sameAs: [
       'https://www.facebook.com/YouthKaPakistan.YKP',
       'https://www.instagram.com/ykpfoundation/',
-      'https://www.linkedin.com/in/ykp-foundation-374461426/',
+      'https://www.linkedin.com/company/youth-ka-pakistan/',
       'https://youtube.com/youthkapakistan'
     ],
     foundingLocation: {
@@ -277,9 +278,42 @@ function websiteJsonLd() {
     '@id': `${SITE_URL}/#website`,
     url: `${SITE_URL}/`,
     name: SITE_NAME,
-    alternateName: ['YKP Foundation', 'Youth Ka Pakistan'],
-    description: SITE_TAGLINE,
+    alternateName: ['YKP Foundation', 'Youth Ka Pakistan', 'Youth Ka Pakistan YKP Foundation'],
+    description:
+      'Nationwide nonprofit in Karachi helping Pakistani youth build skills, find mentors, and join free events such as URAAN-E-AI 2026.',
     inLanguage: 'en-PK',
+    publisher: { '@id': `${SITE_URL}/#organization` },
+    about: { '@id': `${SITE_URL}/#organization` }
+  };
+}
+
+function faqJsonLd() {
+  return {
+    '@type': 'FAQPage',
+    '@id': `${SITE_URL}/#faq`,
+    mainEntity: SITE_FAQS.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer
+      }
+    }))
+  };
+}
+
+function inviteVideoJsonLd() {
+  return {
+    '@type': 'VideoObject',
+    '@id': `${SITE_URL}/#uraan-invite-video`,
+    name: 'URAAN-E-AI 2026 Official Invitation',
+    description:
+      "Official invitation video for URAAN-E-AI 2026 — Pakistan's Digital Flight, a free national IT and AI seminar in Karachi.",
+    thumbnailUrl: `${SITE_URL}/images/pdf-digital-flight-logo.webp`,
+    contentUrl: `${SITE_URL}/videos/uraan-e-ai-invite.mp4`,
+    uploadDate: '2026-08-31',
+    duration: 'PT35S',
+    inLanguage: 'en',
     publisher: { '@id': `${SITE_URL}/#organization` }
   };
 }
@@ -316,7 +350,17 @@ function articleJsonLd(page: SeoPage) {
       name: post.author,
       url: SITE_URL
     },
-    publisher: { '@id': `${SITE_URL}/#organization` },
+    publisher: {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
+      name: SITE_NAME,
+      logo: {
+        '@type': 'ImageObject',
+        url: LOGO_URL,
+        width: 512,
+        height: 512
+      }
+    },
     mainEntityOfPage: { '@id': `${canonicalUrl(page.path)}#webpage` },
     articleSection: post.category,
     inLanguage: 'en-PK'
@@ -332,11 +376,21 @@ function eventJsonLd() {
     description:
       "National IT & Artificial Intelligence Seminar 2026. A national gathering of students, educators, technology professionals, and innovators exploring Pakistan's AI-first economy.",
     url: `${SITE_URL}/events`,
-    image: [`${SITE_URL}/images/pdf-digital-flight-logo.png`, DEFAULT_OG_IMAGE],
+    image: [`${SITE_URL}/images/pdf-digital-flight-logo.webp`, DEFAULT_OG_IMAGE],
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     startDate: '2026-09-01T14:00:00+05:00',
     endDate: '2026-09-01T20:00:00+05:00',
+    doorTime: '2026-09-01T14:00:00+05:00',
+    inLanguage: ['en', 'ur'],
+    isAccessibleForFree: true,
+    typicalAgeRange: '16-35',
+    audience: {
+      '@type': 'EducationalAudience',
+      educationalRole: 'student'
+    },
+    performer: { '@id': `${SITE_URL}/#organization` },
+    video: { '@id': `${SITE_URL}/#uraan-invite-video` },
     location: {
       '@type': 'Place',
       name: 'DHA Suffa University',
@@ -360,7 +414,6 @@ function eventJsonLd() {
       name: SITE_NAME,
       url: `${SITE_URL}/`
     },
-    isAccessibleForFree: true,
     offers: {
       '@type': 'Offer',
       url: `${SITE_URL}/events`,
@@ -373,46 +426,65 @@ function eventJsonLd() {
 }
 
 export function buildJsonLd(page: SeoPage): object {
-  const webPage = {
+  const dateModified = '2026-08-31';
+  const webPage: Record<string, unknown> = {
     '@type': page.id === 'gallery' ? 'CollectionPage' : page.id === 'contact' ? 'ContactPage' : page.id === 'blog' ? 'Blog' : 'WebPage',
     '@id': `${canonicalUrl(page.path)}#webpage`,
     url: canonicalUrl(page.path),
     name: page.title,
     description: page.description,
     inLanguage: 'en-PK',
+    dateModified,
     isPartOf: { '@id': `${SITE_URL}/#website` },
     about: { '@id': `${SITE_URL}/#organization` },
     primaryImageOfPage: {
       '@type': 'ImageObject',
       url: DEFAULT_OG_IMAGE
+    },
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', '#about h2', '#faq-heading']
     }
   };
 
   const graph: object[] = [organizationJsonLd(), websiteJsonLd(), webPage];
 
-  if (page.path !== '/') {
-    graph.push({
-      '@type': 'BreadcrumbList',
-      '@id': `${canonicalUrl(page.path)}#breadcrumb`,
-      itemListElement: [
-        {
-          '@type': 'ListItem',
-          position: 1,
-          name: 'Home',
-          item: `${SITE_URL}/`
-        },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name: page.title.split(' | ')[0],
-          item: canonicalUrl(page.path)
-        }
-      ]
-    });
+  graph.push({
+    '@type': 'BreadcrumbList',
+    '@id': `${canonicalUrl(page.path)}#breadcrumb`,
+    itemListElement:
+      page.path === '/'
+        ? [
+            {
+              '@type': 'ListItem',
+              position: 1,
+              name: 'Home',
+              item: `${SITE_URL}/`
+            }
+          ]
+        : [
+            {
+              '@type': 'ListItem',
+              position: 1,
+              name: 'Home',
+              item: `${SITE_URL}/`
+            },
+            {
+              '@type': 'ListItem',
+              position: 2,
+              name: page.title.split(' | ')[0],
+              item: canonicalUrl(page.path)
+            }
+          ]
+  });
+
+  if (page.id === 'home') {
+    webPage.mainEntity = { '@id': `${SITE_URL}/#faq` };
+    graph.push(faqJsonLd(), inviteVideoJsonLd());
   }
 
   if (page.id === 'events') {
-    graph.push(eventJsonLd());
+    graph.push(eventJsonLd(), inviteVideoJsonLd());
   }
 
   if (page.id === 'gallery') {
@@ -621,6 +693,8 @@ export function seoBodyHtml(page: SeoPage): string {
     <p><a href="/events">URAAN-E-AI 2026</a> — Pakistan's Digital Flight, 1 September 2026 at DHA Suffa University, Karachi.</p>
     <h2>Offerings</h2>
     <p>Skills development, event management, talent promotion, and free mentorship for Pakistani youth — boys and girls, nationwide.</p>
+    <h2>Frequently asked questions</h2>
+    ${SITE_FAQS.map((item) => `<h3>${item.question}</h3><p>${item.answer}</p>`).join('')}
   `);
 }
 
@@ -630,7 +704,7 @@ export function injectSeoHtml(html: string, page: SeoPage): string {
   const description = escapeAttr(page.description);
   const jsonLd = JSON.stringify(buildJsonLd(page));
   const preload = page.preloadImage
-    ? `<link rel="preload" as="image" href="${page.preloadImage}" fetchpriority="high" />`
+    ? `<link rel="preload" as="image" type="image/webp" href="${page.preloadImage}" fetchpriority="high" />`
     : '';
 
   let next = html

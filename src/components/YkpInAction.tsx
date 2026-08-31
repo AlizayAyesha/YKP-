@@ -15,6 +15,9 @@ export const YkpInAction: React.FC = () => {
     <section id="ykp-in-action" className="py-20 sm:py-24 bg-white scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
+          <p className="inline-flex items-center rounded-full bg-[#E7F2EC] px-3.5 py-1.5 text-[11px] font-semibold tracking-[0.2em] uppercase text-[var(--ykp-green)]">
+            {YKP_IN_ACTION.eyebrow}
+          </p>
           <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[var(--ykp-ink)] tracking-tight">
             {YKP_IN_ACTION.title}
           </h2>
@@ -35,10 +38,12 @@ export const YkpInAction: React.FC = () => {
               onClick={() => setModalVideo(video)}
               className="group text-left cursor-pointer"
             >
-              <div className="relative aspect-video overflow-hidden rounded-xl shadow-[0_12px_30px_rgba(5,71,42,0.12)] bg-[var(--ykp-canvas)]">
+              <div className="relative aspect-video overflow-hidden rounded-2xl shadow-[0_16px_40px_rgba(5,71,42,0.14)] bg-[var(--ykp-canvas)]">
                 <img
                   src={thumb(video.youtubeId)}
                   alt={video.title}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                 />
                 <div className="absolute inset-0 bg-black/25 group-hover:bg-black/35 transition-colors" />

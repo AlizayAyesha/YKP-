@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, X, ChevronLeft, ChevronRight, Images } from 'lucide-react';
 import { GALLERY_ALBUMS } from '../data/youthData';
 import { GalleryAlbum } from '../types';
+import { SmartImage } from './SmartImage';
 
 export const GalleryView: React.FC = () => {
   const [activeAlbum, setActiveAlbum] = useState<GalleryAlbum | null>(null);
@@ -65,9 +66,10 @@ export const GalleryView: React.FC = () => {
                   className="group text-left cursor-pointer"
                 >
                   <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-[var(--ykp-canvas)] shadow-[0_10px_30px_rgba(5,71,42,0.08)]">
-                    <img
+                    <SmartImage
                       src={album.coverImage}
                       alt={album.name}
+                      loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
@@ -118,9 +120,10 @@ export const GalleryView: React.FC = () => {
                     onClick={() => openLightbox(index)}
                     className="group relative aspect-square overflow-hidden rounded-lg bg-[var(--ykp-canvas)] cursor-pointer"
                   >
-                    <img
+                    <SmartImage
                       src={image.url}
                       alt={image.caption || activeAlbum.name}
+                      loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                     />
                     {image.caption && (
@@ -170,7 +173,7 @@ export const GalleryView: React.FC = () => {
               <ChevronRight className="w-7 h-7 sm:w-8 sm:h-8" />
             </button>
             <div className="max-w-5xl w-full text-center px-8 sm:px-12">
-              <img
+              <SmartImage
                 src={activeAlbum.images[lightboxIndex].url}
                 alt={activeAlbum.images[lightboxIndex].caption || activeAlbum.name}
                 className="max-h-[70vh] sm:max-h-[78vh] w-auto max-w-full mx-auto object-contain rounded-md"

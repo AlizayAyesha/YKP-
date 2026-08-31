@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { GALLERY_ALBUMS, HOME_GALLERY_FRAMES } from '../data/youthData';
 import { tabToPath } from '../lib/seo';
 import { ActiveTab } from '../types';
+import { SmartImage } from './SmartImage';
 
 const AUTO_MS = 4500;
 
@@ -50,6 +51,7 @@ export const EventGallerySlider: React.FC<EventGallerySliderProps> = ({ setActiv
 
   useEffect(() => {
     if (paused || total <= 1) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const id = window.setInterval(() => {
       setDirection(1);
       setIndex((i) => (i + 1) % total);
@@ -79,30 +81,35 @@ export const EventGallerySlider: React.FC<EventGallerySliderProps> = ({ setActiv
           onTouchEnd={() => setPaused(false)}
         >
           <AnimatePresence mode="wait" custom={direction}>
-            <motion.img
+            <motion.div
               key={current.id}
-              src={current.url}
-              alt={`${current.eventName} — ${current.caption}`}
               custom={direction}
               initial={{ opacity: 0, scale: 1.06, x: direction * 24 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               exit={{ opacity: 0, x: direction * -24 }}
               transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
+              className="absolute inset-0"
+            >
+              <SmartImage
+                src={current.url}
+                alt={`${current.eventName} — ${current.caption}`}
+                className="absolute inset-0 w-full h-full object-cover"
+                loading="lazy"
+              />
+            </motion.div>
           </AnimatePresence>
 
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
 
-          <div className="absolute inset-x-0 bottom-0 p-5 sm:p-8 lg:p-10 z-10">
+          <div className="absolute inset-x-0 bottom-0 p-4 pr-16 sm:p-8 lg:p-10 sm:pr-28 z-10">
             <p className="text-[10px] sm:text-[11px] font-semibold tracking-[0.24em] uppercase text-[var(--ykp-gold)] mb-1.5">
               {current.year} · Gallery
             </p>
-            <h3 className="font-display text-2xl sm:text-3xl lg:text-4xl font-semibold text-white leading-tight text-balance">
+            <h3 className="font-display text-xl sm:text-3xl lg:text-4xl font-semibold text-white leading-tight text-balance">
               {current.eventName}
             </h3>
             {current.caption && (
-              <p className="mt-1.5 text-sm sm:text-base text-white/80 max-w-2xl leading-relaxed">
+              <p className="mt-1.5 text-xs sm:text-base text-white/80 max-w-2xl leading-relaxed line-clamp-2">
                 {current.caption}
               </p>
             )}
@@ -163,7 +170,7 @@ export const EventGallerySlider: React.FC<EventGallerySliderProps> = ({ setActiv
               }}
               className={`group relative overflow-hidden rounded-2xl bg-[var(--ykp-green-deep)] text-left cursor-pointer [box-shadow:0_10px_18px_rgba(3,40,22,0.06),0_28px_48px_-10px_rgba(3,40,22,0.16)] ${FRAME_SIZE[frame.size]}`}
             >
-              <img
+              <SmartImage
                 src={frame.url}
                 alt={frame.alt}
                 loading="lazy"
@@ -176,7 +183,7 @@ export const EventGallerySlider: React.FC<EventGallerySliderProps> = ({ setActiv
                 <span className="block text-[9px] sm:text-[10px] font-semibold tracking-[0.2em] uppercase text-[var(--ykp-gold)]">
                   {frame.year}
                 </span>
-                <span className="mt-0.5 block font-display text-sm sm:text-base font-semibold text-white leading-snug">
+                <span className="mt-0.5 block font-display text-xs sm:text-base font-semibold text-white leading-snug line-clamp-2">
                   {frame.eventName}
                 </span>
               </span>

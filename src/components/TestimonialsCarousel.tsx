@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ChevronLeft, ChevronRight, Linkedin } from 'lucide-react';
 import { TESTIMONIALS } from '../data/youthData';
+import { SmartImage } from './SmartImage';
 
 const AUTO_MS = 5500;
 
@@ -23,6 +24,7 @@ export const TestimonialsCarousel: React.FC = () => {
 
   useEffect(() => {
     if (paused || total <= 1) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const id = window.setInterval(() => {
       setDirection(1);
       setIndex((i) => (i + 1) % total);
@@ -31,8 +33,9 @@ export const TestimonialsCarousel: React.FC = () => {
   }, [paused, total, index]);
 
   return (
-    <section className="py-20 sm:py-24 bg-[var(--ykp-green-deep)] text-white overflow-hidden">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative py-20 sm:py-24 bg-[var(--ykp-green-deep)] text-white overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_20%_0%,rgba(201,162,39,0.16),transparent_55%)]" />
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 space-y-3">
           <p className="text-[11px] font-semibold tracking-[0.28em] uppercase text-[var(--ykp-gold)]">
             Voices from the movement
@@ -63,10 +66,11 @@ export const TestimonialsCarousel: React.FC = () => {
                 <div className="md:col-span-4 flex justify-center md:justify-start">
                   <div className="relative">
                     <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-full overflow-hidden ring-4 ring-[var(--ykp-gold)]/40 shadow-2xl">
-                      <img
+                      <SmartImage
                         src={current.image}
                         alt={current.author}
                         className="w-full h-full object-cover object-top"
+                        loading="lazy"
                       />
                     </div>
                     <div className="absolute -bottom-2 -right-2 bg-[var(--ykp-gold)] text-[var(--ykp-ink)] text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full">
@@ -96,7 +100,7 @@ export const TestimonialsCarousel: React.FC = () => {
                     ) : (
                       <p className="font-semibold text-base text-white">{current.author}</p>
                     )}
-                    <p className="text-sm text-[var(--ykp-gold)] mt-1">
+                    <p className="text-sm text-[var(--ykp-gold)] mt-1 max-w-[16rem] sm:max-w-xl leading-snug text-pretty">
                       {[current.role, current.city].filter(Boolean).join(' · ')}
                     </p>
                   </div>
