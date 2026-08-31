@@ -41,7 +41,11 @@ export const EventInviteCinema: React.FC<EventInviteCinemaProps> = ({ event, cla
                 controls
                 playsInline
                 preload="none"
-                className="absolute inset-0 h-full w-full object-cover"
+                controlsList="nodownload noplaybackrate noremoteplayback"
+                disablePictureInPicture
+                disableRemotePlayback
+                onContextMenu={(e) => e.preventDefault()}
+                className="ykp-invite-video absolute inset-0 h-full w-full object-cover"
               />
             ) : (
               <button

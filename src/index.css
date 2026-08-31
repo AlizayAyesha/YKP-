@@ -197,6 +197,13 @@ details summary {
   list-style: none;
 }
 
+.ykp-invite-video::-webkit-media-controls-download-button {
+  display: none !important;
+}
+.ykp-invite-video::-webkit-media-controls-enclosure {
+  overflow: hidden;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ykp-glow-pulse {
     animation: none;

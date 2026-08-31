@@ -310,7 +310,7 @@ function inviteVideoJsonLd() {
     description:
       "Official invitation video for URAAN-E-AI 2026 — Pakistan's Digital Flight, a free national IT and AI seminar in Karachi.",
     thumbnailUrl: `${SITE_URL}/images/pdf-digital-flight-logo.webp`,
-    contentUrl: `${SITE_URL}/videos/uraan-e-ai-invite.mp4`,
+    embedUrl: `${SITE_URL}/events`,
     uploadDate: '2026-08-31',
     duration: 'PT35S',
     inLanguage: 'en',

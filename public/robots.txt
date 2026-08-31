@@ -3,6 +3,7 @@ Allow: /
 Disallow: /admin
 Disallow: /api/
 Disallow: /uploads/
+Disallow: /videos/
 Allow: /llms.txt
 Allow: /ai.txt
 Allow: /feed.xml
