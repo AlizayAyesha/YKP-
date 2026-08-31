@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { EVENTS_DATA } from '../data/youthData';
-import { EventProfile, EventProfileRole, PartnerInquiry, StudentInterest, YkpEvent } from '../types';
+import { ContactMessage, EventProfile, EventProfileRole, PartnerInquiry, StudentInterest, YkpEvent } from '../types';
 
 interface AttendeeRow {
   fullName: string;
@@ -17,7 +17,7 @@ interface AttendeeRow {
   publicConsent: boolean;
 }
 
-type AdminTab = 'registrations' | 'students' | 'inquiries' | 'profiles' | 'event';
+type AdminTab = 'registrations' | 'students' | 'inquiries' | 'contacts' | 'profiles' | 'event';
 
 function adminHeaders(adminKey: string): HeadersInit {
   return { 'x-admin-key': adminKey, 'Content-Type': 'application/json' };
@@ -29,6 +29,7 @@ export const AdminAttendeesView: React.FC = () => {
   const [rows, setRows] = useState<AttendeeRow[]>([]);
   const [students, setStudents] = useState<StudentInterest[]>([]);
   const [inquiries, setInquiries] = useState<PartnerInquiry[]>([]);
+  const [contacts, setContacts] = useState<ContactMessage[]>([]);
   const [profiles, setProfiles] = useState<EventProfile[]>([]);
   const [event, setEvent] = useState<YkpEvent | null>(EVENTS_DATA[0] || null);
   const [error, setError] = useState('');
@@ -42,18 +43,20 @@ export const AdminAttendeesView: React.FC = () => {
 
   const load = async (adminKey: string) => {
     setError('');
-    const [regRes, profileRes, eventRes, studentRes, inquiryRes] = await Promise.all([
+    const [regRes, profileRes, eventRes, studentRes, inquiryRes, contactRes] = await Promise.all([
       fetch('/api/admin/registrations', { headers: { 'x-admin-key': adminKey } }),
       fetch('/api/admin/profiles', { headers: { 'x-admin-key': adminKey } }),
       fetch('/api/events'),
       fetch('/api/admin/students', { headers: { 'x-admin-key': adminKey } }),
-      fetch('/api/admin/inquiries', { headers: { 'x-admin-key': adminKey } })
+      fetch('/api/admin/inquiries', { headers: { 'x-admin-key': adminKey } }),
+      fetch('/api/admin/contacts', { headers: { 'x-admin-key': adminKey } })
     ]);
     const regData = await regRes.json().catch(() => ({}));
     const profileData = await profileRes.json().catch(() => ({}));
     const eventData = await eventRes.json().catch(() => ({}));
     const studentData = await studentRes.json().catch(() => ({}));
     const inquiryData = await inquiryRes.json().catch(() => ({}));
+    const contactData = await contactRes.json().catch(() => ({}));
     if (!regRes.ok) {
       setError(regData.error || 'Could not load attendees.');
       setLoaded(false);
@@ -64,6 +67,7 @@ export const AdminAttendeesView: React.FC = () => {
     setProfiles(profileData.profiles || []);
     setStudents(studentData.students || []);
     setInquiries(inquiryData.inquiries || []);
+    setContacts(contactData.contacts || []);
     setEvent((eventData.events && eventData.events[0]) || EVENTS_DATA[0]);
     setLoaded(true);
   };
@@ -162,6 +166,7 @@ export const AdminAttendeesView: React.FC = () => {
                 ['registrations', 'Event RSVPs'],
                 ['students', 'Students'],
                 ['inquiries', 'Partners / Mentors'],
+                ['contacts', 'Contact / Enroll'],
                 ['profiles', 'Profile moderation'],
                 ['event', 'Event']
               ] as const).map(([id, label]) => (
@@ -287,6 +292,40 @@ export const AdminAttendeesView: React.FC = () => {
                     <p className="leading-relaxed"><span className="text-[var(--ykp-muted)]">How they will support:</span> {row.supportDetails}</p>
                   </article>
                 ))}
+              </div>
+            )}
+
+            {tab === 'contacts' && (
+              <div className="overflow-x-auto border border-[var(--ykp-green)]/10">
+                <table className="w-full text-sm">
+                  <thead className="bg-[var(--ykp-canvas)] text-left">
+                    <tr>
+                      {['ID', 'Type', 'Name', 'Email', 'Phone', 'City', 'Program', 'Message', 'Date'].map((h) => (
+                        <th key={h} className="px-3 py-2 font-semibold">{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {contacts.length === 0 && (
+                      <tr>
+                        <td colSpan={9} className="px-3 py-6 text-[var(--ykp-muted)]">No contact or enrollment messages yet.</td>
+                      </tr>
+                    )}
+                    {contacts.map((row) => (
+                      <tr key={row.id} className="border-t border-[var(--ykp-green)]/10 align-top">
+                        <td className="px-3 py-2 font-medium whitespace-nowrap">{row.id}</td>
+                        <td className="px-3 py-2">{row.kind}</td>
+                        <td className="px-3 py-2">{row.fullName}</td>
+                        <td className="px-3 py-2">{row.email}</td>
+                        <td className="px-3 py-2">{row.phone || '—'}</td>
+                        <td className="px-3 py-2">{row.city || '—'}</td>
+                        <td className="px-3 py-2">{row.program || '—'}</td>
+                        <td className="px-3 py-2 min-w-[220px]">{row.message}</td>
+                        <td className="px-3 py-2 whitespace-nowrap">{new Date(row.createdAt).toLocaleString()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )}
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { X, CheckCircle2, ArrowRight } from 'lucide-react';
+import { X, CheckCircle2, ArrowRight, LoaderCircle } from 'lucide-react';
+import { submitContactMessage } from '../../lib/submitInquiry';
 
 interface ProgramEnrollModalProps {
   isOpen: boolean;
@@ -8,6 +9,8 @@ interface ProgramEnrollModalProps {
 
 export const ProgramEnrollModal: React.FC<ProgramEnrollModalProps> = ({ isOpen, onClose }) => {
   const [submitted, setSubmitted] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
   const [track, setTrack] = useState('Skills Development');
   const [formData, setFormData] = useState({
     fullName: '',
@@ -18,9 +21,34 @@ export const ProgramEnrollModal: React.FC<ProgramEnrollModalProps> = ({ isOpen, 
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setError('');
+    setSaving(true);
+    try {
+      await submitContactMessage({
+        kind: 'enroll',
+        fullName: formData.fullName,
+        email: formData.email,
+        city: formData.city,
+        phone: formData.phone,
+        program: track
+      });
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not complete enrollment. Please try again.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const resetAndClose = () => {
+    setSubmitted(false);
+    setError('');
+    setSaving(false);
+    setTrack('Skills Development');
+    setFormData({ fullName: '', email: '', city: '', phone: '' });
+    onClose();
   };
 
   const fieldClass =
@@ -41,7 +69,7 @@ export const ProgramEnrollModal: React.FC<ProgramEnrollModalProps> = ({ isOpen, 
             </h3>
           </div>
           <button
-            onClick={onClose}
+            onClick={resetAndClose}
             className="text-[var(--ykp-muted)] hover:text-[var(--ykp-ink)] p-2 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
@@ -116,12 +144,24 @@ export const ProgramEnrollModal: React.FC<ProgramEnrollModalProps> = ({ isOpen, 
               <strong className="text-[var(--ykp-green)]">100% free.</strong> Workshops, mentorship, and resources are free for youth across Pakistan.
             </p>
 
+            {error && <p className="text-sm text-red-700">{error}</p>}
+
             <button
               type="submit"
-              className="group w-full inline-flex items-center justify-center gap-2 bg-[var(--ykp-green)] hover:bg-[var(--ykp-green-deep)] text-white font-semibold text-sm py-3.5 transition-colors cursor-pointer"
+              disabled={saving}
+              className="group w-full inline-flex items-center justify-center gap-2 bg-[var(--ykp-green)] hover:bg-[var(--ykp-green-deep)] text-white font-semibold text-sm py-3.5 transition-colors cursor-pointer disabled:opacity-70"
             >
-              Confirm free enrollment
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+              {saving ? (
+                <>
+                  <LoaderCircle className="w-4 h-4 animate-spin" />
+                  Saving…
+                </>
+              ) : (
+                <>
+                  Confirm free enrollment
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                </>
+              )}
             </button>
           </form>
         ) : (
@@ -135,10 +175,7 @@ export const ProgramEnrollModal: React.FC<ProgramEnrollModalProps> = ({ isOpen, 
               <strong className="text-[var(--ykp-ink)]">{formData.email}</strong>.
             </p>
             <button
-              onClick={() => {
-                setSubmitted(false);
-                onClose();
-              }}
+              onClick={resetAndClose}
               className="inline-flex items-center justify-center bg-[var(--ykp-green)] text-white font-semibold text-sm px-8 py-3 transition-colors cursor-pointer"
             >
               Done

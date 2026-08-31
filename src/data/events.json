@@ -22,6 +22,9 @@
     "registrationStatus": "RSVP Open",
     "category": "National IT & AI Seminar",
     "image": "/images/pdf-digital-flight-logo.png",
+    "inviteYoutubeId": "",
+    "inviteVideoUrl": "/videos/uraan-e-ai-invite.mp4",
+    "invitePoster": "/images/pdf-digital-flight-logo.png",
     "highlights": [
       "Expert discussions on Pakistan's AI-first economy",
       "Forward-looking panel on business, skills, education and national development",

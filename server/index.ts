@@ -14,9 +14,10 @@ import {
 } from './profiles';
 import { sendRegistrationEmail } from './email';
 import { appendFounderCeoToSheet, isFounderOrCeo } from './sheets';
-import { addInquiry, addStudent, listInquiries, listStudents } from './inquiries';
+import { addInquiry, addStudent, addContact, listInquiries, listStudents, listContacts } from './inquiries';
 import { isServerless, uploadsDir } from './paths';
-import type { EventProfileRole, InquiryRole, ProfileApprovalStatus, YkpEvent } from '../src/types';
+import { deliverSubmission } from './notify';
+import type { ContactKind, EventProfileRole, InquiryRole, ProfileApprovalStatus, YkpEvent } from '../src/types';
 
 dotenv.config({ path: '.env.local' });
 dotenv.config();
@@ -269,6 +270,22 @@ app.post('/api/registrations', (req, res) => {
         }
       }
 
+      await deliverSubmission({
+        kind: 'rsvp',
+        subject: `RSVP: ${fullName} — ${event.title || event.dates}`,
+        replyTo: email,
+        fields: {
+          Name: fullName,
+          Title: designation,
+          Organization: organization,
+          Email: email,
+          WhatsApp: phone,
+          City: city,
+          Event: [event.title, event.subtitle].filter(Boolean).join(' — ') || event.dates,
+          'Registration ID': registration.registrationId
+        }
+      }).catch((error) => console.error('RSVP team notice failed:', error));
+
       res.json({
         ok: true,
         registrationId: registration.registrationId,
@@ -344,6 +361,22 @@ app.post('/api/profiles', (req, res) => {
         featuredPanelist: false,
         createdAt: new Date().toISOString()
       });
+
+      await deliverSubmission({
+        kind: 'profile',
+        subject: `Invitation profile: ${fullName} (${role})`,
+        replyTo: email,
+        fields: {
+          Name: fullName,
+          Designation: designation,
+          Organization: organization,
+          Role: role,
+          Email: email,
+          WhatsApp: phone,
+          Event: event.title || event.id,
+          Biography: bio
+        }
+      }).catch((error) => console.error('Profile team notice failed:', error));
 
       res.json({
         ok: true,
@@ -433,6 +466,23 @@ app.post('/api/students', async (req, res) => {
       interests,
       motivation
     });
+    await deliverSubmission({
+      kind: 'student',
+      subject: `Student waitlist: ${fullName}`,
+      replyTo: email,
+      fields: {
+        Name: fullName,
+        Email: email,
+        WhatsApp: phone,
+        City: city,
+        Age: age,
+        School: school,
+        'Education level': educationLevel,
+        Interests: interests.join(', '),
+        Motivation: motivation,
+        ID: row.id
+      }
+    }).catch((error) => console.error('Student team notice failed:', error));
     res.json({ ok: true, id: row.id });
   } catch (error) {
     console.error(error);
@@ -494,6 +544,25 @@ app.post('/api/inquiries', async (req, res) => {
       availability,
       website
     });
+    await deliverSubmission({
+      kind: 'inquiry',
+      subject: `Partner inquiry: ${fullName} (${role})`,
+      replyTo: email,
+      fields: {
+        Name: fullName,
+        Email: email,
+        WhatsApp: phone,
+        City: city,
+        Organization: organization,
+        Role: role === 'Other' ? otherRole || role : role,
+        'Support types': supportTypes.join(', '),
+        Expertise: expertise,
+        Details: supportDetails,
+        Availability: availability,
+        Website: website,
+        ID: row.id
+      }
+    }).catch((error) => console.error('Inquiry team notice failed:', error));
     res.json({ ok: true, id: row.id });
   } catch (error) {
     console.error(error);
@@ -509,6 +578,78 @@ app.get('/api/admin/students', async (req, res) => {
 app.get('/api/admin/inquiries', async (req, res) => {
   if (!requireAdmin(req, res)) return;
   res.json({ inquiries: await listInquiries() });
+});
+
+app.post('/api/contact', async (req, res) => {
+  try {
+    const kind = (sanitizeText(req.body.kind, 12) || 'contact') as ContactKind;
+    const fullName = sanitizeText(req.body.fullName || req.body.name, 80);
+    const email = sanitizeText(req.body.email, 120).toLowerCase();
+    const phone = sanitizeText(req.body.phone, 30);
+    const city = sanitizeText(req.body.city, 60);
+    const message = sanitizeText(req.body.message, 1200);
+    const program = sanitizeText(req.body.program, 80);
+
+    if (kind !== 'contact' && kind !== 'enroll') {
+      res.status(400).json({ error: 'Invalid form type.' });
+      return;
+    }
+    if (fullName.length < 2 || !isEmail(email)) {
+      res.status(400).json({ error: 'Please enter your name and a valid email.' });
+      return;
+    }
+    if (kind === 'contact' && message.length < 8) {
+      res.status(400).json({ error: 'Please write a short message.' });
+      return;
+    }
+    if (kind === 'enroll' && (!program || city.length < 2)) {
+      res.status(400).json({ error: 'Please choose a program and enter your city.' });
+      return;
+    }
+
+    const row = await addContact({
+      kind,
+      fullName,
+      email,
+      phone,
+      city,
+      message: kind === 'enroll' ? message || `Enrollment request for ${program}` : message,
+      program
+    });
+
+    const delivery = await deliverSubmission({
+      kind,
+      subject: kind === 'enroll' ? `Program enroll: ${fullName} — ${program}` : `Contact: ${fullName}`,
+      replyTo: email,
+      fields: {
+        Name: fullName,
+        Email: email,
+        WhatsApp: phone,
+        City: city,
+        Program: program,
+        Message: row.message,
+        ID: row.id
+      }
+    }).catch((error) => {
+      console.error('Contact team notice failed:', error);
+      return { sent: false as const, reason: error instanceof Error ? error.message : 'Delivery failed.' };
+    });
+
+    res.json({
+      ok: true,
+      id: row.id,
+      delivered: Boolean(delivery.sent),
+      channel: 'channel' in delivery ? delivery.channel : undefined
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Could not send your message. Please email info@youthkapakistan.com.' });
+  }
+});
+
+app.get('/api/admin/contacts', async (req, res) => {
+  if (!requireAdmin(req, res)) return;
+  res.json({ contacts: await listContacts() });
 });
 
 app.patch('/api/admin/profiles/:id', async (req, res) => {

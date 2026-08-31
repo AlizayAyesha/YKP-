@@ -1,11 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { GALLERY_ALBUMS } from '../data/youthData';
+import { GALLERY_ALBUMS, HOME_GALLERY_FRAMES } from '../data/youthData';
 import { tabToPath } from '../lib/seo';
 import { ActiveTab } from '../types';
 
 const AUTO_MS = 4500;
+
+const FRAME_SIZE: Record<(typeof HOME_GALLERY_FRAMES)[number]['size'], string> = {
+  hero: 'col-span-2 md:col-span-8 aspect-[16/10] md:aspect-auto md:min-h-[260px] lg:min-h-[300px]',
+  tall: 'col-span-1 md:col-span-4 md:row-span-2 aspect-[3/4] md:aspect-auto',
+  tile: 'col-span-1 md:col-span-4 aspect-[4/3]',
+  wide: 'col-span-2 md:col-span-12 aspect-[16/8] md:aspect-[21/8]'
+};
 
 interface EventGallerySliderProps {
   setActiveTab: (tab: ActiveTab) => void;
@@ -62,7 +69,7 @@ export const EventGallerySlider: React.FC<EventGallerySliderProps> = ({ setActiv
   };
 
   return (
-    <section className="pt-6 pb-4 sm:pt-8 sm:pb-6 bg-white">
+    <section className="pt-6 pb-12 sm:pt-8 sm:pb-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
           className="relative aspect-[16/10] sm:aspect-[16/8] lg:aspect-[21/9] overflow-hidden rounded-2xl bg-[var(--ykp-green-deep)] shadow-[0_18px_50px_rgba(3,40,22,0.22)]"
@@ -140,7 +147,44 @@ export const EventGallerySlider: React.FC<EventGallerySliderProps> = ({ setActiv
           </div>
         </div>
 
-        <div className="mt-3 flex justify-end">
+        <div className="mt-4 sm:mt-5 grid grid-cols-2 md:grid-cols-12 gap-3 sm:gap-4">
+          {HOME_GALLERY_FRAMES.map((frame, i) => (
+            <motion.button
+              key={frame.id}
+              type="button"
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: Math.min(i * 0.04, 0.24) }}
+              onClick={(event) => {
+                event.preventDefault();
+                setActiveTab('gallery');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className={`group relative overflow-hidden rounded-2xl bg-[var(--ykp-green-deep)] text-left cursor-pointer [box-shadow:0_10px_18px_rgba(3,40,22,0.06),0_28px_48px_-10px_rgba(3,40,22,0.16)] ${FRAME_SIZE[frame.size]}`}
+            >
+              <img
+                src={frame.url}
+                alt={frame.alt}
+                loading="lazy"
+                className={`absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-[1.04] ${
+                  frame.fit === 'contain' ? 'object-contain p-2 sm:p-3' : 'object-cover'
+                }`}
+              />
+              <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+              <span className="absolute inset-x-0 bottom-0 p-3 sm:p-4">
+                <span className="block text-[9px] sm:text-[10px] font-semibold tracking-[0.2em] uppercase text-[var(--ykp-gold)]">
+                  {frame.year}
+                </span>
+                <span className="mt-0.5 block font-display text-sm sm:text-base font-semibold text-white leading-snug">
+                  {frame.eventName}
+                </span>
+              </span>
+            </motion.button>
+          ))}
+        </div>
+
+        <div className="mt-4 flex justify-end">
           <a
             href={tabToPath('gallery')}
             onClick={openGallery}

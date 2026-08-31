@@ -22,7 +22,7 @@ export const SITE_INFO = {
     name: "Syed Nasir Hussain Shah",
     role: "Patron-in-Chief",
     note: "YKP events are held under his supervision.",
-    photoUrl: "/images/leadership/nasir-hussain-shah.jpg"
+    photoUrl: "/images/leadership/nasir-hussain-shah.png"
   },
   chairperson: {
     name: "Ms. Sabi",
@@ -67,13 +67,21 @@ export const VISION_DATA = {
 };
 
 export const ABOUT_DATA = {
-  eyebrow: "Youth ka Pakistan",
+  eyebrow: "About Us",
   title: "The Vision Behind Youth ka Pakistan",
+  heading: "Empowering Youth to Build a Stronger Pakistan",
   paragraphs: [
-    "Youth ka Pakistan is a nationwide non-profit organization dedicated to unlocking the potential of Pakistan's youth by creating meaningful opportunities to learn, grow, develop skills, and build connections.",
-    "We believe that an empowered generation begins with access to the right knowledge, practical skills, supportive networks, and opportunities to lead.",
-    "Youth ka Pakistan is led by President Saima Agha, MPA. Ms. Sabi is Chairperson of the Youth Ka Pakistan YKP Foundation, and Azhar Zia Muhammad is Vice President of YKP Foundation (EMA Group of Companies). Our events are held under the supervision of Patron-in-Chief Syed Nasir Hussain Shah."
+    "Youth ka Pakistan is a nationwide non-profit dedicated to unlocking the potential of Pakistani youth — giving them the skills, stage, and opportunity to lead, innovate, and contribute to the nation's progress.",
+    "Built around four pillars — Educate, Empower, Skill, Connect — we create free workshops, national events, talent platforms, and mentorship so young Pakistanis can turn potential into impact."
   ],
+  vision: {
+    title: "Our Vision",
+    description: "A Pakistan where every young person has the skills, stage, and opportunity to reach their full potential."
+  },
+  mission: {
+    title: "Our Mission",
+    description: "To educate, empower, skill, and connect youth through free programs, events, and networks that prepare them to lead."
+  },
   pillarsIntro: "Our mission is built around four core pillars:",
   closing: [
     "From our grassroots beginnings to our growing national presence, Youth ka Pakistan continues to create platforms where young Pakistanis can discover their potential, develop their abilities, and connect with a community that believes in their future."
@@ -85,21 +93,25 @@ export const ABOUT_DATA = {
     {
       id: "educate",
       title: "Educate",
+      short: "Access to knowledge, workshops, and learning that broaden perspective.",
       description: "Creating access to knowledge, learning experiences, workshops, and educational opportunities that broaden perspectives and inspire growth."
     },
     {
       id: "empower",
       title: "Empower",
+      short: "Confidence, leadership, and purpose so youth can take initiative.",
       description: "Building confidence, leadership, and a sense of purpose so young people can take initiative and create meaningful change."
     },
     {
       id: "skill",
       title: "Skill",
+      short: "Practical, future-ready abilities for careers and an evolving economy.",
       description: "Promoting practical, future-ready skills that help youth prepare for careers, entrepreneurship, innovation, and an evolving world."
     },
     {
       id: "connect",
       title: "Connect",
+      short: "Peers, mentors, and opportunities that open doors across Pakistan.",
       description: "Bringing young people together with peers, mentors, professionals, organizations, and opportunities to build meaningful networks and collaborations."
     }
   ]
@@ -171,25 +183,28 @@ export const TESTIMONIALS: Testimonial[] = [
     id: "1",
     quote: "I walked in with talent and no direction. Youth ka Pakistan gave me mentors, a stage, and the confidence to turn my passion into real work.",
     author: "Aisha Khan",
-    role: "Talent Program Graduate",
-    city: "Karachi",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80"
+    role: "Student at New York Institute of Technology",
+    city: "",
+    image: "/images/testimonials/aisha-khan.png",
+    linkedinUrl: "https://www.linkedin.com/in/aisha-khan-ak"
   },
   {
     id: "2",
     quote: "The skills workshops were free, practical, and serious. I built a portfolio, met peers from other cities, and finally felt part of something bigger.",
-    author: "Hassan Ali",
-    role: "Skills Development Track",
-    city: "Lahore",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80"
+    author: "Hasan Ali",
+    role: "LPC LLM Student at BPP University",
+    city: "",
+    image: "/images/testimonials/hasan-ali.png",
+    linkedinUrl: "https://www.linkedin.com/in/hasan-ali-0932661ba"
   },
   {
     id: "3",
     quote: "Before this, opportunity felt far away. Now I know where to learn, who to ask, and how to show up for my future.",
     author: "Fatima Noor",
-    role: "Mentorship Participant",
-    city: "Islamabad",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=80"
+    role: "Human Resource Manager / Connecting Talent with Opportunity",
+    city: "",
+    image: "/images/testimonials/fatima-noor.png",
+    linkedinUrl: "https://www.linkedin.com/in/fatima-noor-8b56a5160"
   }
 ];
 
@@ -629,6 +644,20 @@ export const FEATURED_EVENT_SPEAKERS: PublicEventProfile[] = [
 
 export const GALLERY_ALBUMS: GalleryAlbum[] = [
   {
+    id: 'album-china-consulate-meetup',
+    eventId: 'uraan-e-ai-2026',
+    name: 'YKP & Consulate General of China',
+    year: '2026',
+    coverImage: '/images/gallery/china-consulate-meetup/poster.png',
+    images: [
+      {
+        id: 'poster',
+        url: '/images/gallery/china-consulate-meetup/poster.png',
+        caption: 'Sabi Arsh, Chairperson YKP Foundation, with Mr. Feng Deheng, Acting Consul General of China in Karachi'
+      }
+    ]
+  },
+  {
     id: 'album-chef-iconic-awards-2026',
     eventId: 'pakistan-chef-iconic-awards-2026',
     name: 'Pakistan Chef Icon Award',
@@ -693,6 +722,82 @@ export const GALLERY_ALBUMS: GalleryAlbum[] = [
   }
 ];
 
+export const HOME_GALLERY_FRAMES: {
+  id: string;
+  url: string;
+  alt: string;
+  eventName: string;
+  year: string;
+  size: 'hero' | 'tall' | 'tile' | 'wide';
+  fit?: 'cover' | 'contain';
+}[] = [
+  {
+    id: 'chef-group',
+    url: '/images/gallery/chef-iconic-awards-2026/10.jpg',
+    alt: 'Guests at the Pakistan Chef Icon Award',
+    eventName: 'Pakistan Chef Icon Award',
+    year: '2026',
+    size: 'hero'
+  },
+  {
+    id: 'china-poster',
+    url: '/images/gallery/china-consulate-meetup/poster.png',
+    alt: 'YKP Chairperson Sabi Arsh with Acting Consul General of China in Karachi',
+    eventName: 'YKP & Consulate General of China',
+    year: '2026',
+    size: 'tall',
+    fit: 'contain'
+  },
+  {
+    id: 'marka-handshake',
+    url: '/images/gallery/marka-e-haq-excellence-award/03.jpg',
+    alt: 'Marka e Haq Excellence Award handshake',
+    eventName: 'Marka e Haq Excellence Award',
+    year: '2025',
+    size: 'tile'
+  },
+  {
+    id: 'celebration-group',
+    url: '/images/gallery/celebration-pakistan-chef-icon-award/06.jpg',
+    alt: 'Celebration Pakistan Chef Icon Award group photo',
+    eventName: 'Celebration Pakistan Chef Icon Award',
+    year: '2024',
+    size: 'tile'
+  },
+  {
+    id: 'chef-stage',
+    url: '/images/gallery/chef-iconic-awards-2026/07.jpg',
+    alt: 'Guests and chefs on stage',
+    eventName: 'Pakistan Chef Icon Award',
+    year: '2026',
+    size: 'tile'
+  },
+  {
+    id: 'marka-group',
+    url: '/images/gallery/marka-e-haq-excellence-award/09.jpg',
+    alt: 'Marka e Haq Excellence Award group photo',
+    eventName: 'Marka e Haq Excellence Award',
+    year: '2025',
+    size: 'tile'
+  },
+  {
+    id: 'celebration-award',
+    url: '/images/gallery/celebration-pakistan-chef-icon-award/08.jpg',
+    alt: 'Chef Irfan Wasti award presentation',
+    eventName: 'Celebration Pakistan Chef Icon Award',
+    year: '2024',
+    size: 'tile'
+  },
+  {
+    id: 'chef-honour',
+    url: '/images/gallery/chef-iconic-awards-2026/09.jpg',
+    alt: 'YKP Foundation guests of honour',
+    eventName: 'Pakistan Chef Icon Award',
+    year: '2026',
+    size: 'wide'
+  }
+];
+
 export const PAST_EVENTS: PastEventStat[] = [
   {
     id: "1",
@@ -700,7 +805,7 @@ export const PAST_EVENTS: PastEventStat[] = [
     title: "National Talent Showcase",
     stats: [
       { label: "Youth", value: "1,200+" },
-      { label: "Cities", value: "18" },
+      { label: "City", value: "Karachi" },
       { label: "Workshops", value: "24" }
     ]
   },
@@ -710,7 +815,7 @@ export const PAST_EVENTS: PastEventStat[] = [
     title: "Skills Bootcamp Series",
     stats: [
       { label: "Youth", value: "860+" },
-      { label: "Cities", value: "12" },
+      { label: "City", value: "Karachi" },
       { label: "Mentors", value: "40" }
     ]
   },
@@ -720,7 +825,7 @@ export const PAST_EVENTS: PastEventStat[] = [
     title: "Community Youth Forums",
     stats: [
       { label: "Youth", value: "640+" },
-      { label: "Cities", value: "9" },
+      { label: "City", value: "Karachi" },
       { label: "Partners", value: "15" }
     ]
   },
@@ -730,7 +835,7 @@ export const PAST_EVENTS: PastEventStat[] = [
     title: "Grassroots Launch Year",
     stats: [
       { label: "Youth", value: "320+" },
-      { label: "Cities", value: "5" },
+      { label: "City", value: "Karachi" },
       { label: "Events", value: "8" }
     ]
   }

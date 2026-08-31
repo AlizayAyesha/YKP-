@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Linkedin } from 'lucide-react';
 import { TESTIMONIALS } from '../data/youthData';
 
 const AUTO_MS = 5500;
@@ -66,7 +66,7 @@ export const TestimonialsCarousel: React.FC = () => {
                       <img
                         src={current.image}
                         alt={current.author}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover object-top"
                       />
                     </div>
                     <div className="absolute -bottom-2 -right-2 bg-[var(--ykp-gold)] text-[var(--ykp-ink)] text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full">
@@ -83,9 +83,21 @@ export const TestimonialsCarousel: React.FC = () => {
                     {current.quote}
                   </blockquote>
                   <div className="mt-8 pt-5 border-t border-white/10 inline-flex flex-col md:items-start items-center">
-                    <p className="font-semibold text-base text-white">{current.author}</p>
+                    {current.linkedinUrl ? (
+                      <a
+                        href={current.linkedinUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold text-base text-white hover:text-[var(--ykp-gold)] inline-flex items-center gap-2"
+                      >
+                        {current.author}
+                        <Linkedin className="w-3.5 h-3.5 opacity-80" />
+                      </a>
+                    ) : (
+                      <p className="font-semibold text-base text-white">{current.author}</p>
+                    )}
                     <p className="text-sm text-[var(--ykp-gold)] mt-1">
-                      {current.role} · {current.city}
+                      {[current.role, current.city].filter(Boolean).join(' · ')}
                     </p>
                   </div>
                 </div>

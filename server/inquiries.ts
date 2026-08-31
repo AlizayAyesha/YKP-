@@ -1,11 +1,12 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import type { PartnerInquiry, StudentInterest } from '../src/types';
+import type { ContactMessage, PartnerInquiry, StudentInterest } from '../src/types';
 import { dataDir } from './paths';
 
 const DATA_DIR = dataDir();
 const STUDENTS_PATH = path.join(DATA_DIR, 'students.json');
 const INQUIRIES_PATH = path.join(DATA_DIR, 'inquiries.json');
+const CONTACTS_PATH = path.join(DATA_DIR, 'contacts.json');
 
 let writeQueue: Promise<unknown> = Promise.resolve();
 
@@ -76,6 +77,25 @@ export async function addInquiry(input: Omit<PartnerInquiry, 'id' | 'createdAt'>
     };
     rows.push(row);
     await writeList(INQUIRIES_PATH, rows);
+    return row;
+  });
+}
+
+export async function listContacts() {
+  return readList<ContactMessage>(CONTACTS_PATH);
+}
+
+export async function addContact(input: Omit<ContactMessage, 'id' | 'createdAt'>) {
+  return withLock(async () => {
+    const rows = await listContacts();
+    const prefix = input.kind === 'enroll' ? 'YKP-ENROLL-' : 'YKP-CONTACT-';
+    const row: ContactMessage = {
+      ...input,
+      id: nextId(prefix, rows.map((item) => item.id)),
+      createdAt: new Date().toISOString()
+    };
+    rows.push(row);
+    await writeList(CONTACTS_PATH, rows);
     return row;
   });
 }

@@ -112,13 +112,58 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     }
 
     const registrationId = `YKP-URAAN-2026-${Date.now().toString(36).toUpperCase()}`;
+    const eventName = [event.title, event.subtitle].filter(Boolean).join(' — ') || event.dates || '';
+    const { deliverSubmission } = await import('../server/notify');
+    const { sendMail } = await import('../server/email');
+    const { appendFounderCeoToSheet, isFounderOrCeo } = await import('../server/sheets');
+
+    await deliverSubmission({
+      kind: 'rsvp',
+      subject: `RSVP: ${fullName} — ${event.title || eventName}`,
+      replyTo: email,
+      fields: {
+        Name: fullName,
+        Title: designation,
+        Organization: organization,
+        Email: email,
+        WhatsApp: phone,
+        City: city,
+        Event: eventName,
+        'Registration ID': registrationId
+      }
+    }).catch((error) => console.error('RSVP team notice failed:', error));
+
+    if (isFounderOrCeo(designation)) {
+      await appendFounderCeoToSheet({
+        fullName,
+        designation,
+        organization,
+        email,
+        phone,
+        city,
+        eventName,
+        registrationId
+      }).catch((error) => console.error('Founder/CEO Google Sheet append failed:', error));
+    }
+
+    const attendeeMail = await sendMail({
+      to: email,
+      subject: "Registration Confirmed — URAAN-E-AI 2026 | Pakistan's Digital Flight",
+      html: `<p>Dear ${fullName},</p><p>Thank you for registering for <strong>${eventName}</strong>.</p><p>Your registration ID is <strong>${registrationId}</strong>.</p><p>Best regards,<br/>Team Youth Ka Pakistan</p>`
+    }).catch((error) => {
+      console.error('Attendee email failed:', error);
+      return { sent: false as const, reason: error instanceof Error ? error.message : 'Email failed.' };
+    });
+
     send(res, 200, {
       ok: true,
       registrationId,
-      eventName: [event.title, event.subtitle].filter(Boolean).join(' — ') || event.dates,
+      eventName,
       posterUrl: `data:image/png;base64,${posterBuffer.toString('base64')}`,
-      emailSent: false,
-      emailNote: 'Email is not configured on the live server yet.',
+      emailSent: Boolean(attendeeMail.sent),
+      emailNote: attendeeMail.sent
+        ? undefined
+        : 'Your RSVP was recorded. A confirmation email could not be sent automatically.',
       absolutePosterUrl: `data:image/png;base64,${posterBuffer.toString('base64')}`
     });
   } catch (error) {

@@ -17,6 +17,7 @@ import { YkpInAction } from './YkpInAction';
 import { EventRegistrationSection } from './EventRegistrationSection';
 import { TestimonialsCarousel } from './TestimonialsCarousel';
 import { EventGallerySlider } from './EventGallerySlider';
+import { AboutValuesSection } from './AboutValuesSection';
 import { ArrowRight } from 'lucide-react';
 
 interface HomeViewProps {
@@ -24,13 +25,6 @@ interface HomeViewProps {
   openModal: (type: ModalType) => void;
   onRsvp: (event: YkpEvent) => void;
 }
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }
-};
-
-const valueAccents = ['#C9A227', '#05472A', '#8B3A3A'];
 
 export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onRsvp }) => {
   const titleParts = HERO_DATA.title.split('. ');
@@ -49,28 +43,17 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
           width={1920}
           height={1080}
           fetchPriority="high"
-          decoding="async"
+          decoding="sync"
         />
         <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(3,40,22,0.92)_0%,rgba(5,71,42,0.75)_50%,rgba(3,40,22,0.55)_100%)]" />
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-32">
-          <motion.div
-            initial="hidden"
-            animate="show"
-            variants={{ show: { transition: { staggerChildren: 0.12 } } }}
-            className="max-w-3xl space-y-7"
-          >
-            <motion.p
-              variants={fadeUp}
-              className="text-[11px] font-semibold tracking-[0.28em] uppercase text-[var(--ykp-gold)]"
-            >
+          <div className="max-w-3xl space-y-7">
+            <p className="text-[11px] font-semibold tracking-[0.28em] uppercase text-[var(--ykp-gold)]">
               Youth ka Pakistan
-            </motion.p>
+            </p>
 
-            <motion.h1
-              variants={fadeUp}
-              className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.08] text-balance"
-            >
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.08] text-balance">
               <span className="text-white">{firstParts}</span>
               {lastPart && (
                 <>
@@ -78,16 +61,13 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
                   <span className="text-[var(--ykp-gold)]">{lastPart.replace(/\.$/, '')}.</span>
                 </>
               )}
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              variants={fadeUp}
-              className="text-base sm:text-lg text-white/75 max-w-xl leading-relaxed"
-            >
+            <p className="text-base sm:text-lg text-white/75 max-w-xl leading-relaxed">
               {HERO_DATA.subtitle}
-            </motion.p>
+            </p>
 
-            <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-4 pt-1">
+            <div className="flex flex-wrap items-center gap-4 pt-1">
               <button
                 onClick={() => openModal('student-register')}
                 className="inline-flex items-center gap-2 bg-[var(--ykp-gold)] hover:bg-[var(--ykp-gold-bright)] text-[var(--ykp-ink)] font-semibold text-sm px-7 py-3.5 rounded-md transition-colors cursor-pointer"
@@ -101,8 +81,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
               >
                 Learn More
               </button>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -118,53 +98,12 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
         <YkpInAction />
       </div>
 
-      {/* ABOUT — text + image collage */}
+      {/* ABOUT — vision, mission, four pillars */}
       <section id="about" className="py-20 sm:py-24 bg-white scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="lg:col-span-6 space-y-5"
-            >
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-[var(--ykp-ink)] tracking-tight leading-tight text-balance">
-                {VISION_DATA.title}
-              </h2>
-              <p className="font-display text-xl sm:text-2xl text-[var(--ykp-green)] font-semibold">
-                {VISION_DATA.motto}
-              </p>
-              <div className="space-y-4 text-[var(--ykp-muted)] text-base leading-relaxed">
-                {ABOUT_DATA.paragraphs.map((paragraph, index) => (
-                  <p key={index}>{paragraph}</p>
-                ))}
-              </div>
-            </motion.div>
+          <AboutValuesSection />
 
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="lg:col-span-6 relative h-[280px] sm:h-[400px] lg:h-[440px]"
-            >
-              <div className="absolute top-0 right-0 w-[68%] aspect-[4/5] overflow-hidden rounded-xl shadow-lg z-10">
-                <img
-                  src="/images/about-collaboration.png"
-                  alt="Young professionals collaborating at a Youth ka Pakistan session"
-                  className="w-full h-full object-cover object-[70%_center]"
-                />
-              </div>
-              <div className="absolute bottom-0 left-0 w-[55%] aspect-[4/3] overflow-hidden rounded-xl shadow-xl border-4 border-white z-20 bg-white">
-                <img
-                  src="/images/ykp-logo.png"
-                  alt="Youth Ka Pakistan logo — educate, empower, skills, and networking"
-                  className="w-full h-full object-contain p-3 sm:p-4"
-                />
-              </div>
-            </motion.div>
-          </div>
-
-          <div className="mt-12 sm:mt-14 space-y-6">
+          <div className="mt-16 sm:mt-20 space-y-6">
             <h3 className="font-display text-2xl sm:text-3xl font-semibold text-[var(--ykp-ink)]">
               Leadership
             </h3>
@@ -207,11 +146,11 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
                 key={person.role}
                 className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(5,71,42,0.08)]"
               >
-                <div className="aspect-[4/5] bg-[var(--ykp-canvas)]">
+                <div className="bg-[var(--ykp-canvas)]">
                   <img
                     src={person.photoUrl}
                     alt={person.alt}
-                    className="w-full h-full object-cover object-top"
+                    className="w-full h-auto object-contain"
                   />
                 </div>
                 <div className="p-5 sm:p-6 space-y-1.5 text-center">
@@ -233,27 +172,6 @@ export const HomeView: React.FC<HomeViewProps> = ({ setActiveTab, openModal, onR
           </div>
 
           <div className="mt-14 sm:mt-16 space-y-8">
-            <p className="text-[var(--ykp-ink)] font-medium">{ABOUT_DATA.pillarsIntro}</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {ABOUT_DATA.values.map((item, i) => (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.06 }}
-                  className="bg-[var(--ykp-canvas)] border border-gray-200 rounded-xl p-5 sm:p-6"
-                  style={{ borderTopWidth: 3, borderTopColor: valueAccents[i % valueAccents.length] }}
-                >
-                  <h3 className="font-display text-xl font-semibold text-[var(--ykp-ink)] mb-2">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-[var(--ykp-muted)] leading-relaxed">
-                    {item.description}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
             <div className="max-w-3xl space-y-4 text-[var(--ykp-muted)] text-base leading-relaxed">
               {ABOUT_DATA.closing.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>

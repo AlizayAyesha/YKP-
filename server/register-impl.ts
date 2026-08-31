@@ -187,6 +187,23 @@ export function handleRegistration(req: IncomingMessage, res: ServerResponse) {
           }
         }
 
+        const { deliverSubmission } = await import('./notify');
+        await deliverSubmission({
+          kind: 'rsvp',
+          subject: `RSVP: ${fullName} — ${event.title || event.dates}`,
+          replyTo: email,
+          fields: {
+            Name: fullName,
+            Title: designation,
+            Organization: organization,
+            Email: email,
+            WhatsApp: phone,
+            City: city,
+            Event: [event.title, event.subtitle].filter(Boolean).join(' — ') || event.dates,
+            'Registration ID': registration.registrationId
+          }
+        }).catch((error) => console.error('RSVP team notice failed:', error));
+
         send(res, 200, {
           ok: true,
           registrationId: registration.registrationId,

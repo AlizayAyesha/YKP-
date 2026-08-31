@@ -543,7 +543,7 @@ export function applyDocumentSeo(page: SeoPage) {
 }
 
 function wrapSeoMain(inner: string): string {
-  return `<main style="max-width:46rem;margin:2.5rem auto;padding:0 1.25rem 3rem;font-family:Georgia,serif;color:#0B1F14;line-height:1.55"><!--ykp-seo-start-->${inner}<!--ykp-seo-end--></main>`;
+  return `<main class="ykp-seo-boot" hidden style="max-width:46rem;margin:2.5rem auto;padding:0 1.25rem 3rem;font-family:Georgia,serif;color:#0B1F14;line-height:1.55"><!--ykp-seo-start-->${inner}<!--ykp-seo-end--></main>`;
 }
 
 export function seoBodyHtml(page: SeoPage): string {

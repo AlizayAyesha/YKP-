@@ -165,6 +165,9 @@ export interface YkpEvent {
   themeEnglish?: string;
   instagramUrl?: string;
   facebookUrl?: string;
+  inviteYoutubeId?: string;
+  inviteVideoUrl?: string;
+  invitePoster?: string;
   panelTitle?: string;
   panelSubtitle?: string;
   panelIntro?: string;
@@ -226,6 +229,20 @@ export interface PartnerInquiry {
   supportDetails: string;
   availability: string;
   website: string;
+  createdAt: string;
+}
+
+export type ContactKind = 'contact' | 'enroll';
+
+export interface ContactMessage {
+  id: string;
+  kind: ContactKind;
+  fullName: string;
+  email: string;
+  phone: string;
+  city: string;
+  message: string;
+  program: string;
   createdAt: string;
 }
 
@@ -312,4 +329,5 @@ export interface Testimonial {
   role: string;
   city: string;
   image: string;
+  linkedinUrl?: string;
 }

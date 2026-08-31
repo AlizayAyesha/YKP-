@@ -10,6 +10,52 @@
     <meta name="application-name" content="Youth ka Pakistan" />
     <meta name="theme-color" content="#05472A" />
     <meta name="color-scheme" content="light" />
+    <style>
+      :root {
+        --ykp-green: #05472A;
+        --ykp-green-deep: #032816;
+        --ykp-gold: #C9A227;
+        --ykp-ink: #0B1F14;
+        --ykp-canvas: #F3F6F3;
+      }
+      html, body {
+        margin: 0;
+        background-color: #F3F6F3;
+        color: #0B1F14;
+      }
+      .skip-link {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      .skip-link:focus {
+        width: auto;
+        height: auto;
+        margin: 0;
+        clip: auto;
+        overflow: visible;
+        top: 0.75rem;
+        left: 1rem;
+        z-index: 100;
+        background: #05472A;
+        color: #fff;
+        padding: 0.6rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        border-radius: 0.25rem;
+      }
+      /* Prerendered SEO HTML is injected into #root for crawlers. Hide it so
+         visitors never see a 1s flash of the plain article before React mounts. */
+      #root > .ykp-seo-boot[hidden] {
+        display: none !important;
+      }
+    </style>
     <meta name="format-detection" content="telephone=yes" />
     <meta name="geo.region" content="PK-SD" />
     <meta name="geo.placename" content="Karachi" />

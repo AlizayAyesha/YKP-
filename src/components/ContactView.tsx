@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { SITE_INFO } from '../data/youthData';
 import { JoinMovementBanner } from './JoinMovementBanner';
-import { Mail, PhoneCall, MapPin, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Mail, PhoneCall, MapPin, CheckCircle2, ArrowRight, LoaderCircle } from 'lucide-react';
 import { ModalType } from '../types';
 import { LocationMap } from './LocationMap';
 import { HQ_LOCATION } from '../lib/location';
+import { submitContactMessage } from '../lib/submitInquiry';
 
 interface ContactViewProps {
   openModal: (type: ModalType) => void;
@@ -12,16 +13,32 @@ interface ContactViewProps {
 
 export const ContactView: React.FC<ContactViewProps> = ({ openModal }) => {
   const [submitted, setSubmitted] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email) return;
-    setSubmitted(true);
+    if (!formData.name || !formData.email || !formData.message) return;
+    setError('');
+    setSaving(true);
+    try {
+      await submitContactMessage({
+        kind: 'contact',
+        fullName: formData.name,
+        email: formData.email,
+        message: formData.message
+      });
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not send your message. Please try again.');
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -167,18 +184,30 @@ export const ContactView: React.FC<ContactViewProps> = ({ openModal }) => {
                       name="message"
                       rows={5}
                       required
+                      minLength={8}
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       placeholder="Tell us how you want to get involved..."
                       className="w-full bg-[var(--ykp-canvas)] border border-[var(--ykp-green)]/15 px-4 py-3 text-sm focus:outline-none focus:border-[var(--ykp-green)] transition-colors resize-none"
                     />
                   </div>
+                  {error && <p className="text-sm text-red-700 bg-red-50 border border-red-100 px-3 py-2">{error}</p>}
                   <button
                     type="submit"
-                    className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-[var(--ykp-green)] hover:bg-[var(--ykp-green-deep)] text-white font-semibold text-sm px-8 py-3.5 transition-colors cursor-pointer"
+                    disabled={saving}
+                    className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-[var(--ykp-green)] hover:bg-[var(--ykp-green-deep)] text-white font-semibold text-sm px-8 py-3.5 transition-colors cursor-pointer disabled:opacity-70"
                   >
-                    Send message
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                    {saving ? (
+                      <>
+                        <LoaderCircle className="w-4 h-4 animate-spin" />
+                        Sending…
+                      </>
+                    ) : (
+                      <>
+                        Send message
+                        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                      </>
+                    )}
                   </button>
                 </form>
               ) : (
@@ -191,7 +220,11 @@ export const ContactView: React.FC<ContactViewProps> = ({ openModal }) => {
                     Your message is in. We&apos;ll reply at <strong className="text-[var(--ykp-ink)]">{formData.email}</strong> soon.
                   </p>
                   <button
-                    onClick={() => setSubmitted(false)}
+                    onClick={() => {
+                      setSubmitted(false);
+                      setFormData({ name: '', email: '', message: '' });
+                      setError('');
+                    }}
                     className="text-sm font-semibold text-[var(--ykp-green)] link-underline cursor-pointer"
                   >
                     Send another message

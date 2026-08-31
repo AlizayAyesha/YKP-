@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { MapPin, Calendar, BadgeCheck, ArrowRight } from 'lucide-react';
 import { FEATURED_EVENT } from '../data/youthData';
 import { ActiveTab, ModalType, YkpEvent } from '../types';
+import { EventInviteCinema } from './EventInviteCinema';
 
 interface EventRegistrationSectionProps {
   openModal: (type: ModalType) => void;
@@ -16,9 +17,40 @@ export const EventRegistrationSection: React.FC<EventRegistrationSectionProps> =
   onRsvp
 }) => {
   return (
-    <section id="featured-event" className="py-20 sm:py-24 bg-white scroll-mt-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+    <section id="featured-event" className="relative py-20 sm:py-24 bg-[#02150c] text-white scroll-mt-24 overflow-x-hidden">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgba(201,162,39,0.14),transparent_55%),radial-gradient(ellipse_60%_40%_at_100%_100%,rgba(5,71,42,0.45),transparent_50%)]" />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mb-10 sm:mb-12 space-y-4">
+          <p className="text-[11px] font-semibold tracking-[0.28em] uppercase text-[var(--ykp-gold)]">
+            Featured event
+          </p>
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-[2.85rem] font-semibold tracking-tight leading-tight">
+            {FEATURED_EVENT.title}
+          </h2>
+          {FEATURED_EVENT.subtitle && (
+            <p className="text-lg sm:text-xl text-[var(--ykp-gold)] font-display">
+              {FEATURED_EVENT.subtitle}
+            </p>
+          )}
+          {FEATURED_EVENT.tagline && (
+            <p className="text-sm uppercase tracking-[0.14em] text-white/50">
+              {FEATURED_EVENT.tagline}
+            </p>
+          )}
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="max-w-5xl mx-auto overflow-visible pb-10"
+        >
+          <EventInviteCinema event={FEATURED_EVENT} />
+        </motion.div>
+
+        <div className="mt-12 lg:mt-16 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -26,28 +58,16 @@ export const EventRegistrationSection: React.FC<EventRegistrationSectionProps> =
             transition={{ duration: 0.6 }}
             className="lg:col-span-6 space-y-6"
           >
-            <p className="text-[11px] font-semibold tracking-[0.28em] uppercase text-[var(--ykp-gold)]">
-              Featured event
-            </p>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-[2.75rem] font-semibold text-[var(--ykp-ink)] tracking-tight leading-tight">
-              {FEATURED_EVENT.title}
-            </h2>
-            {FEATURED_EVENT.subtitle && (
-              <p className="text-lg text-[var(--ykp-green)] font-display">{FEATURED_EVENT.subtitle}</p>
-            )}
-            {FEATURED_EVENT.tagline && (
-              <p className="text-sm uppercase tracking-[0.12em] text-[var(--ykp-muted)]">{FEATURED_EVENT.tagline}</p>
-            )}
             {FEATURED_EVENT.summary && (
-              <p className="text-[var(--ykp-muted)] text-base leading-relaxed max-w-xl">
+              <p className="text-white/70 text-base leading-relaxed max-w-xl">
                 {FEATURED_EVENT.summary}
               </p>
             )}
             {FEATURED_EVENT.highlights.length > 0 && (
-              <ul className="space-y-4 pt-2">
+              <ul className="space-y-4 pt-1">
                 {FEATURED_EVENT.highlights.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-sm text-[var(--ykp-ink)]">
-                    <span className="mt-0.5 w-6 h-6 shrink-0 rounded-full bg-[var(--ykp-green)]/10 text-[var(--ykp-green)] flex items-center justify-center">
+                  <li key={item} className="flex items-start gap-3 text-sm text-white/90">
+                    <span className="mt-0.5 w-6 h-6 shrink-0 rounded-full bg-[var(--ykp-gold)]/15 text-[var(--ykp-gold)] flex items-center justify-center">
                       <BadgeCheck className="w-3.5 h-3.5" />
                     </span>
                     <span className="leading-relaxed">{item}</span>
@@ -55,14 +75,14 @@ export const EventRegistrationSection: React.FC<EventRegistrationSectionProps> =
                 ))}
               </ul>
             )}
-            <div className="flex flex-wrap gap-5 pt-2 text-sm text-[var(--ykp-muted)]">
+            <div className="flex flex-wrap gap-5 pt-2 text-sm text-white/60">
               <span className="inline-flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-[var(--ykp-green)]" />
+                <Calendar className="w-4 h-4 text-[var(--ykp-gold)]" />
                 {FEATURED_EVENT.dates}
               </span>
               {FEATURED_EVENT.city && (
                 <span className="inline-flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-[var(--ykp-green)]" />
+                  <MapPin className="w-4 h-4 text-[var(--ykp-gold)]" />
                   {[FEATURED_EVENT.venue, FEATURED_EVENT.city].filter(Boolean).join(', ')}
                 </span>
               )}
@@ -82,7 +102,7 @@ export const EventRegistrationSection: React.FC<EventRegistrationSectionProps> =
                   setActiveTab('events');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--ykp-green)] cursor-pointer"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-white/80 hover:text-[var(--ykp-gold)] cursor-pointer"
               >
                 Explore Event
                 <ArrowRight className="w-4 h-4" />
@@ -97,7 +117,7 @@ export const EventRegistrationSection: React.FC<EventRegistrationSectionProps> =
             transition={{ duration: 0.65, delay: 0.08 }}
             className="lg:col-span-6"
           >
-            <div className="bg-[var(--ykp-green-deep)] text-white rounded-2xl border border-white/10 overflow-hidden shadow-[0_20px_50px_rgba(3,40,22,0.25)]">
+            <div className="bg-white/[0.04] text-white rounded-2xl border border-[var(--ykp-gold)]/20 overflow-hidden">
               <div className="px-6 sm:px-8 pt-7 pb-5 border-b border-white/10">
                 <p className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[var(--ykp-gold)] mb-2">
                   {FEATURED_EVENT.status === 'Open' ? 'RSVP Open' : FEATURED_EVENT.status}
@@ -120,11 +140,11 @@ export const EventRegistrationSection: React.FC<EventRegistrationSectionProps> =
                 ]
                   .filter((row) => row.value)
                   .map((row) => (
-                  <div key={row.label} className="flex items-start justify-between gap-4">
-                    <span className="text-[var(--ykp-gold)]/90 font-medium shrink-0">{row.label}</span>
-                    <span className="text-white/85 text-right">{row.value}</span>
-                  </div>
-                ))}
+                    <div key={row.label} className="flex items-start justify-between gap-4">
+                      <span className="text-[var(--ykp-gold)]/90 font-medium shrink-0">{row.label}</span>
+                      <span className="text-white/85 text-right">{row.value}</span>
+                    </div>
+                  ))}
               </div>
 
               <div className="px-6 sm:px-8 py-6 space-y-3">

@@ -1,6 +1,71 @@
 import nodemailer from 'nodemailer';
 import type { AttendeeRegistration, YkpEvent } from '../src/types';
 
+export async function sendMail(input: {
+  to: string | string[];
+  subject: string;
+  html: string;
+  text?: string;
+  replyTo?: string;
+}): Promise<{ sent: boolean; channel?: string; reason?: string }> {
+  const to = Array.isArray(input.to) ? input.to : [input.to];
+  const from =
+    process.env.RESEND_FROM ||
+    process.env.SMTP_FROM ||
+    'Youth Ka Pakistan <info@youthkapakistan.com>';
+
+  const resendKey = process.env.RESEND_API_KEY?.trim();
+  if (resendKey) {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${resendKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from,
+        to,
+        subject: input.subject,
+        html: input.html,
+        text: input.text,
+        reply_to: input.replyTo
+      })
+    });
+    if (!response.ok) {
+      const err = await response.text().catch(() => '');
+      return { sent: false, reason: `Resend failed: ${err.slice(0, 200) || response.status}` };
+    }
+    return { sent: true, channel: 'resend' };
+  }
+
+  const host = process.env.SMTP_HOST;
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
+  if (!host || !user || !pass) {
+    return {
+      sent: false,
+      reason: 'Email is not configured. Set RESEND_API_KEY or SMTP_HOST, SMTP_USER, and SMTP_PASS.'
+    };
+  }
+
+  const transporter = nodemailer.createTransport({
+    host,
+    port: Number(process.env.SMTP_PORT || 587),
+    secure: process.env.SMTP_SECURE === 'true',
+    auth: { user, pass }
+  });
+
+  await transporter.sendMail({
+    from: process.env.SMTP_FROM || `Youth Ka Pakistan <${user}>`,
+    to,
+    subject: input.subject,
+    html: input.html,
+    text: input.text,
+    replyTo: input.replyTo
+  });
+  return { sent: true, channel: 'smtp' };
+}
+
 function eventTime(event: YkpEvent) {
   if (event.time) return event.time;
   return [event.startTime, event.endTime].filter(Boolean).join(' – ');
@@ -21,26 +86,11 @@ export async function sendRegistrationEmail(input: {
   logoUrl: string;
   siteUrl: string;
 }) {
-  const host = process.env.SMTP_HOST;
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
-  if (!host || !user || !pass) {
-    return { sent: false, reason: 'Email is not configured. Set SMTP_HOST, SMTP_USER, and SMTP_PASS.' };
-  }
-
   const { registration, event, posterUrl, logoUrl, siteUrl } = input;
   const name = eventName(event);
   const time = eventTime(event);
   const venue = place(event);
-  const from = process.env.SMTP_FROM || `Youth Ka Pakistan <${user}>`;
   const contact = event.contactPhone || '0315-8248704';
-
-  const transporter = nodemailer.createTransport({
-    host,
-    port: Number(process.env.SMTP_PORT || 587),
-    secure: process.env.SMTP_SECURE === 'true',
-    auth: { user, pass }
-  });
 
   const html = `<!DOCTYPE html>
 <html>
@@ -110,12 +160,9 @@ export async function sendRegistrationEmail(input: {
 </body>
 </html>`;
 
-  await transporter.sendMail({
-    from,
+  return sendMail({
     to: registration.email,
-    subject: 'Registration Confirmed — URAAN-E-AI 2026 | Pakistan\'s Digital Flight',
+    subject: "Registration Confirmed — URAAN-E-AI 2026 | Pakistan's Digital Flight",
     html
   });
-
-  return { sent: true };
 }

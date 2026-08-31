@@ -20,6 +20,7 @@ import { FEATURED_EVENT, FEATURED_EVENT_SPEAKERS } from '../data/youthData';
 import { EventProfileRole, PublicEventProfile, YkpEvent } from '../types';
 import { LocationMap } from './LocationMap';
 import { EVENT_VENUE_LOCATION } from '../lib/location';
+import { EventInviteCinema } from './EventInviteCinema';
 
 interface EventDetailViewProps {
   event?: YkpEvent;
@@ -137,12 +138,8 @@ export const EventDetailView: React.FC<EventDetailViewProps> = ({
                 </a>
               </div>
             </div>
-            <div className="lg:col-span-6">
-              <img
-                src={event.image}
-                alt="URAAN-E-AI 2026 — Pakistan's Digital Flight national IT and AI seminar"
-                className="w-full aspect-square object-contain bg-white rounded-2xl border border-white/10 shadow-[0_24px_60px_rgba(0,0,0,0.28)] p-4 sm:p-8"
-              />
+            <div className="lg:col-span-6 pb-10">
+              <EventInviteCinema event={event} />
             </div>
           </div>
         </div>
